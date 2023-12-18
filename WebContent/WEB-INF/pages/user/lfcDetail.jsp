@@ -72,25 +72,24 @@ input[type='radio'] {
 }
 
 .form-control {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  width: 80%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+	width: 80%;
 }
 
 .form-control:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.Design-table{
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  width: 90%;
+.Design-table {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+	width: 90%;
 }
 
 .Design-table:hover {
-  box-shadow: 0 9px 16px 0 rgba(0,0,0,0.2);
+	box-shadow: 0 9px 16px 0 rgba(0, 0, 0, 0.2);
 }
-
 </style>
 
 <script type="text/javascript">
@@ -104,18 +103,31 @@ input[type='radio'] {
 		$('#encashment_leave_todate').hide();
 		$('#leave_balance').hide();
 		$('#leave_count').hide();
+		$('#leave_available').hide();
 
 		$('#LA').on('change', function() {
+debugger;
 			var opt = (this.value);
 			console.log(opt);
 			if (this.value == 'Yes') {
+
 				$("#LT").toggle();
 				$('#frdt').toggle();
 				$('#todt').toggle();
+				$('#leave_available').toggle();
+				 
+
 			} else {
+				
+				$("#leave_type").val('');
+ 				$('#fodatepic').val('');
+				$('#todatepic').val('');
+				
 				$("#LT").hide();
-				$('#frdt').hide();
-				$('#todt').hide();
+ 				$('#frdt').hide();
+ 				$('#todt').hide();
+ 				$('#leave_available').hide();
+
 			}
 
 		})
@@ -134,6 +146,9 @@ input[type='radio'] {
 				$('#encashment_leave_todate').hide();
 				$('#leave_balance').hide();
 				$('#leave_count').hide();
+				$('#EncasmentleaveType').val('');
+				$('#Encasmentleavebalance').val('');
+				$('#Encasmentleavecount').val('');
 			}
 		})
 
@@ -214,30 +229,6 @@ input[type='radio'] {
 
 	});//document ready end here
 
-	/* function myFunction() {
-		debugger;
-		var frmdate = $('#frmdatepicker').val();
-		console.log(frmdate);
-
-		var year = frmdate.substr(6, 9);//-4
-		console.log(year);
-		var expect = frmdate.substr(0, 6);
-		console.log(expect);
-
-		var num1 = parseInt(year);
-		console.log(num1);
-
-		var bloclApply = $('#BA').val(); //5
-		var num2 = parseInt(bloclApply);
-		console.log(num2);
-		var num3 = num1 + num2;
-		console.log(num3);
-		var result = expect + num3;
-
-		$('#todatepicker').val(result);
-
-	} */
-
 	function togglePopup() {
 		document.getElementById("popup-1").classList.toggle("active");
 
@@ -246,6 +237,7 @@ input[type='radio'] {
 	function surrenderDataShow() {
 		$('#isleaveApplied').hide();
 		$('#placeofDestination').hide();
+		$('#placeofOrigination').hide();
 		$('#amountofAdvance').hide();
 		$('#leaveencashment_block').hide();
 		$('#number_days').hide();
@@ -262,6 +254,7 @@ input[type='radio'] {
 	function lfcDataShow() {
 		$('#isleaveApplied').show();
 		$('#placeofDestination').show();
+		$('#placeofOrigination').show();
 		$('#travel_fromdate').show();
 		$('#travel_todate').show();
 		$('#amountofAdvance').show();
@@ -278,7 +271,7 @@ input[type='radio'] {
 				<div class="nk-block-head-content"></div>
 			</div>
 
-			 <div class="card"> 
+			<div class="card">
 				<div class="card-header bg-secondary text-white text-center">
 					<h5>Employee Details</h5>
 				</div>
@@ -332,7 +325,7 @@ input[type='radio'] {
 							<div class="row" style="padding: 20px;">
 								<div class="col-xl-6" align="centre">
 									<div class="form-group, alert alert-primary">
-										<input type='radio' name='group' ng-model='mValue' 
+										<input type='radio' name='group' ng-model='mValue'
 											onclick="lfcDataShow()" id="encashmentApply"
 											style="height: 25px; width: 25px; vertical-align: middle;"
 											checked /> <label class="form-label" for="full-name-1">
@@ -358,12 +351,12 @@ input[type='radio'] {
 										<label class="form-label" for="full-name-1">Block
 											Period</label>
 										<div class="form-control-wrap">
-                                            
+
 											<div class="form-control-wrap ">
 												<input type="text" class="form-control required" id="BA"
 													placeholder="Block applied" name="BA" readonly>
 											</div>
-											 
+
 										</div>
 									</div>
 								</div>
@@ -376,7 +369,8 @@ input[type='radio'] {
 
 											<input type="text" class="form-control required"
 												name="frmdatepicker" id="frmdatepicker"
-												placeholder="Block Start Date" onchange="dateChangeFunction()">
+												placeholder="Block Start Date"
+												onchange="dateChangeFunction()">
 										</div>
 									</div>
 								</div>
@@ -411,43 +405,60 @@ input[type='radio'] {
 										</div>
 									</div>
 								</div>
-							</div>
 
-							<div class="row" style="padding: 10px">
-								<div class="col-xl-4" id="LT" name="LT">
+
+								<div class="col-lg-4" id="placeofOrigination">
 									<div class="form-group">
-										<label class="form-label" for="full-name-1">Leave Type</label>
+										<label class="form-label" for="email-address-1"> Place
+											of Origination</label>
 										<div class="form-control-wrap">
-											<select class="form-control required" id="leave_type"
-												onchange="leaveTypeFunction()">
-											</select>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-4" id="frdt">
-									<div class="form-group">
-										<label class="form-label" for="full-name-1">From Date</label>
-										<div class="form-control-wrap">
-
-											<input type="text" class="form-control required"
-												name="fodatepic" id="fodatepic" placeholder="From Date">
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xl-4" id="todt">
-									<div class="form-group">
-										<label class="form-label" for="full-name-1">To Date</label>
-										<div class="form-control-wrap">
-											<input type="text" class="form-control required"
-												id="todatepic" value="" readonly onchange="dateDiffCount()" placeholder="To Date">
+											<input type="text" maxlength="30"
+												class="form-control required" id="originplace"
+												placeholder="Place of Origination"
+												onkeypress="validatetext()"> <span id="usererror"
+												style.display="none"></span>
 										</div>
 									</div>
 								</div>
 
 							</div>
+							<form id="formDiv">
+								<div class="row" style="padding: 10px">
+									<div class="col-xl-4" id="LT" name="LT">
+										<div class="form-group">
+											<label class="form-label" for="full-name-1">Leave
+												Type</label>
+											<div class="form-control-wrap">
+												<select class="form-control required" id="leave_type"
+													onchange="leaveTypeFunction()">
+												</select>
+											</div>
+										</div>
+									</div>
 
+									<div class="col-xl-4" id="frdt">
+										<div class="form-group">
+											<label class="form-label" for="full-name-1">From Date</label>
+											<div class="form-control-wrap">
+
+												<input type="text" class="form-control required"
+													name="fodatepic" id="fodatepic" placeholder="From Date">
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xl-4" id="todt">
+										<div class="form-group">
+											<label class="form-label" for="full-name-1">To Date</label>
+											<div class="form-control-wrap">
+												<input type="text" class="form-control required"
+													id="todatepic" value="" readonly onchange="dateDiffCount()"
+													placeholder="To Date">
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
 							<div class="row" style="padding: 10px">
 								<div class="col-xl-4" id="placeofDestination">
 									<div class="form-group">
@@ -470,7 +481,8 @@ input[type='radio'] {
 										<div class="form-control-wrap">
 
 											<input type="text" class="form-control required"
-												name="fromdate" id="travelfromdate" placeholder="Date of Commencement">
+												name="fromdate" id="travelfromdate"
+												placeholder="Date of Commencement">
 										</div>
 									</div>
 								</div>
@@ -481,7 +493,8 @@ input[type='radio'] {
 											Completion</label>
 										<div class="form-control-wrap">
 											<input type="text" class="form-control required"
-												id="traveltodate" value="" readonly placeholder="Date of Completion">
+												id="traveltodate" value="" readonly
+												placeholder="Date of Completion">
 										</div>
 									</div>
 								</div>
@@ -525,7 +538,7 @@ input[type='radio'] {
 								</div>
 							</div>
 							<div class="row" style="padding: 10px">
-								
+
 
 								<div class="col-xl-4" id="leave_available">
 									<div class="form-group">
@@ -596,8 +609,8 @@ input[type='radio'] {
 											class="btn btn-lg btn-info" value="Distance Permisable">
 									</div>
 								</div>
-							</div> 
-							<div class="row" style="padding-left :100px">
+							</div>
+							<div class="row" style="padding-left: 100px">
 								<div class="col-xl-12">
 									<div class="form-group Design-table">
 										<label class="form-label" for="phone-no-1"> Dependent
@@ -632,11 +645,10 @@ input[type='radio'] {
 										value="Save Informations">
 								</div>
 							</div>
-
 						</div>
 					</form>
 				</div>
-			 </div> 
+			</div>
 		</div>
 	</div>
 	</div>
@@ -766,7 +778,7 @@ input[type='radio'] {
 					</tbody>
 				</table>
 			</div>
- 			<div class="modal-footer">
+			<div class="modal-footer">
 				<button type="button" data-bs-dismiss="modal"
 					class="btn btn-default">Close</button>
 			</div>

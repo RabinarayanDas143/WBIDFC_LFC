@@ -1,6 +1,8 @@
 package com.emp.dao.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -181,7 +183,10 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 //(List<Lfc_Allowence> list)
 	@Override
 	public int saveInfo(List<Lfc_Allowence> lfc_AllowenceList) {
-		System.out.println("Inside saveInfoDaoImpl");
+		System.out.println("Inside saveInfoDaoImpl"+lfc_AllowenceList);
+		
+		
+		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -347,13 +352,13 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 	}
 
 	@Override
-	public Object acceptReq(int acceptValue, String hradminremark) {
+	public Object acceptReq(int acceptValue, String hradminremark, int  auditamount, int auditamountLeaveEncash) {
 		// System.out.println("Inside acceptReq");
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			String sql = "update hrms_wbidfc.hrms_encashment a set a.Approval_Level_1 ='A', a.Remark='" + hradminremark
-					+ "' where a.tran_id='" + acceptValue + "'";
+					+ "' , a.Advance_Amount_Approved = "+auditamount+", a.Leave_Encashment_Amount_Approved = "+auditamountLeaveEncash+" where a.tran_id='" + acceptValue + "'";
 			NativeQuery query = session.createNativeQuery(sql);
 			int executeUpdate = query.executeUpdate();
 			tx.commit();
@@ -520,6 +525,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		return lfcData;
 	}
 
+	// for Internal Audit accept function.
 	@Override
 	public void InternalacceptReq(int acceptValue, String auditremark) {
 
@@ -1161,10 +1167,33 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			e1.printStackTrace();
 		}
 		try {
+			
+			
+			System.out.println(st+"------------Printing from date here --------  ********************* "+lfcFromDate);
+			
+			String sql = "select count(*)  FROM hrms_wbidfc.hrms_encashment a WHERE a.emply_cd = " + userId + "  AND ('"
+					+ lfcFromDate + "' BETWEEN DATE_FORMAT(a.submit_date,'%d-%m-%Y')  AND a.LFC_TO_DT) and Status ='" + st + "'";
+			
+			
+			
+			
+			String sql1 = "select count(*)  FROM hrms_wbidfc.hrms_lfc_surrender a WHERE a.emply_cd = " + userId
+					+ "  AND ('" + lfcFromDate + "' BETWEEN DATE_FORMAT(a.submit_date,'%d-%m-%Y')  AND a.LFC_TO_DT) and Status ='" + st + "'";
+			
+			// DATE_FORMAT(submit_date,'%d-%m-%Y')
+			
+			/* old queries 5-12-23
+			 * 
 			String sql = "select count(*)  FROM hrms_wbidfc.hrms_encashment a WHERE a.emply_cd = " + userId + "  AND ('"
 					+ lfcFromDate + "' BETWEEN a.LFC_FROM_DT AND a.LFC_TO_DT) and Status ='" + st + "'";
+			
+			
+			
+			
 			String sql1 = "select count(*)  FROM hrms_wbidfc.hrms_lfc_surrender a WHERE a.emply_cd = " + userId
 					+ "  AND ('" + lfcFromDate + "' BETWEEN a.LFC_FROM_DT AND a.LFC_TO_DT) and Status ='" + st + "'";
+			*/
+			
 			SQLQuery query = session.createSQLQuery(sql);
 			data = query.list();
 			result = (BigInteger) data.get(0);
@@ -1283,8 +1312,8 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		BigInteger count = null;
 		List<Object> data = null;
 		try {
-			String sql = "select DATEDIFF(str_to_date('" + leavetodate + "','%d-%m-%Y'),str_to_date('" + leavefrmdate
-					+ "','%d-%m-%Y')) total_days from dual";
+			String sql = "select (DATEDIFF(str_to_date('" + leavetodate + "','%d-%m-%Y'),str_to_date('" + leavefrmdate
+					+ "','%d-%m-%Y')))+1 total_days from dual";
 			SQLQuery query = session.createSQLQuery(sql);
 			data = query.list();
 			count = (BigInteger) data.get(0);
@@ -1370,14 +1399,15 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		return lfcData;
 	}
 
+	// for Internal Audit Admin admin req
 	@Override
-	public void auditAdminremarkReq(int acceptValue, String auditAdminremark) {
+	public void auditAdminremarkReq(int acceptValue, String auditAdminremark,String advanceAmountApproved, String leaveEncashmentAmountApproved) {
 		// System.out.println("Inside auditAdminremarkReq");
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			String sql = "update hrms_wbidfc.hrms_encashment a set a.Approval_Level_2 ='A'," + "a.Audit_Remark='"
-					+ auditAdminremark + "' where a.tran_id='" + acceptValue + "'";
+					+ auditAdminremark + "',a.Advance_Amount_Approved='"+advanceAmountApproved+"',a.Leave_Encashment_Amount_Approved='"+leaveEncashmentAmountApproved+"' where a.tran_id='" + acceptValue + "'";
 			NativeQuery query = session.createNativeQuery(sql);
 			int executeUpdate = query.executeUpdate();
 			tx.commit();
@@ -2421,14 +2451,16 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		try {
 			String sql = "select distinct a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
 					+ "c.designation,d.department, date_joining'date_of_joining',a.BLOCK_APPLIED,a.NUMBER_OF_DAYS,date_format(a.leave_FROM_DT,'%d-%m-%Y')'leave_FROM_DT',\r\n"
-					+ "date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',a.PLACE_OF_DESTINATION,date_format(a.Commencement_FROM_DT,'%d-%m-%Y')'Commencement_FROM_DT',\r\n"
+					+ "date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',a.PLACE_OF_DESTINATION, a.place_of_origination,date_format(a.Commencement_FROM_DT,'%d-%m-%Y')'Commencement_FROM_DT',\r\n"
 					+ "date_format(a.Completion_TO_DT,'%d-%m-%Y')'Completion_TO_DT',a.EncashmentLeave_Count,a.AMOUNT_OF_ADVANCE,\r\n"
-					+ "(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='"+userId+"' and Status='S') as COUNT,\r\n"
-					+ "(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='"+userId+"' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+					+ "(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+					+ "' and Status='S') as COUNT,\r\n"
+					+ "(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+					+ "' and LEAVE_TYPE='EL')'El_Balance',a.Advance_Amount_Approved, a.Leave_Encashment_Amount_Approved \r\n"
 					+ "from hrms_wbidfc.hrms_encashment a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
 					+ "JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
-					+ "JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
-					+ "where a.EMPLY_CD='"+userId+"'and a.Status='S'";
+					+ "JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n" + "where a.EMPLY_CD='"
+					+ userId + "'and a.Status='S'";
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.getResultList();
 			LfcModel lm = null;
@@ -2447,12 +2479,19 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 				lm.setLeavefromDateStr(obj[7] != null ? obj[7].toString() : "");
 				lm.setLeavetoDateStr(obj[8] != null ? obj[8].toString() : "");
 				lm.setPlaceofDestination(obj[9] != null ? obj[9].toString() : "");
-				lm.setCommencementFromDate(obj[10] != null ? obj[10].toString() : "");
-				lm.setComplitionToDate(obj[11] != null ? obj[11].toString() : "");
-				lm.setEncashmentLeaveCount(obj[12] != null ? obj[12].toString() : "");
-				lm.setAmountofAdvanceStr(obj[13] != null ? obj[13].toString() : "");
-                lm.setCount(obj[14] != null ? obj[14].toString() : "");
-                lm.setEl_LeaveBalance(obj[15] != null ? obj[15].toString() : "");
+				
+				lm.setPlaceofOrigination(obj[10] != null ? obj[10].toString() : "");
+				
+				lm.setCommencementFromDate(obj[11] != null ? obj[11].toString() : "");
+				lm.setComplitionToDate(obj[12] != null ? obj[12].toString() : "");
+				lm.setEncashmentLeaveCount(obj[13] != null ? obj[13].toString() : "");
+				lm.setAmountofAdvanceStr(obj[14] != null ? obj[14].toString() : "");
+				lm.setCount(obj[15] != null ? obj[15].toString() : "");
+				lm.setEl_LeaveBalance(obj[16] != null ? obj[16].toString() : "");
+				
+				lm.setAdvanceAmountApproved(obj[17] != null ? obj[17].toString() : "");
+				lm.setLeaveEncashmentAmountApproved(obj[18] != null ? obj[18].toString() : "");
+				
 				lfcData.add(lm);
 
 			}
@@ -2506,12 +2545,14 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		try {
 			String sql = " select a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
 					+ "			c.designation,d.department, date_format(date_joining,'%d-%m-%Y')'date_of_joining',date_format(a.LFC_TO_DT,'%d-%m-%Y')'LFC_TO_DT',a.BLOCK_APPLIED,a.EncashmentLeave_Count,\r\n"
-					+ "            (select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='"+userId+"' and Status='S') as COUNT,\r\n"
-					+ "            (select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='"+userId+"' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+					+ "            (select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+					+ "' and Status='S') as COUNT,\r\n"
+					+ "            (select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+					+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
 					+ "			from hrms_wbidfc.hrms_lfc_surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
 					+ "			JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
 					+ "			 JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
-					+ "			 where a.EMPLY_CD='"+userId+"'and a.Status='S'";
+					+ "			 where a.EMPLY_CD='" + userId + "'and a.Status='S'";
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.getResultList();
 			LfcModel ls = null;
@@ -2659,7 +2700,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 				String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name', \r\n"
 						+ "       d.designation , a.LEAVE_ENCASH_BLOCK,a.LFC_FROM_DT,a.LFC_TO_DT,a.LEAVE_TYPE,date_format(a.leave_FROM_DT,'%d-%m-%Y')'leave_FROM_DT',\r\n"
 						+ "	 date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,\r\n"
-						+ "     a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE \r\n"
+						+ "     a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE ,a.EncashmentLeave_Count,a.PLACE_OF_ORIGINATION\r\n"
 						+ "	 from hrms_wbidfc.hrms_encashment a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
 						+ "	 join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd\r\n"
 						+ "     join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
@@ -2722,7 +2763,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name', \r\n"
 					+ "       d.designation , a.LEAVE_ENCASH_BLOCK,a.LFC_FROM_DT,a.LFC_TO_DT,a.LEAVE_TYPE,date_format(a.leave_FROM_DT,'%d-%m-%Y')'leave_FROM_DT',\r\n"
 					+ "	 date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,\r\n"
-					+ "     a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE , a.Remark\r\n"
+					+ "     a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE , a.Remark,a.EncashmentLeave_Count,a.PLACE_OF_ORIGINATION\r\n"
 					+ "	 from hrms_wbidfc.hrms_encashment a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
 					+ "	 join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd\r\n"
 					+ "     join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
@@ -2765,6 +2806,8 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 
 				lD.setAmountofAdvance((int) obj[13]);
 				lD.setHrRemark((String) obj[14]);
+				lD.setEncashmentLeaveCount(String.valueOf((int) obj[15]));
+				lD.setPlaceofOrigination((String) obj[16]);
 
 				InternalAuditData.add(lD);
 			}
@@ -2786,7 +2829,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name', \r\n"
 					+ "	     d.designation , a.LEAVE_ENCASH_BLOCK,a.LFC_FROM_DT,a.LFC_TO_DT,a.LEAVE_TYPE,date_format(a.leave_FROM_DT,'%d-%m-%Y')'leave_FROM_DT',\r\n"
 					+ "	date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,\r\n"
-					+ "	   a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE , a.Remark ,  a.Audit_Remark\r\n"
+					+ "	   a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE , a.Remark ,  a.Audit_Remark,a.EncashmentLeave_Count,a.PLACE_OF_ORIGINATION\r\n"
 					+ "	from hrms_wbidfc.hrms_encashment a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
 					+ "	join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd\r\n"
 					+ "	   join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
@@ -2831,6 +2874,8 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 				lD.setAmountofAdvance((int) obj[13]);
 				lD.setHrRemark((String) obj[14]);
 				lD.setInternalAuditRemark((String) obj[15]);
+				lD.setEncashmentLeaveCount(String.valueOf(obj[16]));
+				lD.setPlaceofOrigination((String) obj[17]);
 
 				CsData.add(lD);
 			}
@@ -2852,7 +2897,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name', \r\n"
 					+ "	     d.designation , a.LEAVE_ENCASH_BLOCK,a.LFC_FROM_DT,a.LFC_TO_DT,a.LEAVE_TYPE,date_format(a.leave_FROM_DT,'%d-%m-%Y')'leave_FROM_DT',\r\n"
 					+ "	date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,\r\n"
-					+ "	   a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE , a.Audit_Remark\r\n"
+					+ "	   a.Commencement_FROM_DT,a.Completion_TO_DT, a.AMOUNT_OF_ADVANCE , a.Audit_Remark,a.EncashmentLeave_Count,a.PLACE_OF_ORIGINATION\r\n"
 					+ "	from hrms_wbidfc.hrms_encashment a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
 					+ "	join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd\r\n"
 					+ "	   join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
@@ -2896,6 +2941,8 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 				lD.setAmountofAdvance((int) obj[13]);
 
 				lD.setInternalAuditRemark((String) obj[14]);
+				lD.setEncashmentLeaveCount(String.valueOf(obj[15]));
+				lD.setPlaceofOrigination((String) obj[16]);
 
 				CsData.add(lD);
 			}
@@ -3134,6 +3181,298 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			System.out.println("Exception in getSurCsAdminModalData Dao Impl method :" + e);
 		}
 		return Data;
+	}
+
+	@Override
+	public List<LfcModel> getOfcUseData(Integer userId) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<LfcModel> lfcData = new ArrayList<LfcModel>();
+		lfcData.clear();
+		List<Object[]> result = null;
+		String designation = null;
+		try {
+			String sql1 = "select department from hrms_wbidfc.hrms_department_detail where emply_cd='" + userId + "'";
+			SQLQuery query1 = session.createSQLQuery(sql1);
+			designation = (String) query1.uniqueResult();
+			String desi = designation.toUpperCase();
+			if (desi.equalsIgnoreCase("HR & ADMINISTRATION")) {
+				String sql = "select distinct a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,a.AMOUNT_OF_ADVANCE,\r\n"
+						+ "		(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "		(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_encashment a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		where a.EMPLY_CD='" + userId + "'and a.Status='S' and a.Approval_Level_2='A'";
+				NativeQuery query = session.createNativeQuery(sql);
+				result = query.getResultList();
+				LfcModel lm = null;
+				for (Object[] obj : result) {
+					lm = new LfcModel();
+
+					String str = obj[0].toString().trim();
+
+					lm.setId(str != null ? Integer.parseInt(str) : 0);
+					lm.setName(obj[1] != null ? obj[1].toString() : "");
+					lm.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					lm.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					lm.setAmountofAdvanceStr(obj[4] != null ? obj[4].toString() : "");
+					lm.setCount(obj[5] != null ? obj[5].toString() : "");
+					lm.setEl_LeaveBalance(obj[6] != null ? obj[6].toString() : "");
+					lfcData.add(lm);
+				}
+			} else if (desi.equalsIgnoreCase("INTERNAL AUDIT")) {
+				String sql = "select distinct a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,a.AMOUNT_OF_ADVANCE,\r\n"
+						+ "		(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "		(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_encashment a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		where a.EMPLY_CD='" + userId + "'and a.Status='S' and a.Approval_Level_3='A'";
+				NativeQuery query = session.createNativeQuery(sql);
+				result = query.getResultList();
+				LfcModel lm = null;
+				for (Object[] obj : result) {
+					lm = new LfcModel();
+
+					String str = obj[0].toString().trim();
+
+					lm.setId(str != null ? Integer.parseInt(str) : 0);
+					lm.setName(obj[1] != null ? obj[1].toString() : "");
+					lm.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					lm.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					lm.setAmountofAdvanceStr(obj[4] != null ? obj[4].toString() : "");
+					lm.setCount(obj[5] != null ? obj[5].toString() : "");
+					lm.setEl_LeaveBalance(obj[6] != null ? obj[6].toString() : "");
+					lfcData.add(lm);
+				}
+			} else if (desi.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+				String sql = "select distinct a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,a.AMOUNT_OF_ADVANCE,\r\n"
+						+ "		(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "		(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_encashment a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		where a.EMPLY_CD='" + userId + "'and a.Status='S'";
+				NativeQuery query = session.createNativeQuery(sql);
+				result = query.getResultList();
+				LfcModel lm = null;
+				for (Object[] obj : result) {
+					lm = new LfcModel();
+
+					String str = obj[0].toString().trim();
+
+					lm.setId(str != null ? Integer.parseInt(str) : 0);
+					lm.setName(obj[1] != null ? obj[1].toString() : "");
+					lm.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					lm.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					lm.setAmountofAdvanceStr(obj[4] != null ? obj[4].toString() : "");
+					lm.setCount(obj[5] != null ? obj[5].toString() : "");
+					lm.setEl_LeaveBalance(obj[6] != null ? obj[6].toString() : "");
+					lfcData.add(lm);
+				}
+			} else {
+				String sql = "select distinct a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,a.AMOUNT_OF_ADVANCE,\r\n"
+						+ "		(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "		(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_encashment a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		where a.EMPLY_CD='" + userId + "'and a.Status='S' and a.Approval_Level_1='A'";
+				NativeQuery query = session.createNativeQuery(sql);
+				result = query.getResultList();
+				LfcModel lm = null;
+				for (Object[] obj : result) {
+					lm = new LfcModel();
+
+					String str = obj[0].toString().trim();
+
+					lm.setId(str != null ? Integer.parseInt(str) : 0);
+					lm.setName(obj[1] != null ? obj[1].toString() : "");
+					lm.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					lm.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					lm.setAmountofAdvanceStr(obj[4] != null ? obj[4].toString() : "");
+					lm.setCount(obj[5] != null ? obj[5].toString() : "");
+					lm.setEl_LeaveBalance(obj[6] != null ? obj[6].toString() : "");
+					lfcData.add(lm);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lfcData;
+	}
+
+	@Override
+	public List<LfcModel> getOfcUseDataSur(Integer userId) {
+
+		List<LfcModel> lfcData = new ArrayList<LfcModel>();
+		lfcData.clear();
+		try {
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			List<Object[]> result = null;
+			String designation = null;
+
+			String sql1 = "select department from hrms_wbidfc.hrms_department_detail where emply_cd='" + userId + "'";
+			SQLQuery query = session.createSQLQuery(sql1);
+			designation = (String) query.uniqueResult();
+			String desi = designation.toUpperCase();
+			if (desi.equalsIgnoreCase("HR & ADMINISTRATION")) {
+				String sql = "select a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,\r\n"
+						+ "	       (select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "	       (select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_lfc_surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		 JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		 where a.EMPLY_CD='" + userId + "'and a.Status='S' and a.Approval_Level_2='A'";
+				NativeQuery query1 = session.createNativeQuery(sql);
+				result = query1.getResultList();
+				LfcModel ls = null;
+				for (Object[] obj : result) {
+					ls = new LfcModel();
+
+					String str = obj[0].toString().trim();
+					ls.setId(str != null ? Integer.parseInt(str) : 0);
+					ls.setName(obj[1] != null ? obj[1].toString() : "");
+					System.out.println(ls.getName());
+					ls.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					ls.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					ls.setCount(obj[4] != null ? obj[4].toString() : "");
+					ls.setEl_LeaveBalance(obj[5] != null ? obj[5].toString() : "");
+
+					lfcData.add(ls);
+				}
+
+			} else if (desi.equalsIgnoreCase("INTERNAL AUDIT")) {
+				String sql = "select a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,\r\n"
+						+ "	       (select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "	       (select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_lfc_surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		 JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		 where a.EMPLY_CD='" + userId + "'and a.Status='S' and a.Approval_Level_3='A'";
+				NativeQuery query1 = session.createNativeQuery(sql);
+				result = query1.getResultList();
+				LfcModel ls = null;
+				for (Object[] obj : result) {
+					ls = new LfcModel();
+
+					String str = obj[0].toString().trim();
+					ls.setId(str != null ? Integer.parseInt(str) : 0);
+					ls.setName(obj[1] != null ? obj[1].toString() : "");
+					System.out.println(ls.getName());
+					ls.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					ls.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					ls.setCount(obj[4] != null ? obj[4].toString() : "");
+					ls.setEl_LeaveBalance(obj[5] != null ? obj[5].toString() : "");
+
+					lfcData.add(ls);
+				}
+
+			} else if (desi.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+
+				String sql = "select a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,\r\n"
+						+ "	       (select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "	       (select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_lfc_surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		 JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		 where a.EMPLY_CD='" + userId + "'and a.Status='S'";
+				NativeQuery query1 = session.createNativeQuery(sql);
+				result = query1.getResultList();
+				LfcModel ls = null;
+				for (Object[] obj : result) {
+					ls = new LfcModel();
+
+					String str = obj[0].toString().trim();
+					ls.setId(str != null ? Integer.parseInt(str) : 0);
+					ls.setName(obj[1] != null ? obj[1].toString() : "");
+					System.out.println(ls.getName());
+					ls.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					ls.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					ls.setCount(obj[4] != null ? obj[4].toString() : "");
+					ls.setEl_LeaveBalance(obj[5] != null ? obj[5].toString() : "");
+
+					lfcData.add(ls);
+				}
+
+			} else {
+				String sql = "select a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name,\r\n"
+						+ "		a.BLOCK_APPLIED,a.EncashmentLeave_Count,\r\n"
+						+ "	       (select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+						+ "' and Status='S') as COUNT,\r\n"
+						+ "	       (select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+						+ "' and LEAVE_TYPE='EL')'El_Balance'\r\n"
+						+ "		from hrms_wbidfc.hrms_lfc_surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+						+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
+						+ "		 JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd\r\n"
+						+ "		 where a.EMPLY_CD='" + userId + "'and a.Status='S' and a.Approval_Level_1='A'";
+				NativeQuery query1 = session.createNativeQuery(sql);
+				result = query1.getResultList();
+				LfcModel ls = null;
+				for (Object[] obj : result) {
+					ls = new LfcModel();
+
+					String str = obj[0].toString().trim();
+					ls.setId(str != null ? Integer.parseInt(str) : 0);
+					ls.setName(obj[1] != null ? obj[1].toString() : "");
+					System.out.println(ls.getName());
+					ls.setBlockApplied(obj[2] != null ? obj[2].toString() : "");
+					ls.setEncashmentLeaveCount(obj[3] != null ? obj[3].toString() : "");
+					ls.setCount(obj[4] != null ? obj[4].toString() : "");
+					ls.setEl_LeaveBalance(obj[5] != null ? obj[5].toString() : "");
+
+					lfcData.add(ls);
+				}
+			}
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lfcData;
+	}
+
+	@Override
+	public int isLeaveApplied(Integer userId) {
+		int leaveCount=0;
+		try {
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			BigInteger count = null;
+			List<Object> data = null;
+			String sql = "select  count(*) from  hrms_wbidfc.hrms_encashment where LEAVE_TYPE!='' and Status='S' and EMPLY_CD='"+userId+"'";
+			SQLQuery query = session.createSQLQuery(sql);
+			data = query.list();
+			count = (BigInteger) data.get(0);
+		    leaveCount = count.intValue();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception in isLeaveApplied Dao method :"+e);
+		}
+		 
+		return leaveCount;
 	}
 
 }

@@ -51,181 +51,199 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 
 //(List<Lfc_Allowence> list)
 	@Override
-	public void saveInfo(JSONArray arrayEmp , JSONArray arrayDependent , Hrms_Login masterUser) {
-       System.out.println("Inside serviceImpl =====================");
+	public void saveInfo(JSONArray arrayEmp, JSONArray arrayDependent, Hrms_Login masterUser) {
+		System.out.println("Inside serviceImpl =====================");
 		String message = null;
- 		try {
-             ArrayList<Lfc_Allowence> allowenceList = new ArrayList<Lfc_Allowence>();
-             ArrayList<Lfc_Dependent> dependentList = new ArrayList<Lfc_Dependent>();
-             Lfc_Allowence allowence = null;
-             Lfc_Dependent dependent = null;
-             int stat = 0;
-            for (int i = 0; i < arrayEmp.length(); i++) {
-                   allowence = new Lfc_Allowence();
-                   JSONObject obj = arrayEmp.getJSONObject(i);
-                    allowence.setEmpcd(Integer.parseInt(StringIsNullJsonObject(obj, "empcd")));
-                    allowence.setBlockapplied(StringIsNullJsonObject(obj, "blockapplied"));
-                    allowence.setLeave_type(StringIsNullJsonObject(obj, "leave_type"));
-                   try {
-                          allowence.setFromdate(
-                                       DateIsNullJsonObject(obj, "fromdate") != null ? DateIsNullJsonObject(obj, "fromdate")
-                                                    : null);
-                   } catch (Exception e) {
-                          e.printStackTrace();
-                   }
-                   try {
-                          allowence.setTodatepicker(DateIsNullJsonObject(obj, "todatepicker") != null
-                                       ? DateIsNullJsonObject(obj, "todatepicker")
-                                       : null);
-                   } catch (Exception e) {
-                          e.printStackTrace();
-                   }
-                    allowence.setDestinationplace(StringIsNullJsonObject(obj, "destinationplace"));
-                    allowence.setAmountAdvance(Integer.parseInt(StringIsNullJsonObject(obj, "amountAdvance")));
-                    allowence.setLeaveEncashBlock(StringIsNullJsonObject(obj, "leaveEncashBlock"));
-                   try {
-                          allowence.setFdate(
-                                       DateIsNullJsonObject(obj, "fdate") != null ? DateIsNullJsonObject(obj, "fdate") : null);
-                   } catch (Exception e) {
-                          e.printStackTrace();
-                   }
-                   try {
-                          allowence.setTdate(
-                                       DateIsNullJsonObject(obj, "tdate") != null ? DateIsNullJsonObject(obj, "tdate") : null);
-                   } catch (Exception e) {
-                          e.printStackTrace();
-                   }
-                    allowence.setNumberOfDays(Integer.parseInt(StringIsNullJsonObject(obj, "numberOfDays")));
-                    allowence.setEncashmentleave_type(StringIsNullJsonObject(obj, "EncasmentleaveType"));
-                    try {
-                        allowence.setCommencement_fromdate(
-                        		DateIsNullJsonObject(obj, "travelfromdate") != null ? DateIsNullJsonObject(obj, "travelfromdate") : null);
-                 } catch (Exception e) {
-                        e.printStackTrace();
-                 }
-                    try {
-                        allowence.setCompletion_todate(
-                        		DateIsNullJsonObject(obj, "traveltodate") != null ? DateIsNullJsonObject(obj, "traveltodate") : null);
-                 } catch (Exception e) {
-                        e.printStackTrace();
-                 }
-                    allowence.setEncasmentleavecount(Integer.parseInt(StringIsNullJsonObject(obj, "Encasmentleavecount")));
-                    allowence.setStatus("S");
-                   allowenceList.add(allowence);
-                   allowence = null;
-             }
-             
-            if(!isNullOrEmpty(allowenceList)) {
-                stat = lfcdetail.saveInfo(allowenceList);
-           }
-            int employee_code = masterUser.getEmply_cd();
-             int tranId = lfcdetail.getTranId(employee_code);
-             for(int i = 0; i < arrayDependent.length(); i++) {
-                   dependent = new Lfc_Dependent();
-                   int empcd = masterUser.getEmply_cd();
-                   JSONObject obj = arrayDependent.getJSONObject(i);
-                   dependent.setEmplycd(empcd);
-                    dependent.setDependentname(StringIsNullJsonObject(obj, "dependentname"));
-                    dependent.setDesrno(Integer.parseInt(StringIsNullJsonObject(obj, "desrNo")));
-                    dependent.setRelation(StringIsNullJsonObject(obj, "relation"));
-                   try {
-                          dependent.setDob(
-                                       DateConvertJsonObject(obj, "dob") != null ? DateConvertJsonObject(obj, "dob") : null);
-                   } catch (Exception e) {
-                          e.printStackTrace();
-                   }
-                    dependent.setGender(StringIsNullJsonObject(obj, "gender"));
-					/* String annualIncome = */ 
-                   dependent.setAnnualincome(StringIsNullJsonObject(obj, "annualincome"));
-                   dependent.setOccupation(StringIsNullJsonObject(obj, "occupation"));
-                   dependent.setStatus("S");
-                   dependent.setTranId(tranId);
-                   dependentList.add(dependent);
-                   dependent = null;
-             }
-             //int stat = 0;
+		try {
+			ArrayList<Lfc_Allowence> allowenceList = new ArrayList<Lfc_Allowence>();
+			ArrayList<Lfc_Dependent> dependentList = new ArrayList<Lfc_Dependent>();
+			Lfc_Allowence allowence = null;
+			Lfc_Dependent dependent = null;
+			int stat = 0;
+			for (int i = 0; i < arrayEmp.length(); i++) {
+				allowence = new Lfc_Allowence();
+				JSONObject obj = arrayEmp.getJSONObject(i);
+				allowence.setEmpcd(Integer.parseInt(StringIsNullJsonObject(obj, "empcd")));
+				allowence.setBlockapplied(StringIsNullJsonObject(obj, "blockapplied"));
+				allowence.setLeave_type(StringIsNullJsonObject(obj, "leave_type"));
+				try {
+					allowence.setFromdate(
+							DateIsNullJsonObject(obj, "fromdate") != null ? DateIsNullJsonObject(obj, "fromdate")
+									: null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				try {
+					allowence.setTodatepicker(DateIsNullJsonObject(obj, "todatepicker") != null
+							? DateIsNullJsonObject(obj, "todatepicker")
+							: null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				allowence.setDestinationplace(StringIsNullJsonObject(obj, "destinationplace"));
+				
+				allowence.setOriginationplace(StringIsNullJsonObject(obj, "originationplace"));
+				
+				allowence.setAmountAdvance(Integer.parseInt(StringIsNullJsonObject(obj, "amountAdvance")));
+				allowence.setLeaveEncashBlock(StringIsNullJsonObject(obj, "leaveEncashBlock"));
+				try {
+					allowence.setFdate(
+							DateIsNullJsonObject(obj, "fdate") != null ? DateIsNullJsonObject(obj, "fdate") : null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				try {
+					allowence.setTdate(
+							DateIsNullJsonObject(obj, "tdate") != null ? DateIsNullJsonObject(obj, "tdate") : null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				allowence.setNumberOfDays(Integer.parseInt(StringIsNullJsonObject(obj, "numberOfDays")));
+				allowence.setEncashmentleave_type(StringIsNullJsonObject(obj, "EncasmentleaveType"));
+				try {
+					allowence.setCommencement_fromdate(DateIsNullJsonObject(obj, "travelfromdate") != null
+							? DateIsNullJsonObject(obj, "travelfromdate")
+							: null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				try {
+					allowence.setCompletion_todate(DateIsNullJsonObject(obj, "traveltodate") != null
+							? DateIsNullJsonObject(obj, "traveltodate")
+							: null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				System.out.println("----------------obj---------------------" + obj);
+
+				// allowence.setEncasmentleavecount(Integer.parseInt(StringIsNullJsonObject(obj,
+				// "Encasmentleavecount")));
+
+				allowence.setEncasmentleavecount(StringIsNullJsonObject(obj, "Encasmentleavecount") != ""
+						? Integer.parseInt(StringIsNullJsonObject(obj, "Encasmentleavecount"))
+						: 0);
+
+				allowence.setStatus("S");
+				allowenceList.add(allowence);
+				allowence = null;
+			}
+
+			if (!isNullOrEmpty(allowenceList)) {
+				stat = lfcdetail.saveInfo(allowenceList);
+			}
+			int employee_code = masterUser.getEmply_cd();
+			int tranId = lfcdetail.getTranId(employee_code);
+			for (int i = 0; i < arrayDependent.length(); i++) {
+				dependent = new Lfc_Dependent();
+				int empcd = masterUser.getEmply_cd();
+				JSONObject obj = arrayDependent.getJSONObject(i);
+				dependent.setEmplycd(empcd);
+				dependent.setDependentname(StringIsNullJsonObject(obj, "dependentname"));
+				dependent.setDesrno(Integer.parseInt(StringIsNullJsonObject(obj, "desrNo")));
+				dependent.setRelation(StringIsNullJsonObject(obj, "relation"));
+				try {
+					dependent.setDob(
+							DateConvertJsonObject(obj, "dob") != null ? DateConvertJsonObject(obj, "dob") : null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				dependent.setGender(StringIsNullJsonObject(obj, "gender"));
+				/* String annualIncome = */
+				dependent.setAnnualincome(StringIsNullJsonObject(obj, "annualincome"));
+				dependent.setOccupation(StringIsNullJsonObject(obj, "occupation"));
+				dependent.setStatus("S");
+				dependent.setTranId(tranId);
+				dependentList.add(dependent);
+				dependent = null;
+			}
+			// int stat = 0;
 //        if(!isNullOrEmpty(allowenceList)) {
 //             stat = lfcdetail.saveInfo(allowenceList);
 //        }
-        if(!isNullOrEmpty(dependentList)) {
-             stat = lfcdetail.saveDependentInfo(dependentList);
-        }
-      } catch (Exception e) {
-             e.printStackTrace();
-             System.out.println("Exception in ServiceImpl Class :"+e);
-      }
+			if (!isNullOrEmpty(dependentList)) {
+				stat = lfcdetail.saveDependentInfo(dependentList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception in ServiceImpl Class :" + e);
+		}
 	}
-	
+
 	@Override
 	public void saveSurrenderInfo(JSONArray arrayEmp, JSONArray arrayDependent, Hrms_Login masterUser) {
-		
+
 		try {
 			ArrayList<Lfc_Surrender> surrenderList = new ArrayList<Lfc_Surrender>();
-            ArrayList<Lfc_Dependent> dependentList = new ArrayList<Lfc_Dependent>();
-            Lfc_Surrender surrender = null;
-            Lfc_Dependent dependent = null;
-            int stat = 0;
-            for (int i = 0; i < arrayEmp.length(); i++) {
-            	surrender = new Lfc_Surrender();
-                JSONObject obj = arrayEmp.getJSONObject(i);
-                
-                surrender.setEmpcd(Integer.parseInt(StringIsNullJsonObject(obj, "empcd")));
-                surrender.setBlockapplied(StringIsNullJsonObject(obj, "blockapplied"));
-                
-                try {
-                	surrender.setFromdate(DateIsNullJsonObject(obj, "fromdate") != null ? DateIsNullJsonObject(obj, "fromdate") : null);
+			ArrayList<Lfc_Dependent> dependentList = new ArrayList<Lfc_Dependent>();
+			Lfc_Surrender surrender = null;
+			Lfc_Dependent dependent = null;
+			int stat = 0;
+			for (int i = 0; i < arrayEmp.length(); i++) {
+				surrender = new Lfc_Surrender();
+				JSONObject obj = arrayEmp.getJSONObject(i);
+
+				surrender.setEmpcd(Integer.parseInt(StringIsNullJsonObject(obj, "empcd")));
+				surrender.setBlockapplied(StringIsNullJsonObject(obj, "blockapplied"));
+
+				try {
+					surrender.setFromdate(
+							DateIsNullJsonObject(obj, "fromdate") != null ? DateIsNullJsonObject(obj, "fromdate")
+									: null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-                
-                try {
-					surrender.setTodatepicker(DateIsNullJsonObject(obj, "todatepicker") != null ? DateIsNullJsonObject(obj, "todatepicker") : null);
+
+				try {
+					surrender.setTodatepicker(DateIsNullJsonObject(obj, "todatepicker") != null
+							? DateIsNullJsonObject(obj, "todatepicker")
+							: null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-                surrender.setEncashmentleave_type(StringIsNullJsonObject(obj, "EncasmentleaveType"));
-                
-                surrender.setEncasmentleavecount(Integer.parseInt(StringIsNullJsonObject(obj, "Encasmentleavecount")));
-                surrender.setStatus("S");
-                
-                surrenderList.add(surrender);
-                surrender = null;
-            }
-            
-            if(!isNullOrEmpty(surrenderList)) {
-                stat = lfcdetail.saveSuurenderInfo(surrenderList);
-           }
-            int employee_code = masterUser.getEmply_cd();
-            int tranId = lfcdetail.getTranIdFromSurrender(employee_code);
-             
-            for(int i = 0; i < arrayDependent.length(); i++) {
-                dependent = new Lfc_Dependent();
-                int empcd = masterUser.getEmply_cd();
-                JSONObject obj = arrayDependent.getJSONObject(i);
-                dependent.setEmplycd(empcd);
-                 dependent.setDependentname(StringIsNullJsonObject(obj, "dependentname"));
-                 dependent.setDesrno(Integer.parseInt(StringIsNullJsonObject(obj, "desrNo")));
-                 dependent.setRelation(StringIsNullJsonObject(obj, "relation"));
-                try {
-                       dependent.setDob(
-                                    DateConvertJsonObject(obj, "dob") != null ? DateConvertJsonObject(obj, "dob") : null);
-                } catch (Exception e) {
-                       e.printStackTrace();
-                }
-                 dependent.setGender(StringIsNullJsonObject(obj, "gender"));
-                dependent.setAnnualincome(StringIsNullJsonObject(obj, "annualincome"));
-                dependent.setOccupation(StringIsNullJsonObject(obj, "occupation"));
-                dependent.setStatus("S");
-                dependent.setTranId(tranId);
-                dependentList.add(dependent);
-                dependent = null;
-          }
-            
-            if(!isNullOrEmpty(dependentList)) {
-                stat = lfcdetail.saveDependentInfo(dependentList);
-           }
+				surrender.setEncashmentleave_type(StringIsNullJsonObject(obj, "EncasmentleaveType"));
+
+				surrender.setEncasmentleavecount(Integer.parseInt(StringIsNullJsonObject(obj, "Encasmentleavecount")));
+				surrender.setStatus("S");
+
+				surrenderList.add(surrender);
+				surrender = null;
+			}
+
+			if (!isNullOrEmpty(surrenderList)) {
+				stat = lfcdetail.saveSuurenderInfo(surrenderList);
+			}
+			int employee_code = masterUser.getEmply_cd();
+			int tranId = lfcdetail.getTranIdFromSurrender(employee_code);
+
+			for (int i = 0; i < arrayDependent.length(); i++) {
+				dependent = new Lfc_Dependent();
+				int empcd = masterUser.getEmply_cd();
+				JSONObject obj = arrayDependent.getJSONObject(i);
+				dependent.setEmplycd(empcd);
+				dependent.setDependentname(StringIsNullJsonObject(obj, "dependentname"));
+				dependent.setDesrno(Integer.parseInt(StringIsNullJsonObject(obj, "desrNo")));
+				dependent.setRelation(StringIsNullJsonObject(obj, "relation"));
+				try {
+					dependent.setDob(
+							DateConvertJsonObject(obj, "dob") != null ? DateConvertJsonObject(obj, "dob") : null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				dependent.setGender(StringIsNullJsonObject(obj, "gender"));
+				dependent.setAnnualincome(StringIsNullJsonObject(obj, "annualincome"));
+				dependent.setOccupation(StringIsNullJsonObject(obj, "occupation"));
+				dependent.setStatus("S");
+				dependent.setTranId(tranId);
+				dependentList.add(dependent);
+				dependent = null;
+			}
+
+			if (!isNullOrEmpty(dependentList)) {
+				stat = lfcdetail.saveDependentInfo(dependentList);
+			}
 		} catch (Exception e) {
-			 
+
 		}
 	}
 
@@ -242,9 +260,11 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 	}
 
 	@Override
-	public void acceptReq(int acceptValue, String hradminremark) {
+	public void acceptReq(int acceptValue, String hradminremark , int auditamount, int auditamountLeaveEncash) {
 
-		lfcdetail.acceptReq(acceptValue, hradminremark);
+		lfcdetail.acceptReq(acceptValue, hradminremark, auditamount,  auditamountLeaveEncash);
+		
+		//lfcdetail.acceptReq(acceptValue, hradminremark);
 	}
 
 	@Override
@@ -265,6 +285,7 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 		return lfcdetail.getInternalAuditorData();
 	}
 
+	//for Internal Audit accept function
 	@Override
 	public void InternalacceptReq(int acceptValue, String auditremark) {
 		lfcdetail.InternalacceptReq(acceptValue, auditremark);
@@ -284,8 +305,8 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 	}
 
 	@Override
-	public int CSacceptReq(int acceptValue, String cSremark,String empCode,String checkerEin) {
-		return lfcdetail.CSacceptReq(acceptValue, cSremark,empCode,checkerEin);
+	public int CSacceptReq(int acceptValue, String cSremark, String empCode, String checkerEin) {
+		return lfcdetail.CSacceptReq(acceptValue, cSremark, empCode, checkerEin);
 
 	}
 
@@ -343,9 +364,10 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 		return lfcdetail.getInternalAuditorAdmin();
 	}
 
+	// for Internal Audit Admin admin req
 	@Override
-	public void auditAdminremarkReq(int acceptValue, String auditAdminremark) {
-		lfcdetail.auditAdminremarkReq(acceptValue, auditAdminremark);
+	public void auditAdminremarkReq(int acceptValue, String auditAdminremark,String advanceAmountApproved, String leaveEncashmentAmountApproved) {
+		lfcdetail.auditAdminremarkReq(acceptValue, auditAdminremark,advanceAmountApproved,leaveEncashmentAmountApproved);
 
 	}
 
@@ -363,26 +385,26 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 
 	@Override
 	public List<Hrms_Dependent> getdepenedentList(Integer userId) {
-		
+
 		return lfcdetail.getdependentList(userId);
 	}
 
 	@Override
 	public List<String> getDependentName(String emply_cd) {
-		
+
 		return lfcdetail.getDependentName(emply_cd);
 	}
 
 	@Override
 	public Map<String, String> getEncashmentLeaveType() {
-		
+
 		return lfcdetail.getEncashmentLeaveType();
 	}
 
 	@Override
 	public List<Integer> getEncashmentLeaveCount(Integer userId, String encashmentLeaveType) {
-		
-		return lfcdetail.getEncashmentLeaveCount(userId,encashmentLeaveType);
+
+		return lfcdetail.getEncashmentLeaveCount(userId, encashmentLeaveType);
 	}
 
 	@Override
@@ -392,116 +414,116 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 
 	@Override
 	public List<LfcModel> getLfcUserSurrenderReport(Integer userId) {
-		
+
 		return lfcdetail.getLfcUserSurrenderReport(userId);
 	}
 
 	@Override
 	public List<LfcModel> getSurrenderHrAdminData() {
-		
+
 		return lfcdetail.getSurrenderHrAdminData();
 	}
 
 	@Override
 	public int hrSurAcceptReq(int acceptValue, String hradminremark) {
-		
-		return lfcdetail.hrSurAcceptReq(acceptValue,hradminremark);
+
+		return lfcdetail.hrSurAcceptReq(acceptValue, hradminremark);
 	}
 
 	@Override
 	public int hrSurRejectReq(int rejectvalue, String hradminremark) {
-		
-		return lfcdetail.hrSurRejectReq(rejectvalue,hradminremark);
+
+		return lfcdetail.hrSurRejectReq(rejectvalue, hradminremark);
 	}
 
 	@Override
 	public List<LfcModel> getLfcSurrenderHrReport() {
-		
+
 		return lfcdetail.getLfcSurrenderHrReport();
 	}
 
 	@Override
 	public List<LfcModel> getSurrenderInternalAuditorAdmin() {
-		
+
 		return lfcdetail.getSurrenderInternalAuditorAdmin();
 	}
 
 	@Override
 	public int surInternalAdminAccept(int acceptValue, String auditAdminremark) {
-		
-		return lfcdetail.surInternalAdminAccept(acceptValue,auditAdminremark);
+
+		return lfcdetail.surInternalAdminAccept(acceptValue, auditAdminremark);
 	}
 
 	@Override
 	public int surInternalrejectReq(int rejectvalue, String auditremark) {
-		
-		return lfcdetail.surInternalrejectReq(rejectvalue,auditremark);
+
+		return lfcdetail.surInternalrejectReq(rejectvalue, auditremark);
 	}
 
 	@Override
 	public List<LfcModel> getSurAuditReport() {
-		
+
 		return lfcdetail.getSurAuditReport();
 	}
 
 	@Override
 	public List<LfcModel> getSurrenderCsAdmindata() {
-		
+
 		return lfcdetail.getSurrenderCsAdmindata();
 	}
 
 	@Override
-	public int surCSacceptReq(int acceptValue, String cSremark,String empCode, String checkerEin) {
-		
-		return lfcdetail.surCSacceptReq(acceptValue,cSremark,empCode,checkerEin);
+	public int surCSacceptReq(int acceptValue, String cSremark, String empCode, String checkerEin) {
+
+		return lfcdetail.surCSacceptReq(acceptValue, cSremark, empCode, checkerEin);
 	}
 
 	@Override
 	public int surCSrejectReq(int rejectvalue, String cSremark) {
-		
-		return lfcdetail.surCSrejectReq(rejectvalue,cSremark);
+
+		return lfcdetail.surCSrejectReq(rejectvalue, cSremark);
 	}
 
 	@Override
 	public List<LfcModel> getSurCsReport() {
-		 
+
 		return lfcdetail.getSurCsReport();
 	}
 
 	@Override
 	public List<LfcModel> getSurrenderInternalAuditorAdminadmin() {
-		
+
 		return lfcdetail.getSurrenderInternalAuditorAdminadmin();
 	}
 
 	@Override
 	public List<LfcModel> surCsAdminRequest() {
-		
+
 		return lfcdetail.surCsAdminRequest();
 	}
 
 	@Override
 	public List<LfcModel> getApplyLfcData(Integer userId) {
-		List<LfcModel> lfcData= lfcdetail.getApplyLfcData(userId);
+		List<LfcModel> lfcData = lfcdetail.getApplyLfcData(userId);
 		return lfcData;
 	}
 
 	@Override
 	public List<Lfc_Dependent> getDependentName(Integer userId) {
-		
+
 		return lfcdetail.getDependentName(userId);
 	}
 
 	@Override
 	public List<LfcModel> getLfcSurrenderData(Integer userId) {
-		 
+
 		return lfcdetail.getLfcSurrenderData(userId);
 	}
 
 	@Override
 	public String getLfcToDate(String blockApplied, String fromDate) {
 		// TODO Auto-generated method stub
-		return lfcdetail.getLfcToDate(blockApplied,fromDate);
+		return lfcdetail.getLfcToDate(blockApplied, fromDate);
 	}
 
 	@Override
@@ -524,13 +546,13 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 
 	@Override
 	public List<LfcModel> getHrAdminModalDependentData(String empId) {
-		
+
 		return lfcdetail.getHrAdminModalDependentData(empId);
 	}
 
 	@Override
 	public List<LfcModel> getInternalAuditorModalBoxData(String empId) {
-		
+
 		return lfcdetail.getInternalAuditorModalBoxData(empId);
 	}
 
@@ -542,7 +564,7 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 
 	@Override
 	public List<LfcModel> getCsAdminModalData(String empId) {
-		
+
 		return lfcdetail.getCsAdminModalData(empId);
 	}
 
@@ -576,6 +598,22 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 		return lfcdetail.getSurCsAdminModalData(empId);
 	}
 
-	
+	@Override
+	public List<LfcModel> getOfcUseData(Integer userId) {
+		// TODO Auto-generated method stub
+		return lfcdetail.getOfcUseData(userId);
+	}
+
+	@Override
+	public List<LfcModel> getOfcUseDataSur(Integer userId) {
+		// TODO Auto-generated method stub
+		return lfcdetail.getOfcUseDataSur(userId);
+	}
+
+	@Override
+	public int isLeaveApplied(Integer userId) {
+		// TODO Auto-generated method stub
+		return lfcdetail.isLeaveApplied(userId);
+	}
 
 }

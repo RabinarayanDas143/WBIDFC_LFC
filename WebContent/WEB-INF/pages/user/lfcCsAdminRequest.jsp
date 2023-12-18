@@ -154,19 +154,25 @@
 				9.	Number of Days : <input
 				type="text" readonly="readonly" id="numberOfDays" size="30"
 				style="border: 0px" value=""><br>
-				10.	Place of Destination : <input
+				10.	Place of Origination : <input
+				type="text" readonly="readonly" id="origination" size="30"
+				style="border: 0px" value=""><br>
+				11.	Place of Destination : <input
 				type="text" readonly="readonly" id="destination" size="30"
 				style="border: 0px" value=""><br>
-				11.	Date of Commencement : <input
+				12.	Date of Commencement : <input
 				type="text" readonly="readonly" id="dateOfCommencement" size="20"
 				style="border: 0px" value=""><br>
-				12.	Date of Completion : <input
+				13.	Date of Completion : <input
 				type="text" readonly="readonly" id="dateOfCompletion" size="30"
 				style="border: 0px" value=""><br>
-				13.	Amount of Advance : <input
+				14.	Amount of Advance : <input
 				type="text" readonly="readonly" id="amountOfAdvance" size="30"
 				style="border: 0px" value=""><br>
- 				14.	Internal Audit remark : <input
+				15.	Encashment leave Sought : <input
+				type="text" readonly="readonly" id="encashmentLeave" size="30"
+				style="border: 0px" value=""><br>
+ 				16.	Internal Audit remark : <input
 				type="text" readonly="readonly" id="internalAudit" size="30"
 				style="border: 0px" value=""><br>
 				 

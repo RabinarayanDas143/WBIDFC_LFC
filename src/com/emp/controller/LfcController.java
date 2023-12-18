@@ -259,12 +259,26 @@ public class LfcController {
 	@ResponseBody
 	@PostMapping(value = "acceptbutton")
 	public ResponseBean acceptbuttonpost(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(required = false) String acceptval, @RequestParam(required = false) String hradminremark) {
+			@RequestParam(required = false) String acceptval,
+			
+			@RequestParam(required = false) String Auditamount,
+			@RequestParam(required = false) String AuditamountLeaveEncash,
+			
+			@RequestParam(required = false) String hradminremark) {
 		// System.out.println("Inside accept button controller");
 		ResponseBean bean = new ResponseBean();
 		try {
+			
 			int acceptValue = Integer.parseInt(acceptval);
-			lfcDetail.acceptReq(acceptValue, hradminremark);
+			
+			int auditamount = Integer.parseInt(Auditamount);
+			int auditamountLeaveEncash = Integer.parseInt(AuditamountLeaveEncash);
+			
+			
+			lfcDetail.acceptReq(acceptValue, hradminremark, auditamount, auditamountLeaveEncash);
+			
+			// lfcDetail.acceptReq(acceptValue, hradminremark);
+			
 			bean.setStatus("SUCCESS");
 			bean.setMessage("Request Accepted");
 		} catch (Exception e) {
@@ -329,11 +343,18 @@ public class LfcController {
 	@ResponseBody
 	@PostMapping(value = "internalacceptbutton")
 	public ResponseBean internalacceptbuttonpost(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(required = false) String acceptval, @RequestParam(required = false) String Auditremark) {
-		// System.out.println("Inside internalacceptbuttonaccept button controller");
+			@RequestParam(required = false) String acceptval,
+			@RequestParam(required = false) String Auditamount,
+			@RequestParam(required = false) String AuditamountLeaveEncash,
+			@RequestParam(required = false) String Auditremark) {
+		
+		 System.out.println(Auditamount+"Inside internalacceptbuttonaccept button controller ---------==============-----------"+AuditamountLeaveEncash);
 		ResponseBean bean = new ResponseBean();
 		try {
 			int acceptValue = Integer.parseInt(acceptval);
+
+			
+			
 			lfcDetail.InternalacceptReq(acceptValue, Auditremark);
 			bean.setStatus("SUCCESS");
 			bean.setMessage("Request Accepted");
@@ -616,12 +637,15 @@ public class LfcController {
 	@ResponseBody
 	@PostMapping(value = "InternalAdminacceptButton")
 	public ResponseBean InternalAdminacceptButtonpost(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(required = false) String acceptval, @RequestParam(required = false) String AuditAdminremark) {
+			@RequestParam(required = false) String acceptval, @RequestParam(required = false) String AuditAdminremark,
+			@RequestParam(required = false) String advanceAmountApproved,@RequestParam(required = false) String leaveEncashmentAmountApproved) {
 		// System.out.println("Inside InternalAdminacceptButton button controller");
 		ResponseBean bean = new ResponseBean();
 		try {
+			System.out.println("advanceAmountApproved issssss =========:"+advanceAmountApproved);
+			System.out.println("leaveEncashmentAmountApproved isssss========:"+leaveEncashmentAmountApproved);
 			int acceptValue = Integer.parseInt(acceptval);
-			lfcDetail.auditAdminremarkReq(acceptValue, AuditAdminremark);
+			lfcDetail.auditAdminremarkReq(acceptValue, AuditAdminremark,advanceAmountApproved,leaveEncashmentAmountApproved);
 			bean.setStatus("SUCCESS");
 			bean.setMessage("Request Accepted");
 		} catch (Exception e) {
@@ -1257,11 +1281,17 @@ public class LfcController {
 		try {
 			 
 			 List<LfcModel> lfcModel = lfcDetail.getApplyLfcData(userId);
+			 List<LfcModel> ofcUseData = lfcDetail.getOfcUseData(userId);
+			 int leaveApplied = lfcDetail.isLeaveApplied(userId);
 			 if(lfcModel.size()!=0) {
 				 bean.setStatus("FOUND");
 			 List<Lfc_Dependent> dependent = lfcDetail.getDependentName(userId);
  			 request.getSession().setAttribute("lfcModel", lfcModel.get(0));
 			 request.getSession().setAttribute("dependent", dependent);
+			 if(ofcUseData.size()!=0) {
+				 request.getSession().setAttribute("ofcUseData", ofcUseData.get(0));
+			 }
+			 request.getSession().setAttribute("leaveApplied", leaveApplied);
 			 }else {
 				 bean.setStatus("FAILED");
 					bean.setMessage("Request is not Rejected");
@@ -1284,12 +1314,16 @@ public class LfcController {
 		ResponseBean bean = new ResponseBean();
 		try {
 			 List<LfcModel> lfcModel = lfcDetail.getLfcSurrenderData(userId);
+			 List<LfcModel> ofcUseData = lfcDetail.getOfcUseDataSur(userId);
 			 if(lfcModel.size()!=0) {
 				 bean.setStatus("FOUND");
 			  dependent = lfcDetail.getDependentName(userId);
 			 
 			 request.getSession().setAttribute("lfcModel", lfcModel.get(0));
 			 request.getSession().setAttribute("dependent", dependent);
+			 if(ofcUseData.size()!=0) {
+				 request.getSession().setAttribute("ofcUseData", ofcUseData.get(0));
+			 }
 			 }else {
 				 bean.setStatus("FAILED");
 				bean.setMessage("Request is not Rejected");
@@ -1363,6 +1397,9 @@ public class LfcController {
  			model.setComplitionToDate(complitionToDate);
 			
 			model.setAmountofAdvance((int)outPut.get(0)[13]);
+			//int leave =  (int) outPut.get(0)[14];
+			model.setEncashmentLeaveCount(String.valueOf((int) outPut.get(0)[14]));
+			model.setPlaceofOrigination((String)outPut.get(0)[15]);
 			
 			if(outPut.size()!=0) {
 				bean.setBody(model);
@@ -1441,6 +1478,8 @@ public class LfcController {
  			model.setComplitionToDate(complitionToDate);
 			
 			model.setAmountofAdvance((int)outPut.get(0)[13]);
+			model.setEncashmentLeaveCount(String.valueOf(outPut.get(0)[14]));
+			model.setPlaceofOrigination((String)outPut.get(0)[15]);
 			
 			if(outPut.size()!=0) {
 				bean.setBody(model);

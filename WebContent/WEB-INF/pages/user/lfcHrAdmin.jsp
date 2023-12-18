@@ -68,6 +68,9 @@
 						<th>Total Days</th>
 						<th>Place of Destination</th>
 						<th>Amount of Advance</th>
+						
+						<th>Advance Amount Approved</th>
+					<th>Leave Encashment Amount Approved</th>
 						<th>Remark</th>
 						<th>Details</th>
 						<th>Action</th>
@@ -113,14 +116,18 @@
 						id="leaveToDate" size="30" style="border: 0px" value=""><br>
 					9. Number of Days : <input type="text" readonly="readonly"
 						id="numberOfDays" size="30" style="border: 0px" value=""><br>
-					10. Place of Destination : <input type="text" readonly="readonly"
+					10. Place of Origination : <input type="text" readonly="readonly"
+						id="origination" size="30" style="border: 0px" value=""><br>
+					11. Place of Destination : <input type="text" readonly="readonly"
 						id="destination" size="30" style="border: 0px" value=""><br>
-					11. Date of Commencement : <input type="text" readonly="readonly"
+					12. Date of Commencement : <input type="text" readonly="readonly"
 						id="dateOfCommencement" size="20" style="border: 0px" value=""><br>
-					12. Date of Completion : <input type="text" readonly="readonly"
+					13. Date of Completion : <input type="text" readonly="readonly"
 						id="dateOfCompletion" size="30" style="border: 0px" value=""><br>
-					13. Amount of Advance : <input type="text" readonly="readonly"
-						id="amountOfAdvance" size="30" style="border: 0px" value="">
+					14. Amount of Advance : <input type="text" readonly="readonly"
+						id="amountOfAdvance" size="30" style="border: 0px" value=""><br>
+					15. Encashment leave sought : <input type="text" readonly="readonly"
+						id="encashmentLeaveSought" size="30" style="border: 0px" value="">
 
 
 					<div class="row">

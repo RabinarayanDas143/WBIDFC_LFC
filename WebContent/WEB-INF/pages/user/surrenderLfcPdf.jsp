@@ -120,14 +120,14 @@ function printDiv(){
 			          <b>-------------------------------------------</b>
  			</div>
 			<br>
-	    1.	The particulars furnished by the applicant has been verified. Sri/Smt : <b><u>${lfcModel.getName()}</u></b> &nbsp&nbsp&nbsp 
-	        along with : <b><u>${lfcModel.getCount()}</u></b> &nbsp&nbsp&nbsp&nbsp numbers of Dependent family members may be allowed to avail LFC encashment during 
-	        the block period : <b><u>${lfcModel.getBlockApplied()}</u></b>
+	    1.	The particulars furnished by the applicant has been verified. Sri/Smt : <b><u>${ofcUseData.getName()}</u></b> &nbsp&nbsp&nbsp 
+	        along with : <b><u>${ofcUseData.getCount()}</u></b> &nbsp&nbsp&nbsp&nbsp numbers of Dependent family members may be allowed to avail LFC encashment during 
+	        the block period : <b><u>${ofcUseData.getBlockApplied()}</u></b>
 	    <br> 
          2.	The net entitlement on account of LFC encashment works out to Rs. .............. As detailed below.
 			<br><br><br><br><br><br><br><br><br><br><br><br>
-		3.	Sri/Smt : <b><u>${lfcModel.getName()}</u></b> &nbsp&nbsp&nbsp	 has &nbsp&nbsp<b><u>${lfcModel.getEl_LeaveBalance()}</u></b>&nbsp&nbsp days of Earned leave to his/her credit as on date.
-		     Earned leave encashment for the block period : <b><u>${lfcModel.getBlockApplied()}</u></b> &nbsp&nbsp&nbsp for &nbsp&nbsp<b><u>${lfcModel.getEncashmentLeaveCount()}</u></b>&nbsp&nbsp days  amounting Rs. ............ as detailed 
+		3.	Sri/Smt : <b><u>${ofcUseData.getName()}</u></b> &nbsp&nbsp&nbsp	 has &nbsp&nbsp<b><u>${ofcUseData.getEl_LeaveBalance()}</u></b>&nbsp&nbsp days of Earned leave to his/her credit as on date.
+		     Earned leave encashment for the block period : <b><u>${ofcUseData.getBlockApplied()}</u></b> &nbsp&nbsp&nbsp for &nbsp&nbsp<b><u>${ofcUseData.getEncashmentLeaveCount()}</u></b>&nbsp&nbsp days  amounting Rs. ............ as detailed 
 		     below may be paid.  
 		     <br><br><br><br><br><br>
 		     <b>Name of the Processing Officer</b>

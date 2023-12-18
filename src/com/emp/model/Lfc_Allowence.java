@@ -68,6 +68,13 @@ public class Lfc_Allowence {
 
 	@Column(name = "PLACE_OF_DESTINATION")
 	private String destinationplace;
+	
+	// adding column place of destination sp
+	
+	
+	@Column(name = "PLACE_OF_ORIGINATION")
+	private String originationplace;
+	
 
 	@Column(name = "AMOUNT_OF_ADVANCE")
 	private int amountAdvance;
@@ -109,6 +116,12 @@ public class Lfc_Allowence {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "IST")
 	@Column(name = "SUBMIT_DATE")
 	private Date submitDate = new Date();
+
+	@Column(name = "Advance_Amount_Approved")
+	private int advanceAmountApproved;
+	
+	@Column(name = "Leave_Encashment_Amount_Approved")
+	private int leaveEncashmentApproved;
 
 	public int getId() {
 		return id;
@@ -182,6 +195,15 @@ public class Lfc_Allowence {
 		this.destinationplace = destinationplace;
 	}
 
+	public String getOriginationplace() {
+		return originationplace;
+	}
+
+	public void setOriginationplace(String originationplace) {
+		this.originationplace = originationplace;
+	}
+	
+	
 	public int getAmountAdvance() {
 		return amountAdvance;
 	}
@@ -309,6 +331,23 @@ public class Lfc_Allowence {
 	public void setSubmitDate(Date submitDate) {
 		this.submitDate = submitDate;
 	}
+
+	public int getAdvanceAmountApproved() {
+		return advanceAmountApproved;
+	}
+
+	public void setAdvanceAmountApproved(int advanceAmountApproved) {
+		this.advanceAmountApproved = advanceAmountApproved;
+	}
+
+	public int getLeaveEncashmentApproved() {
+		return leaveEncashmentApproved;
+	}
+
+	public void setLeaveEncashmentApproved(int leaveEncashmentApproved) {
+		this.leaveEncashmentApproved = leaveEncashmentApproved;
+	}
+	
 	
 	
 

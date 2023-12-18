@@ -16,6 +16,7 @@ public class LfcModel {
 	private Date leavetoDate;
 	private int numberofDays;
 	private String placeofDestination;
+	private String placeofOrigination;
 	private int amountofAdvance;
 	private int status;
 	private String dependent;
@@ -25,6 +26,26 @@ public class LfcModel {
 	private String hrRemark;
 	private String internalAuditRemark;
 	private String csRemark;
+	
+	private String advanceAmountApproved;
+	private String leaveEncashmentAmountApproved;
+	
+	public String getAdvanceAmountApproved() {
+		return advanceAmountApproved;
+	}
+
+	public void setAdvanceAmountApproved(String advanceAmountApproved) {
+		this.advanceAmountApproved = advanceAmountApproved;
+	}
+
+	public String getLeaveEncashmentAmountApproved() {
+		return leaveEncashmentAmountApproved;
+	}
+
+	public void setLeaveEncashmentAmountApproved(String leaveEncashmentAmountApproved) {
+		this.leaveEncashmentAmountApproved = leaveEncashmentAmountApproved;
+	}
+
 	@Transient
 	private int tranId;
 	private String leaveEncashmentBlock;
@@ -89,7 +110,18 @@ public class LfcModel {
 		return "LfcModel [id=" + id + ", name=" + name + ", designation=" + designation + ", classification="
 				+ classification + ", leaveType=" + leaveType + ", leavefromDate=" + leavefromDate + ", leavetoDate="
 				+ leavetoDate + ", numberofDays=" + numberofDays + ", placeofDestination=" + placeofDestination
-				+ ", amountofAdvance=" + amountofAdvance + ", status=" + status + "]";
+				+ ", placeofOrigination=" + placeofOrigination + ", amountofAdvance=" + amountofAdvance + ", status="
+				+ status + ", dependent=" + dependent + ", hrStatus=" + hrStatus + ", internalAuditStatus="
+				+ internalAuditStatus + ", csStatus=" + csStatus + ", hrRemark=" + hrRemark + ", internalAuditRemark="
+				+ internalAuditRemark + ", csRemark=" + csRemark + ", tranId=" + tranId + ", leaveEncashmentBlock="
+				+ leaveEncashmentBlock + ", leaveTypeStr=" + leaveTypeStr + ", leavefromDateStr=" + leavefromDateStr
+				+ ", leavetoDateStr=" + leavetoDateStr + ", NumberofDaysStr=" + NumberofDaysStr
+				+ ", AmountofAdvanceStr=" + AmountofAdvanceStr + ", annualIncome=" + annualIncome + ", occupation="
+				+ occupation + ", department=" + department + ", dateOfJoining=" + dateOfJoining + ", blockApplied="
+				+ blockApplied + ", lfcFromDate=" + lfcFromDate + ", lfctoDate=" + lfctoDate + ", commencementFromDate="
+				+ commencementFromDate + ", complitionToDate=" + complitionToDate + ", encashmentLeaveCount="
+				+ encashmentLeaveCount + ", lastAvailmentLfcDate=" + lastAvailmentLfcDate + ", dob=" + dob
+				+ ", relation=" + relation + ", count=" + count + ", El_LeaveBalance=" + El_LeaveBalance + "]";
 	}
 
 	public Integer getId() {
@@ -158,6 +190,14 @@ public class LfcModel {
 
 	public String getPlaceofDestination() {
 		return placeofDestination;
+	}
+
+	public String getPlaceofOrigination() {
+		return placeofOrigination;
+	}
+
+	public void setPlaceofOrigination(String placeofOrigination) {
+		this.placeofOrigination = placeofOrigination;
 	}
 
 	public void setPlaceofDestination(String placeofDestination) {

@@ -29,7 +29,9 @@ public interface LfcDetailDao {
 
 	List<LfcModel> getAdminData();
 
-	Object acceptReq(int acceptValue, String hradminremark);
+	Object acceptReq(int acceptValue, String hradminremark, int  auditamount, int auditamountLeaveEncash);
+	
+	//Object acceptReq(int acceptValue, String hradminremark);
 
 	int rejectReq(int rejectValue, String hradminremark);
 
@@ -37,7 +39,10 @@ public interface LfcDetailDao {
 
 	List<LfcModel> getInternalAuditorData();
 
+	//for Internal Audit accept fun.
 	void InternalacceptReq(int acceptValue, String auditremark);
+	
+//	void InternalacceptReq(int acceptValue, String auditremark)
 
 	int InternalrejectReq(int rejectvalue, String auditremark);
 
@@ -63,7 +68,8 @@ public interface LfcDetailDao {
 
 	List<LfcModel> getInternalAuditorAdmin();
 
-	void auditAdminremarkReq(int acceptValue, String auditAdminremark);
+	// for Internal Audit Admin admin req .
+	void auditAdminremarkReq(int acceptValue, String auditAdminremark,String advanceAmountApproved, String leaveEncashmentAmountApproved);
 
 	List<LfcModel> getCsAdmin();
 
@@ -148,5 +154,11 @@ public interface LfcDetailDao {
 	List<LfcModel> getSurInternalAuditAdminModalData(String empId);
 
 	List<LfcModel> getSurCsAdminModalData(String empId);
+
+	List<LfcModel> getOfcUseData(Integer userId);
+
+	List<LfcModel> getOfcUseDataSur(Integer userId);
+
+	int isLeaveApplied(Integer userId);
 
 }

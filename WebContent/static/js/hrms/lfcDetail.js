@@ -1,6 +1,9 @@
 $("document").ready(function() {
 	debugger;
 	// alert("Inside Js Class");
+	
+	
+	
 	lfcDetails();
 	dropDown();
 	encashmentLeaveDropDown();
@@ -318,6 +321,20 @@ function fieldCheck() {
 	var travelfromdate = $('#travelfromdate').val();
 	var traveltodate = $('#traveltodate').val();
 	var Encasmentleavecount = $('#Encasmentleavecount').val();
+	
+	// changes done by sp {
+	var leaveAvailable =  $('#LA').val();
+	
+	
+	var leaveEncashmentNeeded =  $('#pl_encashment').val();
+	
+	var placeoforigination = $('#originplace').val();
+	//alert("placeoforigination in field check  - "+placeoforigination);
+	
+	//}
+	
+//	alert(leaveEncashmentNeeded+ "-----yes or no value of this js - leaveAvailable --- "+leaveAvailable);
+
 
 	if (lfcfromdate == "") {
 		alert("Select LFC from Date");
@@ -327,21 +344,55 @@ function fieldCheck() {
 		alert("Select LFC To date");
 		return false;
 	}
-	if (leaveType == "") {
-		alert("Select Leave type");
-		return false;
+	
+	if(leaveAvailable == "Yes")
+	{
+		if (leaveType == "") {
+			alert("Select Leave type");
+			return false;
+		}
+		
+		if (leavefromdate == "") {
+			alert("Select Leave from date");
+			return false;
+		}
+		if (leaveTodate == "") {
+			alert("Select Leave to date");
+			return false;
+		}
+		
+
 	}
-	if (leavefromdate == "") {
-		alert("Select Leave from date");
-		return false;
+	
+	if(leaveEncashmentNeeded == "Yes")
+	{
+		
+		if (EncasmentleaveType == "") {
+			alert("Enter EncasmentleaveType");
+			return false;
+		}
+		
+		if (Encasmentleavecount == "") {
+			alert("Enter Encasmentleavecount");
+			return false;
+		}
+		
+		
+		
 	}
-	if (leaveTodate == "") {
-		alert("Select Leave to date");
-		return false;
-	}
+	
+	
+	
+
 	if (placeDestination == "") {
 		alert("Select Place of Destination");
 		return false;
+	}
+	
+	if(placeoforigination == ""){
+		alert("Select Place of Origination");
+		return false;
+		
 	}
 	if (amountAdavance == "") {
 		alert("Enter Amount of advance");
@@ -351,10 +402,7 @@ function fieldCheck() {
 		alert("Enter Number of Days");
 		return false;
 	}
-	if (EncasmentleaveType == "") {
-		alert("Enter EncasmentleaveType");
-		return false;
-	}
+	
 	if (travelfromdate == "") {
 		alert("Enter Date of Commencement");
 		return false;
@@ -363,20 +411,20 @@ function fieldCheck() {
 		alert("Enter Date of Compltion");
 		return false;
 	}
-	if (Encasmentleavecount == "") {
-		alert("Enter Encasmentleavecount");
-		return false;
-	}
+	
 	return true;
 }
 
 function surrenderDataCheck() {
 	debugger;
 
+// changes done by sp
+
 	var lfcfromdate = $('#frmdatepicker').val();
 	var lfctodate = $('#todatepicker').val();
 	var EncasmentleaveType = $('#EncasmentleaveType').val();
 	var Encasmentleavecount = $('#Encasmentleavecount').val();
+
 
 	if (lfcfromdate == "") {
 		alert("Select LFC from Date");
@@ -396,6 +444,7 @@ function surrenderDataCheck() {
 		return false;
 	}
 	return true;
+
 }
 
 
@@ -424,6 +473,8 @@ function saveinfo() {
 	jsonObj["fromdate"] = $('#frmdatepicker').val();
 	jsonObj["todatepicker"] = $('#todatepicker').val();
 	jsonObj["destinationplace"] = $('#destinplace').val();
+	jsonObj["originationplace"] = $('#originplace').val();
+	
 	jsonObj["amountAdvance"] = $('#amount_advance').val();
 	jsonObj["leaveEncashBlock"] = $('#leaveEncashBlock').val();
 	jsonObj["fdate"] = $('#fodatepic').val();
@@ -433,6 +484,10 @@ function saveinfo() {
 	jsonObj["travelfromdate"] = $('#travelfromdate').val();
 	jsonObj["traveltodate"] = $('#traveltodate').val();
 	jsonObj["Encasmentleavecount"] = $('#Encasmentleavecount').val();
+	
+	// changes done by sp 
+	
+	
 
 	jsonArray.push(jsonObj);
 
@@ -604,6 +659,10 @@ function SubmitInfo() {
 						+ "<td nowrap='nowrap'>" + data.body[i].numberofDays + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvance + "</td>"
+						
+						+ "<td><input type='number' id='Auditamount" + i + "' maxlength='10'><span id = 'auditamountError'></span></td>"
+						+ "<td><input type='number' id='AuditamountLeaveEncash" + i + "' maxlength='10'><span id = 'AuditamountLeaveEncash'></span></td>"
+						
 						+ "<td><input type='text' id='hradminremark" + i + "' maxlength='50'  ></td>"
 						+ "<td><a href='javascript:hrModalData(" + data.body[i].id + "," + i + ")'>view</a></td>"
 						+ "<td style='white-space: nowrap'><button class='btn btn-success' value=" + data.body[i].tranId + " id='acceptButton' onclick='acceptfun(" + data.body[i].tranId + "," + i + ")'> Accept </button>&nbsp&nbsp"
@@ -666,10 +725,21 @@ function acceptfun(tranid, i) {
 	debugger;
 	var acceptval = $('#acceptButton').val();
 	var hradminremark = $('#hradminremark' + i).val();
+	
+	var Auditamount = $('#Auditamount' + i).val();
+	var AuditamountLeaveEncash = $('#AuditamountLeaveEncash' + i).val();
+	
+	
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
 	formData.append("acceptval", tranid);
 	formData.append("hradminremark", hradminremark);
+	formData.append("Auditamount", Auditamount);
+	formData.append("AuditamountLeaveEncash", AuditamountLeaveEncash);
+
+
+	
+	
 	$.ajax({
 		url: 'acceptbutton.do',
 		data: formData,
@@ -719,6 +789,8 @@ function hrModalData(empId, rownum) {
 				$("#dateOfCommencement").val(data.body.commencementFromDate);
 				$("#dateOfCompletion").val(data.body.complitionToDate);
 				$("#amountOfAdvance").val(data.body.amountofAdvance);
+				$("#encashmentLeaveSought").val(data.body.encashmentLeaveCount);
+				$("#origination").val(data.body.placeofOrigination);
 
 				$('#hrAdminModals').empty();
 
@@ -802,11 +874,17 @@ function Internalacceptfun(tranid, i) {
 	debugger;
 	var acceptval = $('#InternalacceptButton').val();
 	var Auditremark = $('#Auditremark' + i).val();
+	
+	var Auditamount = $('#Auditamount' + i).val();
+	var AuditamountLeaveEncash = $('#AuditamountLeaveEncash' + i).val();
 
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
 	formData.append("acceptval", tranid);
+	formData.append("Auditamount", Auditamount);
+	formData.append("AuditamountLeaveEncash", AuditamountLeaveEncash);
 	formData.append("Auditremark", Auditremark);
+	
 	$.ajax({
 		url: 'internalacceptbutton.do',
 		data: formData,
@@ -893,6 +971,8 @@ function intenalAuditorModalData(empId, i) {
 				$("#dateOfCompletion").val(data.body[0].complitionToDate);
 				$("#amountOfAdvance").val(data.body[0].amountofAdvance);
 				$("#hrRemark").val(data.body[0].hrRemark);
+				$("#origination").val(data.body[0].placeofOrigination);
+				$("#encashmentLeave").val(data.body[0].encashmentLeaveCount);
 
 				$('#internalAuditorModals').empty();
 				for (var i = 0; i < data.tablebody.length; i++) {
@@ -1071,6 +1151,8 @@ function csModalData(empId,i){
 				$("#amountOfAdvance").val(data.body[0].amountofAdvance);
 				$("#hrRemark").val(data.body[0].hrRemark);
 				$("#internalAuditRemark").val(data.body[0].internalAuditRemark);
+				$("#origination").val(data.body[0].placeofOrigination);
+				$("#encashmentLeave").val(data.body[0].encashmentLeaveCount);
 
 				$('#csModalData').empty();
 				for (var i = 0; i < data.tablebody.length; i++) {
@@ -1466,10 +1548,12 @@ function internalAuditorAdminShow() {
 						+ "<td nowrap='nowrap'>" + data.body[i].numberofDaysStr + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvanceStr + "</td>"
-						+ "<td><input type='text' id='Auditremark" + i + "' maxlength='50'><span id = 'auditError'></span></td>"
+						+ "<td><input type='number' id='Auditamount" + i + "' maxlength='10'><span id = 'auditamountError'></span></td>"
+						+ "<td><input type='number' id='AuditamountLeaveEncash" + i + "' maxlength='10'><span id = 'AuditamountLeaveEncash'></span></td>"
+						+ "<td><input type='text' id='AuditAdminremark" + i + "' maxlength='50'><span id = 'auditError'></span></td>"
 						+ "<td><a href='javascript:intenalAuditAdminNodalData(" + data.body[i].id + "," + i + ")'>view</a></td>"
-						+ "<td style='white-space: nowrap'><button class='btn  btn-success' value=" + data.body[i].tranId + " id='InternalacceptButton' onclick='Internalacceptfun(" + data.body[i].tranId + "," + i + ")'> Accept </button>&nbsp&nbsp"
-						+ "<button class='btn btn-danger' value=" + data.body[i].tranId + " id='InternalrejectButton' onclick='Internalrejectfun(" + data.body[i].tranId + "," + i + ")'>Reject</button></td>"
+						+ "<td style='white-space: nowrap'><button class='btn  btn-success' value=" + data.body[i].tranId + " id='InternalacceptButton' onclick='InternalAdminacceptButtonfun(" + data.body[i].tranId + "," + i + ")'> Accept </button>&nbsp&nbsp"
+						+ "<button class='btn btn-danger' value=" + data.body[i].tranId + " id='InternalrejectButton' onclick='InternalAdminrejectButtonfun(" + data.body[i].tranId + "," + i + ")'>Reject</button></td>"
 						+ "</tr>"
 
 					)
@@ -1484,12 +1568,16 @@ function internalAuditorAdminShow() {
 
 function InternalAdminacceptButtonfun(tranid, i) {
 	debugger;
-	var acceptval = $('#InternalAdminacceptButton').val();
+	
 	var AuditAdminremark = $('#AuditAdminremark' + i).val();
+	var advanceAmountApproved = $('#Auditamount' + i).val();
+	var leaveEncashmentAmountApproved = $('#AuditamountLeaveEncash' + i).val();
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
 	formData.append("acceptval", tranid);
 	formData.append("AuditAdminremark", AuditAdminremark);
+	formData.append("advanceAmountApproved", advanceAmountApproved);
+	formData.append("leaveEncashmentAmountApproved", leaveEncashmentAmountApproved);
 	$.ajax({
 		url: 'InternalAdminacceptButton.do',
 		data: formData,
@@ -1575,6 +1663,8 @@ function intenalAuditAdminNodalData(empId , i){
 				$("#dateOfCommencement").val(data.body.commencementFromDate);
 				$("#dateOfCompletion").val(data.body.complitionToDate);
 				$("#amountOfAdvance").val(data.body.amountofAdvance);
+				$("#origination").val(data.body.placeofOrigination);
+				$("#encashmentLeave").val(data.body.encashmentLeaveCount);
 
 				$('#internalAuditorModals').empty();
 
@@ -1748,6 +1838,8 @@ function csAdminModalData(empId,i){
 				$("#dateOfCompletion").val(data.body[0].complitionToDate);
 				$("#amountOfAdvance").val(data.body[0].amountofAdvance);
  				$("#internalAudit").val(data.body[0].internalAuditRemark);
+ 				$("#origination").val(data.body[0].placeofOrigination);
+ 				$("#encashmentLeave").val(data.body[0].encashmentLeaveCount);
 
 				$('#csModalData').empty();
 

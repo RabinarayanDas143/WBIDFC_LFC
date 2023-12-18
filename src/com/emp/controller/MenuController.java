@@ -154,6 +154,7 @@ public class MenuController {
 
 		int num = lfcDetail.getLFCAccess(userId);
 		 
+		System.out.println("Printing num value ********************************* "+num);
 		ModelAndView mv = new ModelAndView();
 		Map<String, String> modelMap = new HashMap<String, String>();
 		modelMap.put("msg", "You have already applied for LFC");
