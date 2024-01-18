@@ -42,36 +42,36 @@ function printDiv(){
 		</div>
 		<div>
 			<br> 
-			<div align="right">Date : _______________</div>
+			<div align="right">Date : <b><u>${lfcModel.getLocalDateStr()}</u></b></div>
 			The HR Dept.
  			<br> WBIDFCL<br> 36A, H.B. Sarani,
 			Kolkata   700001
-		    <br> <br> ->&nbsp Name of the Employee : <b><u>${lfcModel.getName()}</u></b>
-		    <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
+		    <br> <br> - &nbsp Name of the Employee : <b><u>${lfcModel.getName()}</u></b>
+		    <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
 				 Employee No: <b><u>${lfcModel.getId()}</u></b>
 			<br><br>
-			   ->&nbsp	Employee Type : <b>Regular / Contractual</b>
+			   - &nbsp	Employee Type : <b><u>${lfcModel.getClassification()}</u></b>
 			<br><br>
-			->&nbsp	Designation : <b><u>${lfcModel.getDesignation()}</u></b>
-			   <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
+			- &nbsp	Designation : <b><u>${lfcModel.getDesignation()}</u></b>
+			   <span>&emsp;&emsp;&emsp;&emsp;</span>
 				Cadre: <b><u>${lfcModel.getDepartment()}</u></b>
 			<br><br>
-			->&nbsp	Date of joining in WBIDFCL : <b><u>${lfcModel.getDateOfJoining()}</u></b>
+			- &nbsp	Date of joining in WBIDFCL : <b><u>${lfcModel.getDateOfJoining()}</u></b>
 			<br><br>
-			->&nbsp	Block for which LFC is to be availed : <b><u>${lfcModel.getBlockApplied()}</u></b>
+			- &nbsp	Block for which LFC is to be availed : <b><u>${lfcModel.getBlockApplied()}</u></b>
 			<br><br>
 			<!-- This method check the user is choose is leave Applied or Not -->
 			<%
 			int leaveApplied = (Integer)session.getAttribute("leaveApplied");
 			if(leaveApplied!=0){
  			%>
-			->&nbsp	Leave Sanctioned : <b><u>${lfcModel.getNumberofDaysStr()}</u></b>
+			- &nbsp	Leave Sanctioned : <b><u>${lfcModel.getNumberofDaysStr()}</u></b>
 			  <span>&emsp;&emsp;&emsp;</span> 
 				days from  : <b><u>${lfcModel.getLeavefromDateStr()}</u></b> &nbsp&nbsp
 				to  : <b><u>${lfcModel.getLeavetoDateStr()}</u></b>
 			<br><br>
 			<%} %>
-			->&nbsp	The place to be visited in India by shortest route for rest & recuperation : <b><u><span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+			- &nbsp	The place to be visited in India by shortest route for rest & recuperation : <b><u><span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 			           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span></u></b>
  			<br><br>
 			<%-- 8.	Date & Place of commencement of journey : Date : <b><u>${lfcModel.getCommencementFromDate()}</u></b>
@@ -83,11 +83,11 @@ function printDiv(){
 				Place : <b><u><span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span></u></b>
 			<br><br> --%>
 			
-			->&nbsp	Date & Place of commencement of journey : Date : <b><u>${lfcModel.getCommencementFromDate()}</u></b>
-			  <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
+			- &nbsp	Date & Place of commencement of journey : Date : <b><u>${lfcModel.getCommencementFromDate()}</u></b>
+			  <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
 				Place : <b><u>${lfcModel.getPlaceofOrigination()}</u></b>
 			<br><br>
-			->&nbsp	Date & Place of return journey : Date : <b><u>${lfcModel.getComplitionToDate()}</u></b>
+			- &nbsp	Date & Place of return journey : Date : <b><u>${lfcModel.getComplitionToDate()}</u></b>
 			    <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
 				Place : <b><u>${lfcModel.getPlaceofDestination()}</u></b>
 			<br><br>
@@ -95,11 +95,11 @@ function printDiv(){
 			
 			
 			
-			->&nbsp	Number of days for which encashment of Earned Leave sought (Maximum 30 days) : <b><u>${lfcModel.getEncashmentLeaveCount()}</u></b>
+			- &nbsp	Number of days for which encashment of Earned Leave sought (Maximum 30 days) : <b><u>${lfcModel.getEncashmentLeaveCount()}</u></b>
 			<br><br>
-			->&nbsp	Amount of LFC advance required for purchasing tickets of journey: <b><u>${lfcModel.getAmountofAdvanceStr()}</u></b>
+			- &nbsp	Amount of LFC advance required for purchasing tickets of journey: <b><u>${lfcModel.getAmountofAdvanceStr()}</u></b>
 			<br><br>
-			->&nbsp	Details of dependants in respect of whom LFC is proposed to be availed:
+			- &nbsp	Details of dependants in respect of whom LFC is proposed to be availed:
 			<br>
 			<table id="dependentTable"  class="table table-striped">
 															<thead class="thead-dark">
@@ -174,7 +174,7 @@ function printDiv(){
 			<br> 
 			8.	Remarks, if any:
 			<br><br><br><br><br><br> 
-			<b>Signature &Name<br>of the Processing Official</b> <div align="right"><b align="right">Signature & Name<br>of the Sanctioning Authority</b></div>
+		<div class="row"> <div class="col-xl-6"><b>Signature &Name<br>of the Processing Official</b></div> <div class="col-xl-6"><div ><b align="right">Signature & Name<br>of the Sanctioning Authority</b></div></div></div>
 			 
 		</div>
 		<br>

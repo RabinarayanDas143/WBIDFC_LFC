@@ -171,6 +171,11 @@
 		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderHrAdmin.jsp" />
 	</definition>
 	
+	<definition name="lfcSurrenderHrAdminRequest" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderHrAdminRequest" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderHrAdminRequest.jsp" />
+	</definition>
+	
 	<definition name="lfcSurrenderHrReport" extends="base-definition">
 		<put-attribute name="title" value="lfc SurrenderHrReport" />
 		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderHrReport.jsp" />
@@ -214,5 +219,20 @@
 	<definition name="surrenderLfcPdf" extends="base-definition">
 		<put-attribute name="title" value="lfc surrenderLfcPdf" />
 		<put-attribute name="body" value="/WEB-INF/pages/user/surrenderLfcPdf.jsp" />
+	</definition>
+	
+	<definition name="lfcHrAdmin_Request" extends="base-definition">
+		<put-attribute name="title" value="lfc HrAdmin_Request" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcHrAdmin_Request.jsp" />
+	</definition>
+	
+	<definition name="journyAuthentication" extends="base-definition">
+		<put-attribute name="title" value="lfc journyAuthentication" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/journyAuthentication.jsp" /> 
+	</definition>
+	
+	<definition name="CompletionFormUploadDownload" extends="base-definition">
+		<put-attribute name="title" value="lfc CompletionFormUploadDownload" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/CompletionFormUploadDownload.jsp" />
 	</definition>
 </tiles-definitions>

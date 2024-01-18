@@ -84,6 +84,9 @@ public class HibernateConfiguration {
 		txManager.setSessionFactory(sessionFactory().getObject());
 		return txManager;
 	}
+	
+	
+	
 
 	private Properties hibernateProperties() {
 		Properties properties = new Properties();

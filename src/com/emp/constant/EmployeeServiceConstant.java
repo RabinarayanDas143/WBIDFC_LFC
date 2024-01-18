@@ -9,18 +9,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeServiceConstant {
-	//public static final String APPLICATION_NAME = "EmployeeSelfService";
-	public static final String APPLICATION_NAME = "LFC";
+	public static final String APPLICATION_NAME = "EmployeeSelfService";
+	//public static final String APPLICATION_NAME = "LFC";
 	public static final String ERROR_MSG = "error_msg";
 	public static final String SUCCESS_MSG = "success_msg";
 	public static final String BANKTYPE = "IDBI";
 
+	
+	public static String getExtenionFromMultiart(String fileName) {
+		return FilenameUtils.getExtension(fileName);
+	}
+	
 	public static boolean isNullOrEmpty(final Collection<?> c) {
 		return c == null || c.isEmpty();
 	}

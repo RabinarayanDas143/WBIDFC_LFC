@@ -16,7 +16,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/internalAudit_Details.js"></script>
+<script type="text/javascript" src="static/js/hrms/lfcSurrenderDetails.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -40,35 +40,28 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<h3>LFC Cum Encashment Authorization</h3>
+			<h3>Surrender Cum Encashment  Authorization</h3>
 		</div>
 
- 		<br>
+		 
+		<br>
 		<div style="overflow: scroll">
 		<table class="table table-striped table-borderd">
 			<thead class="table-dark">
 				<tr>
 					<th>Emp ID</th>
 					<th>Name</th>
-					<th>Dependent</th>
-					<th>Occupation</th>
-					<th>Annual Income</th>
-					<th>Leave Type</th>
-					<th>Leave From Date</th>
-					<th>Leave To Date</th>
-					<th>Total Days</th>
-					<th>Place of Destination</th>
-					<th>Amount of Advance</th>
-					
-					<th>Advance Amount Approved</th>
-					<th>Leave Encashment Amount Approved</th>
-					<th>Lfc Final Amount</th>
-                    <th>Remark</th>
-                    <th>Details</th>
+				    <th>Dependent</th>
+				    <th>Occupation</th>
+				    <th>Annual Income</th>
+  					<th>Leave Type</th>
+ 					<th>Total Days</th>
+                     <th>Remark</th>
+                      <th>Details</th>
                      <th>Action</th>
 				</tr>
 			</thead>
-			<tbody id="lfcadmin_table">
+			<tbody id="lfc_Surrender_HrAdmin_table">
 
 			</tbody>
 		</table>
@@ -83,7 +76,7 @@
 		<div class="modal-dialog" role="document" style="width:2000px">
 			<div class="modal-content" style="width:126%;">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLongTitle"><b>LFC Cum Encashment Detais</b></h5>
+					<h5 class="modal-title" id="exampleModalLongTitle"><b>LFC Cum Surrender Detais</b></h5>
 					<button type="button" class="close" data-bs-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -108,33 +101,10 @@
 				6.	Leave Type : <input
 				type="text" readonly="readonly" id="leaveType" size="30"
 				style="border: 0px" value=""><br>
-				7.	Leave From Date : <input
-				type="text" readonly="readonly" id="leavefromDate" size="30"
-				style="border: 0px" value=""><br>
-				8.	Leave To Date : <input
-				type="text" readonly="readonly" id="leaveToDate" size="30"
-				style="border: 0px" value=""><br>
-				9.	Number of Days : <input
+ 				7.	Number of Days : <input
 				type="text" readonly="readonly" id="numberOfDays" size="30"
 				style="border: 0px" value=""><br>
-				10.	Place of Origination : <input
-				type="text" readonly="readonly" id="origination" size="30"
-				style="border: 0px" value=""><br>
-				11.	Place of Destination : <input
-				type="text" readonly="readonly" id="destination" size="30"
-				style="border: 0px" value=""><br>
-				12.	Date of Commencement : <input
-				type="text" readonly="readonly" id="dateOfCommencement" size="20"
-				style="border: 0px" value=""><br>
-				13.	Date of Completion : <input
-				type="text" readonly="readonly" id="dateOfCompletion" size="30"
-				style="border: 0px" value=""><br>
-				14.	Amount of Advance : <input
-				type="text" readonly="readonly" id="amountOfAdvance" size="30"
-				style="border: 0px" value=""><br>
-				15.	Encashment leave shought : <input
-				type="text" readonly="readonly" id="encashmentLeave" size="30"
-				style="border: 0px" value="">
+				  
 				 
 				<div class="row" >
 								<div class="col-xl-12">
@@ -153,14 +123,13 @@
 														<th style="color: green">Occupation</th>
 													</tr>
 												</thead>
-												<tbody id="internalAuditorModals"></tbody>
+												<tbody id="HRModalData"></tbody>
 											</table>
 										</div>
 									</div>
 								</div>
 							</div>
-				 
-				</div>
+ 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-defult"
 						data-bs-dismiss="modal">Close</button>

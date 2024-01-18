@@ -16,7 +16,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/lfcDetail.js"></script>
+<script type="text/javascript" src="static/js/hrms/Cs_Details.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -59,6 +59,9 @@
 					<th>Place of Destination</th>
 					<th>Amount of Advance</th>
                     <th>Auditor Remark</th>
+                    <th>Advance amount approved</th>
+                    <th>Leave encashment approved</th>
+                    <th>Lfc Final Amount</th>
                     <th>Remark</th>
                     <th>Details</th>
                     <th>Action</th>

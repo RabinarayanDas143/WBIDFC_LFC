@@ -22,7 +22,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="static/js/hrms/lfcDetail.js"></script>
+<script type="text/javascript" src="static/js/hrms/hr_Details.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -68,9 +68,9 @@
 						<th>Total Days</th>
 						<th>Place of Destination</th>
 						<th>Amount of Advance</th>
-						
 						<th>Advance Amount Approved</th>
-					<th>Leave Encashment Amount Approved</th>
+						<th>Leave Encashment Amount Approved</th>
+						<th>LFC Final Amount</th>
 						<th>Remark</th>
 						<th>Details</th>
 						<th>Action</th>
@@ -97,6 +97,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+
 				<div class="modal-body">
 					1. Employee Code : <input type="text" readonly="readonly"
 						id="empId" size="30" style="border: 0px" value=""><br>
@@ -108,13 +109,13 @@
 						id="blockStartDate" size="30" style="border: 0px" value=""><br>
 					5. Block End Date : <input type="text" readonly="readonly"
 						id="blockEndDate" size="30" style="border: 0px" value=""><br>
-					6. Leave Type : <input type="text" readonly="readonly"
+ 					6. Leave Type : <input type="text" readonly="readonly"
 						id="leaveType" size="30" style="border: 0px" value=""><br>
 					7. Leave From Date : <input type="text" readonly="readonly"
 						id="leavefromDate" size="30" style="border: 0px" value=""><br>
 					8. Leave To Date : <input type="text" readonly="readonly"
 						id="leaveToDate" size="30" style="border: 0px" value=""><br>
-					9. Number of Days : <input type="text" readonly="readonly"
+ 					9. Number of Days : <input type="text" readonly="readonly"
 						id="numberOfDays" size="30" style="border: 0px" value=""><br>
 					10. Place of Origination : <input type="text" readonly="readonly"
 						id="origination" size="30" style="border: 0px" value=""><br>
@@ -126,8 +127,9 @@
 						id="dateOfCompletion" size="30" style="border: 0px" value=""><br>
 					14. Amount of Advance : <input type="text" readonly="readonly"
 						id="amountOfAdvance" size="30" style="border: 0px" value=""><br>
-					15. Encashment leave sought : <input type="text" readonly="readonly"
-						id="encashmentLeaveSought" size="30" style="border: 0px" value="">
+					15. Encashment leave sought : <input type="text"
+						readonly="readonly" id="encashmentLeave" size="30"
+						style="border: 0px" value="">
 
 
 					<div class="row">
@@ -147,7 +149,7 @@
 												<th style="color: green">Occupation</th>
 											</tr>
 										</thead>
-										<tbody id="hrAdminModals"></tbody>
+										<tbody id="HrAdminModalData"></tbody>
 									</table>
 								</div>
 							</div>

@@ -16,7 +16,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/internalAudit_Details.js"></script>
+<script type="text/javascript" src="static/js/hrms/hr_Details.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -43,7 +43,8 @@
 			<h3>LFC Cum Encashment Authorization</h3>
 		</div>
 
- 		<br>
+		
+		<br>
 		<div style="overflow: scroll">
 		<table class="table table-striped table-borderd">
 			<thead class="table-dark">
@@ -59,16 +60,15 @@
 					<th>Total Days</th>
 					<th>Place of Destination</th>
 					<th>Amount of Advance</th>
-					
-					<th>Advance Amount Approved</th>
+ 					<th>Advance Amount Approved</th>
 					<th>Leave Encashment Amount Approved</th>
 					<th>Lfc Final Amount</th>
-                    <th>Remark</th>
+                     <th>Remark</th>
                     <th>Details</th>
                      <th>Action</th>
 				</tr>
 			</thead>
-			<tbody id="lfcadmin_table">
+			<tbody id="lfc_Hradmin_table">
 
 			</tbody>
 		</table>
@@ -153,7 +153,7 @@
 														<th style="color: green">Occupation</th>
 													</tr>
 												</thead>
-												<tbody id="internalAuditorModals"></tbody>
+												<tbody id="HrAdminModalData"></tbody>
 											</table>
 										</div>
 									</div>
@@ -168,7 +168,6 @@
 			</div>
 		</div>
 	</div>
-	
-	
+	 
 </body>
 </html>

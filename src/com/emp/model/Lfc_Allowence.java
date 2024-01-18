@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -122,7 +123,23 @@ public class Lfc_Allowence {
 	
 	@Column(name = "Leave_Encashment_Amount_Approved")
 	private int leaveEncashmentApproved;
+	
+	@Lob
+	@Column(name="doc_file")
+	private byte[] docFile;
+	
+	@Column(name="file_extension")
+	private String fileExtension;
+	
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "IST")
+	@Column(name = "entry_date")
+	private Date entryDt;
 
+	
+	@Column(name = "lfc_FinalAmount")
+	private int lfcFinalAmount;
+	
 	public int getId() {
 		return id;
 	}
@@ -346,6 +363,38 @@ public class Lfc_Allowence {
 
 	public void setLeaveEncashmentApproved(int leaveEncashmentApproved) {
 		this.leaveEncashmentApproved = leaveEncashmentApproved;
+	}
+
+	public byte[] getDocFile() {
+		return docFile;
+	}
+
+	public void setDocFile(byte[] docFile) {
+		this.docFile = docFile;
+	}
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+
+	public Date getEntryDt() {
+		return entryDt;
+	}
+
+	public void setEntryDt(Date entryDt) {
+		this.entryDt = entryDt;
+	}
+
+	public int getLfcFinalAmount() {
+		return lfcFinalAmount;
+	}
+
+	public void setLfcFinalAmount(int lfcFinalAmount) {
+		this.lfcFinalAmount = lfcFinalAmount;
 	}
 	
 	

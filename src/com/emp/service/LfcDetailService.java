@@ -7,10 +7,12 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.emp.bean.LfcBean;
 import com.emp.model.Hrms_Dependent;
 import com.emp.model.Hrms_Login;
+import com.emp.model.LfcDocument;
 import com.emp.model.LfcModel;
 import com.emp.model.Lfc_Allowence;
 import com.emp.model.Lfc_Dependent;
@@ -31,7 +33,7 @@ public interface LfcDetailService {
 
 	List<LfcModel> getAdminData();
 
-	void acceptReq(int acceptValue, String hradminremark, int auditamount, int auditamountLeaveEncash);
+	void acceptReq(int acceptValue, String hradminremark, int auditamount, int auditamountLeaveEncash, int lfc_FinalAmount);
 	//void acceptReq(int acceptValue, String hradminremark);
 
 	int rejectReq(int rejectValue, String hradminremark);
@@ -69,7 +71,7 @@ public interface LfcDetailService {
 	List<LfcModel> getInternalAuditorAdmin();
 	
     // for Intenal Audit Admin admin req.
-	void auditAdminremarkReq(int acceptValue, String auditAdminremark, String advanceAmountApproved, String leaveEncashmentAmountApproved);
+	void auditAdminremarkReq(int acceptValue, String auditAdminremark, String advanceAmountApproved, String leaveEncashmentAmountApproved, int lfcFinalamount);
 
 	List<LfcModel> getCsAdmin();
 
@@ -85,7 +87,7 @@ public interface LfcDetailService {
 
 	void saveSurrenderInfo(JSONArray arrayEmp, JSONArray arrayDependent, Hrms_Login loginBean);
 
-	void fectchLfcApplyData(Integer userId);
+	//void fectchLfcApplyData(Integer userId);
 
 	List<LfcModel> getLfcUserSurrenderReport(Integer userId);
 
@@ -154,5 +156,19 @@ public interface LfcDetailService {
 	List<LfcModel> getOfcUseDataSur(Integer userId);
 
 	int isLeaveApplied(Integer userId);
+
+	List<LfcModel> getHrAdminRequestData();
+
+	int hrAdminAcceptReq(int emp_tranId, String hradminremark, String hrAmountApproved, String hrLeaveEncashApproved, int lfcFinalamount);
+
+	int hrAdminrejectReq(int emp_tranId, String hradminremark);
+
+	String uploadLfcRawFile(MultipartFile[] documentFile, Hrms_Login loginBean);
+
+	byte[] getSampleFileOFLfc(String userId);
+
+	List<LfcModel> getPreviousUploadDate(int emp_cd);
+
+	byte[] getPrevFile(String tranId, String prevDate);
 
 }

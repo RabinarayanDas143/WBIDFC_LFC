@@ -56,7 +56,7 @@ function printDiv(){
 				
 				 Employee No : <b><u>${lfcModel.getId()}</u></b>
 		<br><br>
-		2.	Employee Type : Regular / Contractual
+		2.	Employee Type : <b><u>${lfcModel.getClassification()}</u></b>
 		<br><br>
 		3.	Designation : <b><u>${lfcModel.getDesignation()}</u></b>
 		    <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>

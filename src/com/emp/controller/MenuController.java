@@ -188,7 +188,7 @@ public class MenuController {
 			mv.setViewName("lfcInternalAuditor");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
-		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT") || result.equalsIgnoreCase("DIRECTOR")) {
 			mv.setViewName("lfcCsAdmin");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
@@ -213,7 +213,7 @@ public class MenuController {
 			mv.setViewName("lfcInternalAuditReport");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
-		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT") || result.equalsIgnoreCase("DIRECTOR")) {
 			mv.setViewName("lfcCsReport");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
@@ -246,11 +246,16 @@ public class MenuController {
 
 		Integer userId = Integer.parseInt(userIdStr);
 		String result = lfcDetail.checkUser(userId);
-		if (result.equalsIgnoreCase("INTERNAL AUDIT")) {
+		if (result.equalsIgnoreCase("HR & ADMINISTRATION")) {
+			mv.setViewName("lfcHrAdmin_Request"); 
+			mv.setStatus(HttpStatus.OK);
+			return mv;
+		} 
+		else if (result.equalsIgnoreCase("INTERNAL AUDIT")) {
 			mv.setViewName("lfcInternalAuditAdmin");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
-		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT") || result.equalsIgnoreCase("DIRECTOR")) {
 			mv.setViewName("lfcCsAdminRequest");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
@@ -283,7 +288,7 @@ public class MenuController {
 			mv.setViewName("lfcSurrenderInternalAdmin");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
-		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT") || result.equalsIgnoreCase("DIRECTOR")) {
 			mv.setViewName("lfcSurrenderCsAdmin");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
@@ -308,7 +313,7 @@ public class MenuController {
 			mv.setViewName("lfcSurrenderInternalAdminReport");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
-		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT") || result.equalsIgnoreCase("DIRECTOR")) {
 			mv.setViewName("lfcSurrenderCsAdminReport");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
@@ -325,11 +330,15 @@ public class MenuController {
 
 		Integer userId = Integer.parseInt(userIdStr);
 		String result = lfcDetail.checkUser(userId);
-		if (result.equalsIgnoreCase("INTERNAL AUDIT")) {
+		if(result.equalsIgnoreCase("HR & ADMINISTRATION")) {
+			mv.setViewName("lfcSurrenderHrAdminRequest");
+			mv.setStatus(HttpStatus.OK);
+		}
+		else if (result.equalsIgnoreCase("INTERNAL AUDIT")) {
 			mv.setViewName("lfcSurrenderInternalAdminadmin");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
-		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+		} else if (result.equalsIgnoreCase("COMPANY SECRERTARIAT") || result.equalsIgnoreCase("DIRECTOR")) {
 			mv.setViewName("lfcSurCsAdminRequest");
 			mv.setStatus(HttpStatus.OK);
 			return mv;
@@ -350,6 +359,22 @@ public class MenuController {
 	public ModelAndView surrenderLfcPdfGenerate(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("surrenderLfcPdf");
+		mv.setStatus(HttpStatus.OK);
+		return mv;
+	}
+	
+	@RequestMapping(value = "juorny_Auth", method = RequestMethod.POST)
+	public ModelAndView completionFormUpload(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("journyAuthentication");
+		mv.setStatus(HttpStatus.OK);
+		return mv;
+	}
+	
+	@RequestMapping(value = "Completion_form_Upload&Download", method = RequestMethod.POST)
+	public ModelAndView completionFormUploadDownload(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("CompletionFormUploadDownload");
 		mv.setStatus(HttpStatus.OK);
 		return mv;
 	}

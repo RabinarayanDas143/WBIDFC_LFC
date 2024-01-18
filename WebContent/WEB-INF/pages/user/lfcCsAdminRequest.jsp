@@ -16,7 +16,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/lfcDetail.js"></script>
+<script type="text/javascript" src="static/js/hrms/Cs_Details.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -43,46 +43,7 @@
 			<h3>LFC Cum Encashment Authorization</h3>
 		</div>
 
-		<!-- <div class="form-group row">
-			<div class="col-md-3 row">
-				<div class="form-group">
-					<label class="form-label" for="full-name-1">Emp Id</label>
-					<div class="form-control-wrap">
-
-						<input type="text" class="form-control required" name="empId"
-							id="empId">
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 row">
-				<div class="form-group">
-					<label class="form-label" for="full-name-1">From Date</label>
-					<div class="form-control-wrap">
-
-						<input type="text" class="form-control required" name="fromdate"
-							id="fromdate">
-					</div>
-				</div>
-			</div>
-			<br>
-			<div class="col-md-4 row">
-				<div class="form-group">
-					<label class="form-label" for="full-name-1">To Date</label>
-					<div class="form-control-wrap">
-
-						<input type="text" class="form-control required" name="todate"
-							id="todate">
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 row">
-				<div class="form-group">
-					<br> <input type="button" id="Submit"
-						class="btn btn-lg btn-primary" onclick="SubmitInfo()"
-						value="Submit">
-				</div>
-			</div>
-		</div> -->
+		
 		<br>
 		<div style="overflow: scroll">
 		<table class="table table-striped table-borderd">
@@ -100,6 +61,9 @@
 					<th>Place of Destination</th>
 					<th>Amount of Advance</th>
                     <th>Internal Audit Remark</th>
+                    <th>Advance amount approved</th>
+                    <th>Leave encashment approved</th>
+                    <th>Lfc Final Amount</th>
                     <th>Remark</th>
                     <th>Details</th>
                     <th>Action</th>
@@ -172,9 +136,13 @@
 				15.	Encashment leave Sought : <input
 				type="text" readonly="readonly" id="encashmentLeave" size="30"
 				style="border: 0px" value=""><br>
- 				16.	Internal Audit remark : <input
+				16.	Hr remark : <input
+				type="text" readonly="readonly" id="hrRemark" size="30"
+				style="border: 0px" value=""><br>
+ 				17.	Internal Audit remark : <input
 				type="text" readonly="readonly" id="internalAudit" size="30"
 				style="border: 0px" value=""><br>
+				
 				 
 				<div class="row" >
 								<div class="col-xl-12">

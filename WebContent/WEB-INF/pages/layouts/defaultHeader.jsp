@@ -1,6 +1,6 @@
 <%@page import="com.itextpdf.text.log.SysoCounter"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script type="text/javascript" src="static/js/hrms/lfcDetail.js"></script>
+<!-- <script type="text/javascript" src="static/js/hrms/lfcDetail.js"></script> -->
 <%@page language="java" session="true"%>
 <%@page import="java.util.*"%>
 <div class="nk-header is-light" style="background-color: darkblue;">
@@ -24,8 +24,6 @@
 			if (a == null) {
 				a = "rabi";
 			}
-
-			//System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaa :"+a+":Ending hereeeeeeeeeeeeeee");
 			%>
 			<!-- .nk-header-brand -->
 			<div class="nk-header-menu ms-auto" data-content="headerNav">
@@ -63,54 +61,12 @@
 							</a></li>
 
 
-							<%-- <%
-							if (a.equalsIgnoreCase("rabi")) {
-							%>
-							<li class="nk-menu-item"><a
-								href="javascript:onSubmitMenu('userReport');"
-								class="nk-menu-link"> <span class="nk-menu-text">Encashment
-										Report</span>
-							</a></li>
-							<li class="nk-menu-item"><a
-								href="javascript:onSubmitMenu('userSurrenderReport');"
-								class="nk-menu-link"> <span class="nk-menu-text">Surrender
-										Report</span>
-							</a></li>
-							<%
-							}
-							%> --%>
 							<%
 							if (a.equalsIgnoreCase("INTERNAL AUDIT") || a.equalsIgnoreCase("HR & ADMINISTRATION")
 									|| a.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
 							%>
 
-                    <!--  --------------------- 3 level Admin Authorization for user --------------- -->
-							<!-- <li class="nk-menu-item"><a
-								href="javascript:onSubmitMenu('leaveRequest');"
-								class="nk-menu-link"> <span class="nk-menu-text">Encashment
-										Request Authorization</span>
-							</a></li>
 
-							<li class="nk-menu-item"><a
-								href="javascript:onSubmitMenu('adminSurrenderRequest');"
-								class="nk-menu-link"> <span class="nk-menu-text">Surrender
-										Request Authorization</span>
-							</a></li> -->
-							
-					<!--  --------------------- 3 level Admin Authorization for user End--------------- -->
-                   <!-- ------------Report ___ Gone-----------  -->
-							<!-- <li class="nk-menu-item"><a
-								href="javascript:onSubmitMenu('Report');" class="nk-menu-link">
-									<span class="nk-menu-text">Encashment Report</span>
-							</a></li>
-
-							<li class="nk-menu-item"><a
-								href="javascript:onSubmitMenu('SurrenderReport');"
-								class="nk-menu-link"> <span class="nk-menu-text">Surrender
-										Report</span>
-							</a></li> -->
-                    <!--  --------------------------Report Gone End---------------- -->
-							<!-- </ul> -->
 
 							<%
 							}
@@ -134,41 +90,33 @@
 							}
 							%> --%>
 						</ul></li>
-                   <!--  ------------------------------ Separation headerWise ------------------------ -->
-                   
-                   
+					<!--  ------------------------------ Separation headerWise ------------------------ -->
+
+
 					<li class="nk-menu-item has-sub">
-					<%   if (a.equalsIgnoreCase("INTERNAL AUDIT") || a.equalsIgnoreCase("HR & ADMINISTRATION")
-									|| a.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
-							%>
-					<a href="#"
-						class="nk-menu-link nk-menu-toggle"> <span
+						<%
+						if (a.equalsIgnoreCase("INTERNAL AUDIT") || a.equalsIgnoreCase("HR & ADMINISTRATION")
+								|| a.equalsIgnoreCase("COMPANY SECRERTARIAT") || a.equalsIgnoreCase("DIRECTOR")) {
+						%> <a href="#" class="nk-menu-link nk-menu-toggle"> <span
 							class="nk-menu-text" style="color: white;">LFC/Surrender
-								Authorization</span></a>
-					<%}	%>
-					   <ul class="nk-menu-sub">
-					     <%
-							if (a.equalsIgnoreCase("INTERNAL AUDIT") || a.equalsIgnoreCase("HR & ADMINISTRATION")
-									|| a.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
-							%>
-							  <li class="nk-menu-item"><a
+								Authorization</span></a> <%
+ }
+ %>
+						<ul class="nk-menu-sub">
+							 
+							<li class="nk-menu-item"><a
 								href="javascript:onSubmitMenu('leaveRequest');"
-								class="nk-menu-link"> <span class="nk-menu-text">LFC Cum Encashment
-										  Authorization</span>
+								class="nk-menu-link"> <span class="nk-menu-text">LFC
+										Cum Encashment Authorization</span>
 							</a></li>
 
 							<li class="nk-menu-item"><a
 								href="javascript:onSubmitMenu('adminSurrenderRequest');"
-								class="nk-menu-link"> <span class="nk-menu-text">Surrender Cum Encashment
-										  Authorization</span>
+								class="nk-menu-link"> <span class="nk-menu-text">Surrender
+										Cum Encashment Authorization</span>
 							</a></li>
-							<%
-							}
-							%>
-							
-							<%
-							if (a.equalsIgnoreCase("INTERNAL AUDIT") || a.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
-							%>
+							 
+
 							<li class="nk-menu-item"><a
 								href="javascript:onSubmitMenu('AdminleaveRequest');"
 								class="nk-menu-link"> <span class="nk-menu-text">Admin
@@ -181,58 +129,54 @@
 										Surrender Cum Encashment Authorization</span>
 							</a></li>
 
-							<%
-							}
-							%>
-					   
-					   </ul>
+
+
+						</ul>
 					</li>
 
 					<li class="nk-menu-item has-sub"><a href="#"
 						class="nk-menu-link nk-menu-toggle"> <span
 							class="nk-menu-text" style="color: white;">Report</span>
 					</a>
-					
-					   <ul class="nk-menu-sub">
-					     <%
+
+						<ul class="nk-menu-sub">
+							<%
 							if (a.equalsIgnoreCase("rabi")) {
 							%>
 							<li class="nk-menu-item"><a
 								href="javascript:onSubmitMenu('userReport');"
-								class="nk-menu-link"> <span class="nk-menu-text">LFC Cum Encashment
-										Report</span>
+								class="nk-menu-link"> <span class="nk-menu-text">LFC
+										Cum Encashment Report</span>
 							</a></li>
 							<li class="nk-menu-item"><a
 								href="javascript:onSubmitMenu('userSurrenderReport');"
-								class="nk-menu-link"> <span class="nk-menu-text">Surrender Cum Encashment
-										Report</span>
+								class="nk-menu-link"> <span class="nk-menu-text">Surrender
+										Cum Encashment Report</span>
 							</a></li>
 							<%
 							}
 							%>
-							
+
 							<%
 							if (a.equalsIgnoreCase("INTERNAL AUDIT") || a.equalsIgnoreCase("HR & ADMINISTRATION")
-									|| a.equalsIgnoreCase("COMPANY SECRERTARIAT")) {
+									|| a.equalsIgnoreCase("COMPANY SECRERTARIAT")|| a.equalsIgnoreCase("DIRECTOR")) {
 							%>
-							  <li class="nk-menu-item"><a
+							<li class="nk-menu-item"><a
 								href="javascript:onSubmitMenu('Report');" class="nk-menu-link">
 									<span class="nk-menu-text">LFC Cum Encashment Report</span>
 							</a></li>
 
 							<li class="nk-menu-item"><a
 								href="javascript:onSubmitMenu('SurrenderReport');"
-								class="nk-menu-link"> <span class="nk-menu-text">Surrender Cum Encashment
-										Report</span>
+								class="nk-menu-link"> <span class="nk-menu-text">Surrender
+										Cum Encashment Report</span>
 							</a></li>
-							
+
 							<%
 							}
 							%>
-					   
-					   </ul>
-					
-					</li>
+
+						</ul></li>
 
 					<li class="nk-menu-item has-sub"><a href="#"
 						class="nk-menu-link nk-menu-toggle"> <span
@@ -245,6 +189,32 @@
 							</a></li>
 						</ul></li>
 
+					<li class="nk-menu-item has-sub"><a href="#"
+						class="nk-menu-link nk-menu-toggle"> <span
+							class="nk-menu-text" style="color: white;">Journey
+								Completion</span>
+					</a>
+						<ul class="nk-menu-sub">
+
+							<li class="nk-menu-item"><a
+								href="javascript:onSubmitMenu('Completion_form_Upload&Download');"
+								class="nk-menu-link"> <span class="nk-menu-text">Completion
+										Form</span>
+							</a></li>
+							<%
+							if (a.equalsIgnoreCase("HR & ADMINISTRATION") || a.equalsIgnoreCase("INTERNAL AUDIT")
+									|| a.equalsIgnoreCase("COMPANY SECRERTARIAT") || a.equalsIgnoreCase("DIRECTOR")) {
+							%>
+
+							<li class="nk-menu-item"><a
+								href="javascript:onSubmitMenu('juorny_Auth');"
+								class="nk-menu-link"> <span class="nk-menu-text">Journy
+										Authentications</span>
+							</a></li>
+							<%
+							}
+							%>
+						</ul></li>
 				</ul>
 				<!-- .nk-menu -->
 
@@ -257,19 +227,21 @@
 			<div class="nk-header-tools">
 				<ul class="nk-quick-nav">
 
-					<li class="dropdown user-dropdown"><!-- <div>Rabi</div> --><a href="#"
-						class="dropdown-toggle" data-bs-toggle="dropdown">
+					<li class="dropdown user-dropdown">
+						<!-- <div>Rabi</div> --> <a href="#" class="dropdown-toggle"
+						data-bs-toggle="dropdown">
 							<div class="user-toggle">
 								<div class="user-avatar sm">
 									<em class="icon ni ni-user-alt"></em>
 								</div>
-								
+
 							</div>
-					</a><div style="color: white;">${userName}<br>${Designation}</div>
+					</a>
+						<div style="color: white;">${userName}<br>${Designation}</div>
 						<div
 							class="dropdown-menu dropdown-menu-md dropdown-menu-end dropdown-menu-s1 is-light">
 
-                           
+
 
 							<div class="dropdown-inner">
 								<ul class="link-list">
@@ -277,7 +249,8 @@
 											class="icon ni ni-signout"></em><span>Home</span></a></li>
 								</ul>
 							</div>
-						</div></li>
+						</div>
+					</li>
 					<!-- .dropdown -->
 				</ul>
 				<!-- .nk-quick-nav -->

@@ -7,17 +7,17 @@ $("document").ready(function() {
 	lfcDetails();
 	dropDown();
 	encashmentLeaveDropDown();
-	internalAuditorShow();
-	csAdminShow();
-	SubmitInfo();
-	lfcreport();
-	internalAuditReport();
-	csReport();
+	//internalAuditorShow();
+	//csAdminShow();
+	//SubmitInfo();
+	//lfcreport();
+	//internalAuditReport();
+	//csReport();
 	userReport();
-	internalAuditorAdminShow();
-	csAdminLfcRequest();
+	//internalAuditorAdminShow();
+	//csAdminLfcRequest();
 	depenedentList();
-	hrAcceptReject();
+	//hrAcceptReject();
 
 
 	$(".selectall").click(function(event) {
@@ -616,13 +616,12 @@ function hrAdminReportValid() {
 
  
 
-function SubmitInfo() {
+/*function SubmitInfo() {
 	debugger;
 
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
-
-
+ 
 	$.ajax({
 		url: 'lfcHrAdmin.do',
 		data: formData,
@@ -680,9 +679,9 @@ function SubmitInfo() {
 		}
 	})
 
-}
+}*/
 
-function rejectfun(tranid, i) {
+/*function rejectfun(tranid, i) {
 	debugger;
 	var rejectval = $('#rejectButton').val();
 	var hradminremark = $('#hradminremark' + i).val();
@@ -719,9 +718,9 @@ function rejectfun(tranid, i) {
 	}
 
 }
+*/
 
-
-function acceptfun(tranid, i) {
+/*function acceptfun(tranid, i) {
 	debugger;
 	var acceptval = $('#acceptButton').val();
 	var hradminremark = $('#hradminremark' + i).val();
@@ -736,10 +735,7 @@ function acceptfun(tranid, i) {
 	formData.append("hradminremark", hradminremark);
 	formData.append("Auditamount", Auditamount);
 	formData.append("AuditamountLeaveEncash", AuditamountLeaveEncash);
-
-
-	
-	
+ 
 	$.ajax({
 		url: 'acceptbutton.do',
 		data: formData,
@@ -757,10 +753,10 @@ function acceptfun(tranid, i) {
 			alert(error);
 		}
 	})
-}
+}*/
 
 
-function hrModalData(empId, rownum) {
+/*function hrModalData(empId, rownum) {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -814,9 +810,9 @@ function hrModalData(empId, rownum) {
 		}
 	})
 
-}
+}*/
 
-function internalAuditorShow() {
+/*function internalAuditorShow() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -854,6 +850,8 @@ function internalAuditorShow() {
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvanceStr + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].hrRemark + "</td>"
+						+ "<td nowrap='nowrap'>" + data.body[i].advanceAmountApproved + "</td>"
+						+ "<td nowrap='nowrap'>" + data.body[i].leaveEncashmentAmountApproved + "</td>"
 						+ "<td><input type='text' id='Auditremark" + i + "' maxlength='50'><span id = 'auditError'></span></td>"
 						+ "<td><a href='javascript:intenalAuditorModalData(" + data.body[i].id + "," + i + ")'>view</a></td>"
 						+ "<td style='white-space: nowrap'><button class='btn  btn-success' value=" + data.body[i].tranId + " id='InternalacceptButton' onclick='Internalacceptfun(" + data.body[i].tranId + "," + i + ")'> Accept </button>&nbsp&nbsp"
@@ -868,9 +866,9 @@ function internalAuditorShow() {
 			console.log(error);
 		}
 	})
-}
+}*/
 
-function Internalacceptfun(tranid, i) {
+/*function Internalacceptfun(tranid, i) {
 	debugger;
 	var acceptval = $('#InternalacceptButton').val();
 	var Auditremark = $('#Auditremark' + i).val();
@@ -994,11 +992,11 @@ function intenalAuditorModalData(empId, i) {
 		}
 	})
 
-}
+}*/
 
 
 
-function csAdminShow() {
+/*function csAdminShow() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1038,6 +1036,8 @@ function csAdminShow() {
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvanceStr + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].internalAuditRemark + "</td>"
+						+ "<td nowrap='nowrap'>" + data.body[i].advanceAmountApproved + "</td>"
+						+ "<td nowrap='nowrap'>" + data.body[i].leaveEncashmentAmountApproved + "</td>"
 						+ "<td><input type='text' id='CSremark" + i + "' maxlength='50'></td>"
 						+ "<td><a href='javascript:csModalData(" + data.body[i].id + "," + i + ")'>view</a></td>"
 						+ "<td style='white-space: nowrap'><button class='btn  btn-success' value=" + data.body[i].tranId + " id='CSacceptButton' onclick='CSacceptfun(" + data.body[i].id + "," + data.body[i].tranId + "," + i + ")'> Accept </button>&nbsp&nbsp"
@@ -1052,9 +1052,9 @@ function csAdminShow() {
 			console.log(error);
 		}
 	})
-}
+}*/
 
-function CSacceptfun(empCode, tranid, i) {
+/*function CSacceptfun(empCode, tranid, i) {
 	debugger;
 	var acceptval = $('#CSacceptButton').val();
 	var cSremark = $('#CSremark' + i).val();
@@ -1174,7 +1174,7 @@ function csModalData(empId,i){
 				alert(error);
 			}
 		})
-}
+}*/
 
 
 function userfilter() {
@@ -1195,7 +1195,7 @@ function userfilter() {
 	})
 }
 
-function lfcreport() {
+/*function lfcreport() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1246,9 +1246,9 @@ function lfcreport() {
 			console.log(data);
 		}
 	})
-}
+}*/
 
-function internalAuditReport() {
+/*function internalAuditReport() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1297,9 +1297,9 @@ function internalAuditReport() {
 			console.log(data);
 		}
 	})
-}
+}*/
 
-function csReport() {
+/*function csReport() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1347,7 +1347,7 @@ function csReport() {
 			console.log(data);
 		}
 	})
-}
+}*/
 
 function lfcController() {
 	debugger;
@@ -1380,8 +1380,11 @@ function userReport() {
 		cache: false,
 		contentType: false,
 		processData: false,
+		beforeSend: function() {
+					showLoader();
+				},
 		success: function(data) {
-			 
+			 hideLoader();
 			if (data.status == "SUCCESS") {
 				$('#userReport_table').empty();
 				 
@@ -1408,6 +1411,7 @@ function userReport() {
 						+ "<td nowrap='nowrap'>" + data.body[i].numberofDaysStr + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvanceStr + "</td>"
+						+ "<td nowrap='nowrap'>" + data.body[i].lfcFinalAmount + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].hrStatus + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].internalAuditStatus + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].csStatus + "</td>"
@@ -1511,7 +1515,7 @@ function encashmentLeavedateDiffCount() {
 	})
 }
 
-function internalAuditorAdminShow() {
+/*function internalAuditorAdminShow() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1564,9 +1568,9 @@ function internalAuditorAdminShow() {
 			console.log(error);
 		}
 	})
-}
+}*/
 
-function InternalAdminacceptButtonfun(tranid, i) {
+/*function InternalAdminacceptButtonfun(tranid, i) {
 	debugger;
 	
 	var AuditAdminremark = $('#AuditAdminremark' + i).val();
@@ -1595,10 +1599,10 @@ function InternalAdminacceptButtonfun(tranid, i) {
 			alert(error);
 		}
 	})
-}
+}*/
 
 
-function InternalAdminrejectButtonfun() {
+/*function InternalAdminrejectButtonfun() {
 	var rejectval = $('#InternalAdminrejectButton').val();
 	var Auditremark = $('#AuditAdminremark').val();
 	var formData = new FormData();
@@ -1631,10 +1635,10 @@ function InternalAdminrejectButtonfun() {
 		});
 		return true;
 	}
-}
+}*/
 
 
-function intenalAuditAdminNodalData(empId , i){
+/*function intenalAuditAdminNodalData(empId , i){
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1686,10 +1690,10 @@ function intenalAuditAdminNodalData(empId , i){
 				alert(error);
 			}
 		});
- }
+ }*/
 
 
-function csAdminLfcRequest() {
+/*function csAdminLfcRequest() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1701,6 +1705,8 @@ function csAdminLfcRequest() {
 		contentType: false,
 		processData: false,
 		success: function(data) {
+			console.log("data is dependent list ");
+			console.log(data);
 			if (data.status == "SUCCESS") {
 				$('#csAdmin_Lfcreq').empty();
 				for (var i = 0; i < data.body.length; i++) {
@@ -1726,6 +1732,8 @@ function csAdminLfcRequest() {
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvanceStr + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].internalAuditRemark + "</td>"
+						+ "<td nowrap='nowrap'>" + data.body[i].advanceAmountApproved + "</td>"
+						+ "<td nowrap='nowrap'>" + data.body[i].leaveEncashmentAmountApproved + "</td>"
 						+ "<td><input type='text' id='CSAdminremark" + i + "' maxlength='50'></td>"
 						+ "<td><a href='javascript:csAdminModalData(" + data.body[i].id + "," + i + ")'>view</a></td>"
 						+ "<td style='white-space: nowrap'><button class='btn  btn-success' value=" + data.body[i].tranId + " id='CSadminacceptButton' onclick='CSAdminacceptfun(" + data.body[i].id + "," + data.body[i].tranId + "," + i + ")'> Accept </button>&nbsp&nbsp"
@@ -1840,6 +1848,7 @@ function csAdminModalData(empId,i){
  				$("#internalAudit").val(data.body[0].internalAuditRemark);
  				$("#origination").val(data.body[0].placeofOrigination);
  				$("#encashmentLeave").val(data.body[0].encashmentLeaveCount);
+ 				$("#hrRemark").val(data.body[0].hrRemark);
 
 				$('#csModalData').empty();
 
@@ -1862,7 +1871,7 @@ function csAdminModalData(empId,i){
 				alert(error);
 			}
 		})
-}
+}*/
 
 jsonArraylist = [];
 function DependentListChekJson() {
@@ -1885,25 +1894,7 @@ function DependentListChekJson() {
 	return jsonArraylist;
 }
 
-function hrAcceptReject() {
-	debugger;
-	var formData = new FormData();
-	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
-	$.ajax({
-		url: 'hrAcceptReject.do',
-		data: formData,
-		type: 'POST',
-		cache: false,
-		contentType: false,
-		processData: false,
-		success: function(data) {
-
-		}
-	})
-}
-
-
-function lfcCumnEncashmentpdfDownload() {
+/*function lfcCumnEncashmentpdfDownload() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -1918,7 +1909,7 @@ function lfcCumnEncashmentpdfDownload() {
 
 		}
 	})
-}
+}*/
 
 
 

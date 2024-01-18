@@ -9,6 +9,7 @@ import java.util.Map;
 import com.emp.bean.LfcBean;
 import com.emp.model.Hrms_Dependent;
 import com.emp.model.Hrms_Login;
+import com.emp.model.LfcDocument;
 import com.emp.model.LfcModel;
 import com.emp.model.Lfc_Allowence;
 import com.emp.model.Lfc_Dependent;
@@ -29,7 +30,7 @@ public interface LfcDetailDao {
 
 	List<LfcModel> getAdminData();
 
-	Object acceptReq(int acceptValue, String hradminremark, int  auditamount, int auditamountLeaveEncash);
+	Object acceptReq(int acceptValue, String hradminremark, int  auditamount, int auditamountLeaveEncash, int lfc_FinalAmount);
 	
 	//Object acceptReq(int acceptValue, String hradminremark);
 
@@ -69,7 +70,7 @@ public interface LfcDetailDao {
 	List<LfcModel> getInternalAuditorAdmin();
 
 	// for Internal Audit Admin admin req .
-	void auditAdminremarkReq(int acceptValue, String auditAdminremark,String advanceAmountApproved, String leaveEncashmentAmountApproved);
+	void auditAdminremarkReq(int acceptValue, String auditAdminremark,String advanceAmountApproved, String leaveEncashmentAmountApproved, int lfcFinalamount);
 
 	List<LfcModel> getCsAdmin();
 
@@ -87,7 +88,7 @@ public interface LfcDetailDao {
 
 	int saveSuurenderInfo(ArrayList<Lfc_Surrender> surrenderList);
 
-	List<Object> fectchLfcApplyData(Integer userId);
+	//List<Object> fectchLfcApplyData(Integer userId);
 
 	List<LfcModel> getLfcUserSurrenderReport(Integer userId);
 
@@ -160,5 +161,19 @@ public interface LfcDetailDao {
 	List<LfcModel> getOfcUseDataSur(Integer userId);
 
 	int isLeaveApplied(Integer userId);
+
+	List<LfcModel> getHrAdminRequestData();
+
+	int hrAdminAcceptReq(int emp_tranId, String hradminremark, String hrAmountApproved, String hrLeaveEncashApproved, int lfcFinalamount);
+
+	int hrAdminrejectReq(int emp_tranId, String hradminremark);
+
+	int uploadLfcRawFile(List<Lfc_Allowence> document);
+
+	byte[] getSampleFileOFLfc(String userId);
+
+	List<LfcModel> getPreviousUploadDate(int emp_cd);
+
+	byte[] getPrevFile(String tranId, String prevDate);
 
 }

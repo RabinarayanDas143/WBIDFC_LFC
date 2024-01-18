@@ -16,7 +16,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/lfcDetail.js"></script>
+<script type="text/javascript" src="static/js/hrms/hr_Details.js"></script>
 
 
 </head>
@@ -25,9 +25,9 @@
 		<div class="row">
 			<h3>LFC Cum Encashment Report</h3>
 		</div>
-
-		
+ 
 		<br>
+		<div style="overflow: scroll">
 		<table class="table table-striped table-borderd">
 			<thead class="table-dark">
 				<tr>
@@ -42,6 +42,7 @@
 					<th>Total Days</th>
 					<th>Place of Destination</th>
 					<th>Amount of Advance</th>
+					<th>Lfc Final Amount</th>
                     <th>HR Status</th>
                     <th>Internal Auditor Status</th>
                     <th>CS Status</th>
@@ -51,6 +52,7 @@
 
 			</tbody>
 		</table>
+		</div>
 	</div>
 </body>
 </html>

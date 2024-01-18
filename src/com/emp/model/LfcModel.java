@@ -1,6 +1,7 @@
 package com.emp.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Transient;
@@ -29,6 +30,11 @@ public class LfcModel {
 	
 	private String advanceAmountApproved;
 	private String leaveEncashmentAmountApproved;
+	
+	private LocalDate pdfDate;
+	private int lfcFinalAmount;
+	private String prevDate;
+	 
 	
 	public String getAdvanceAmountApproved() {
 		return advanceAmountApproved;
@@ -104,6 +110,8 @@ public class LfcModel {
 	
 	private String count;
 	private String El_LeaveBalance;
+	
+	private String localDateStr;
 
 	@Override
 	public String toString() {
@@ -453,6 +461,41 @@ public class LfcModel {
 		El_LeaveBalance = el_LeaveBalance;
 	}
 
+	public LocalDate getPdfDate() {
+		return pdfDate;
+	}
+
+	public void setPdfDate(LocalDate myObj) {
+		this.pdfDate = myObj;
+	}
+
+	public int getLfcFinalAmount() {
+		return lfcFinalAmount;
+	}
+
+	public void setLfcFinalAmount(int lfcFinalAmount) {
+		this.lfcFinalAmount = lfcFinalAmount;
+	}
+
+	public String getLocalDateStr() {
+		return localDateStr;
+	}
+
+	public void setLocalDateStr(String localDateStr) {
+		this.localDateStr = localDateStr;
+	}
+
+	public String getPrevDate() {
+		return prevDate;
+	}
+
+	public void setPrevDate(String prevDate) {
+		this.prevDate = prevDate;
+	}
+
+	 
+
+	
 	
 	
 	
