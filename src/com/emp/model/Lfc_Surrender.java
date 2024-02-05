@@ -75,6 +75,9 @@ public class Lfc_Surrender {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "IST")
 	@Column(name = "SUBMIT_DATE")
 	private Date submitDate = new Date();
+	
+	@Column(name = "surr_FinalAmt")  
+	private int surrenderFinalAmount;
  
 	public int getId() {
 		return id;
@@ -196,6 +199,22 @@ public class Lfc_Surrender {
 
 	public void setCsremark(String csremark) {
 		this.csremark = csremark;
+	}
+
+	public Date getSubmitDate() {
+		return submitDate;
+	}
+
+	public void setSubmitDate(Date submitDate) {
+		this.submitDate = submitDate;
+	}
+
+	public int getSurrenderFinalAmount() {
+		return surrenderFinalAmount;
+	}
+
+	public void setSurrenderFinalAmount(int surrenderFinalAmount) {
+		this.surrenderFinalAmount = surrenderFinalAmount;
 	}
 
 	

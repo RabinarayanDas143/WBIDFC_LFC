@@ -2,8 +2,8 @@ $("document").ready(function() {
 	debugger;
 	
 	lfcSurrenderUserReport();
-	lfcSurrenderHrAdmin();
-	lfcSurrenderHrReport();
+	//lfcSurrenderHrAdmin();
+	//lfcSurrenderHrReport();
 	lfcSurrenderInternalAdmin();
 	lfcSurrenderInternalAdminReport();
 	lfcSurrenderCsAdmin();
@@ -11,6 +11,15 @@ $("document").ready(function() {
 	lfcSurrenderInternalAdminadmin();
 	surCsAdminLfcRequest();
 });
+
+function showLoader(location) {
+	$('#Loader').show();
+}
+
+function hideLoader(location) {
+	$('#Loader').hide();
+}
+
 
 
 function lfcSurrenderUserReport(){
@@ -25,11 +34,13 @@ function lfcSurrenderUserReport(){
 		cache : false,
 		contentType : false,
 		processData : false,
+		beforeSend: function() {
+					showLoader();
+				},
 		success : function(data){
-			
+			hideLoader();
 			$('#user_Surrender_Report_table').empty();
-			
-			for(var i=0;i<data.body.length;i++){
+ 			for(var i=0;i<data.body.length;i++){
 				if(data.body[i].dependent!=null || data.body[i].occupation!=null || data.body[i].annualIncome!=null){
 						var str = data.body[i].dependent;
 						var depend = str.replaceAll(",","<br>");
@@ -53,16 +64,18 @@ function lfcSurrenderUserReport(){
                            
  		                   +"</tr>"
 				)
+				
 			}
 			
 		},
 		error : function(data){
+			hideLoader();
 			console.log(data);
 		}
 	})
 }
 
-function lfcSurrenderHrAdmin(){
+/*function lfcSurrenderHrAdmin(){
 	debugger;
 	
 	var formData = new FormData();
@@ -111,9 +124,9 @@ function lfcSurrenderHrAdmin(){
 			console.log("error");
 		}
 	})
-}
+}*/
 
-function hrsacceptfun(tranid,i){
+/*function hrsacceptfun(tranid,i){
 	debugger;
 	var acceptval=$('#hrSurrenderAcceptButton').val();
 	var hradminremark=$('#hrSurrenderremark'+i).val();
@@ -222,9 +235,9 @@ function hrModalData(empId,i){
 			alert(error);
 		}
 	})
-}
+}*/
 
-function lfcSurrenderHrReport(){
+/*function lfcSurrenderHrReport(){
 	 
  	debugger;
 	var formData = new FormData();
@@ -270,7 +283,7 @@ function lfcSurrenderHrReport(){
 			}
 		}
 	})
-}
+}*/
 
 function lfcSurrenderInternalAdmin(){
 	debugger;

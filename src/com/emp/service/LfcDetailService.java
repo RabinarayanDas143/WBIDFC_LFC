@@ -93,7 +93,7 @@ public interface LfcDetailService {
 
 	List<LfcModel> getSurrenderHrAdminData();
 
-	int hrSurAcceptReq(int acceptValue, String hradminremark);
+	int hrSurAcceptReq(int acceptValue, String hradminremark, int finalAmount);
 
 	int hrSurRejectReq(int rejectvalue, String hradminremark);
 
@@ -170,5 +170,7 @@ public interface LfcDetailService {
 	List<LfcModel> getPreviousUploadDate(int emp_cd);
 
 	byte[] getPrevFile(String tranId, String prevDate);
+
+	List<LfcModel> getSurrenderHrAdminRequestData();
 
 }

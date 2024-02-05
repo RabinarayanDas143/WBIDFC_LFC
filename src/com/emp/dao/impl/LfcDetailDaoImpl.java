@@ -1563,18 +1563,29 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> dependentdata = null;
 		try {
 			String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name',  \r\n"
-					+ "  a.EncashmentLEAVE_TYPE,a.EncashmentLeave_Count,   \r\n"
-					+ "  ( case when a.Approval_Level_1='A' Then 'Approved' when a.Approval_Level_1='R' Then  \r\n"
-					+ "  'Reject' when a.Approval_Level_1 OR a.Approval_Level_1='' is null Then 'Pending' else '-' end)as'Level_1 Status',   \r\n"
-					+ "  ( case when a.Approval_Level_1='R' Then  'Reject'  when a.Approval_Level_2='A' Then 'Approved' when a.Approval_Level_2='R' Then 'Rejected'  \r\n"
-					+ "  when a.Approval_Level_2 is null OR a.Approval_Level_2='' Then 'Pending' when a.Approval_Level_2  \r\n"
-					+ "  is null OR a.Approval_Level_1='Reject' Then 'Not Applicable' else '-' end)as'Level_2 Status', \r\n"
-					+ " ( case when a.Approval_Level_1='R' Then 'Reject' WHEN a.Approval_Level_2='R' Then  'Reject' when a.Approval_Level_3='A' Then 'Approved' when a.Approval_Level_3='R' Then 'Rejected'  \r\n"
-					+ " when a.Approval_Level_3 is null OR a.Approval_Level_3='' Then 'Pending' when a.Approval_Level_3  \r\n"
-					+ " is null OR a.Approval_Level_3='Reject' Then 'Not Applicable' else '-' end)as'Level_3 Status',a.tran_id\r\n"
-					+ " from hrms_wbidfc.hrms_Lfc_Surrender a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd \r\n"
-					+ " join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd \r\n"
-					+ " where a.emply_cd ='" + userId + "'";
+					+ "		 a.EncashmentLEAVE_TYPE,a.EncashmentLeave_Count,   \r\n"
+					+ "		 ( case when a.Approval_Level_1='A' Then 'Approved' when a.Approval_Level_1='R' Then  \r\n"
+					+ "		 'Reject' when a.Approval_Level_1 OR a.Approval_Level_1='' is null Then 'Pending' else '-' end)as'Level_1 Status',\r\n"
+					+ "         case when c.department='Finance & Accounts' and d.designation='Chief Financial Officer & Head-Investment' then \r\n"
+					+ "         ( case when a.Approval_Level_1='R' Then  'Reject'  when a.Approval_Level_2='A' Then 'Approved' when a.Approval_Level_2='R' Then 'Rejected'   \r\n"
+					+ "          when a.Approval_Level_2 is null OR a.Approval_Level_2='' Then '-' when a.Approval_Level_2  \r\n"
+					+ "          is null OR a.Approval_Level_1='Reject' Then 'Not Applicable' else '-' end) \r\n"
+					+ "          else\r\n"
+					+ "		 ( case when a.Approval_Level_1='R' Then  'Reject'  when a.Approval_Level_2='A' Then 'Approved' when a.Approval_Level_2='R' Then 'Rejected'  \r\n"
+					+ "		 when a.Approval_Level_2 is null OR a.Approval_Level_2='' Then 'Pending' \r\n"
+					+ "         when a.Approval_Level_2  \r\n"
+					+ "		 is null OR a.Approval_Level_1='Reject' Then 'Not Applicable' else '-' end) end as'Level_2 Status',\r\n"
+					+ "         case when c.department='Finance & Accounts' and d.designation='Chief Financial Officer & Head-Investment' then ( case when a.Approval_Level_1='R' Then 'Reject' WHEN a.Approval_Level_2='R' Then  'Reject' when a.Approval_Level_3='A' Then 'Approved' when a.Approval_Level_3='R' Then 'Rejected'  \r\n"
+					+ "        when a.Approval_Level_3 is null OR a.Approval_Level_3='' Then '-' when a.Approval_Level_3  \r\n"
+					+ "		is null OR a.Approval_Level_3='Reject' Then 'Not Applicable' else '-' end)\r\n"
+					+ "        else\r\n"
+					+ "		( case when a.Approval_Level_1='R' Then 'Reject' WHEN a.Approval_Level_2='R' Then  'Reject' when a.Approval_Level_3='A' Then 'Approved' when a.Approval_Level_3='R' Then 'Rejected'  \r\n"
+					+ "		when a.Approval_Level_3 is null OR a.Approval_Level_3='' Then 'Pending' when a.Approval_Level_3  \r\n"
+					+ "		is null OR a.Approval_Level_3='Reject' Then 'Not Applicable' else '-' end) end as'Level_3 Status',a.tran_id\r\n"
+					+ "		from hrms_wbidfc.hrms_Lfc_Surrender a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd \r\n"
+					+ "		join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd \r\n"
+					+ "        join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
+					+ "		where a.emply_cd ='" + userId + "'";
 
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.getResultList();
@@ -1639,9 +1650,13 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "		a.EncashmentLEAVE_TYPE,\r\n"
 					+ "		a.EncashmentLeave_Count,a.tran_id from hrms_wbidfc.hrms_Lfc_Surrender a \r\n"
-					+ "		 join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join hrms_wbidfc.hrms_department_detail c \r\n"
-					+ "	     on b.emply_cd=c.emply_cd where department  NOT in(TRIM('HR & ADMINISTRATION'),TRIM('INTERNAL AUDIT'),\r\n"
-					+ "	     TRIM('COMPANY SECRERTARIAT')) and (a.Approval_Level_1 is null OR a.Approval_Level_1='') AND C.STATUS='A'";
+					+ "		join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join hrms_wbidfc.hrms_department_detail c \r\n"
+					+ "		on b.emply_cd=c.emply_cd\r\n"
+					+ "		join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
+					+ "		where upper(department)  NOT in(TRIM('HR & ADMINISTRATION'),TRIM('INTERNAL AUDIT'),\r\n"
+					+ "		TRIM('COMPANY SECRERTARIAT')) and (a.Approval_Level_1 is null OR a.Approval_Level_1='') AND C.STATUS='A'\r\n"
+					+ "		and upper(d.designation) not in ('OFFICER(HR & MD SECRETARIAT)','CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT','MANAGING DIRECTOR','COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO')\r\n"
+					+ "         ";
 
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.getResultList();
@@ -1693,13 +1708,13 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 	}
 
 	@Override
-	public int hrSurAcceptReq(int acceptValue, String hradminremark) {
+	public int hrSurAcceptReq(int acceptValue, String hradminremark,int finalAmount) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		int result = 0;
 		try {
 			String sql = "update hrms_wbidfc.hrms_Lfc_Surrender a set a.Approval_Level_1 ='A', a.Hr_Remark='"
-					+ hradminremark + "' where a.tran_id='" + acceptValue + "'";
+					+ hradminremark + "',a.surr_FinalAmt='"+finalAmount+"' where a.tran_id='" + acceptValue + "'";
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.executeUpdate();
 			tx.commit();
@@ -1754,9 +1769,19 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		try {
 			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "		 a.EncashmentLEAVE_TYPE,\r\n"
-					+ "		a.EncashmentLeave_Count,( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
+					+ "		a.EncashmentLeave_Count,\r\n"
+					+ "        case when upper(c.department) = 'FINANCE & ACCOUNTS' and upper(d.designation) not in ('CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT') then\r\n"
+					+ "            ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_1='R' Then 'Rejected' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
-					+ "		Then 'Pending' else '-' end)as'Approval_Level_1',\r\n"
+					+ "		Then 'Pending' else '-' end)\r\n"
+					+ "            when upper(c.department) = 'DIRECTOR' and upper(d.designation) not in ('MANAGING DIRECTOR') then\r\n"
+					+ "            ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
+					+ "		when a.Approval_Level_1='R' Then 'Rejected' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
+					+ "		Then 'Pending' else '-' end)\r\n"
+					+ "		else \r\n"
+					+ "		( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
+					+ "		when a.Approval_Level_1='R' Then 'Rejected' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
+					+ "		Then 'Pending' else '-' end) end as'Approval_Level_1',\r\n"
 					+ "		( case when a.Approval_Level_1='R' Then '-' when a.Approval_Level_2='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_2='R' Then 'Rejected' when a.Approval_Level_2 is null OR a.Approval_Level_2=''\r\n"
 					+ "		Then 'Pending' else '-' end)as'Approval_Level_2',\r\n"
@@ -1765,22 +1790,44 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 					+ "		Then 'Pending' else '-' end)as'Approval_Level_3',a.tran_id\r\n"
 					+ "		from hrms_wbidfc.hrms_Lfc_Surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join\r\n"
 					+ "		hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd\r\n"
-					+ "		where c.department not in('HR & ADMINISTRATION','INTERNAL AUDIT','COMPANY SECRERTARIAT') AND C.STATUS='A'\r\n"
+					+ "        join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
+					+ "		where upper(c.department) not in('HR & ADMINISTRATION','INTERNAL AUDIT','COMPANY SECRERTARIAT') \r\n"
+					+ "        and upper(d.designation) not in ('OFFICER(HR & MD SECRETARIAT)','CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT','MANAGING DIRECTOR','COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO')\r\n"
+					+ "        AND C.STATUS='A'\r\n"
 					+ "		union all\r\n"
 					+ "		select a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name',\r\n"
 					+ "		 a.EncashmentLEAVE_TYPE,\r\n"
-					+ "		a.EncashmentLeave_Count,( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
+					+ "		a.EncashmentLeave_Count,\r\n"
+					+ "        case when upper(c.department) = 'COMPANY SECRERTARIAT' and upper(d.designation)='COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO' then \r\n"
+					+ "        ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_1='R' Then '-' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
-					+ "		Then '-' else '-' end)as'Approval_Level_1',\r\n"
-					+ "		( case when a.Approval_Level_1='R' Then '-' when a.Approval_Level_2='A' Then 'Approved'\r\n"
+					+ "		Then '-' else '-' end) else   ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
+					+ "		when a.Approval_Level_1='R' Then '-' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
+					+ "		Then '-' else '-' end) end as'Approval_Level_1',  \r\n"
+					+ "		case when upper(c.department) = 'COMPANY SECRERTARIAT' and d.designation='COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO' then \r\n"
+					+ "          '-'\r\n"
+					+ "        when upper(c.department) = 'DIRECTOR' and d.designation='MANAGING DIRECTOR' then\r\n"
+					+ "        '-'\r\n"
+					+ "		when upper(c.department) = 'FINANCE & ACCOUNTS' and d.designation='CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT' then\r\n"
+					+ "         '-' else\r\n"
+					+ "        ( case when a.Approval_Level_1='R' Then '-' when a.Approval_Level_2='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_2='R' Then 'Rejected' when a.Approval_Level_2 is null OR a.Approval_Level_2=''\r\n"
-					+ "		Then 'Pending' else '-' end)as'Approval_Level_2',\r\n"
+					+ "		Then 'Pending' else '-' end) end as'Approval_Level_2',\r\n"
+					+ "        case when upper(c.department) = 'COMPANY SECRERTARIAT' and d.designation='COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO' then \r\n"
+					+ "          '-'\r\n"
+					+ "        when upper(c.department) = 'DIRECTOR' and d.designation='MANAGING DIRECTOR' then\r\n"
+					+ "        '-'\r\n"
+					+ "		when upper(c.department) = 'FINANCE & ACCOUNTS' and d.designation='CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT' then\r\n"
+					+ "         '-' else\r\n"
 					+ "		( case when a.Approval_Level_1='R' Then '-' when a.Approval_Level_3='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_3='R' Then 'Rejected' when a.Approval_Level_3 is null OR a.Approval_Level_3=''\r\n"
-					+ "		Then 'Pending' else '-' end)as'Approval_Level_3',a.tran_id\r\n"
+					+ "		Then 'Pending' else '-' end) end as'Approval_Level_3',a.tran_id\r\n"
 					+ "		from hrms_wbidfc.hrms_Lfc_Surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join\r\n"
 					+ "		hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd\r\n"
-					+ "		where c.department in('HR & ADMINISTRATION')AND  C.STATUS='A'";
+					+ "        join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
+					+ "		where upper(c.department) in('HR & ADMINISTRATION','INTERNAL AUDIT','COMPANY SECRERTARIAT','FINANCE & ACCOUNTS','DIRECTOR')AND \r\n"
+					+ "        upper(d.designation) in ('OFFICER(HR & MD SECRETARIAT)','CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT','MANAGING DIRECTOR','COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO') and\r\n"
+					+ "        C.STATUS='A'";
 
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.getResultList();
@@ -2475,13 +2522,16 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 					+ "c.designation,d.department, date_format(date_joining,'%d-%m-%Y')'date_of_joining',a.BLOCK_APPLIED,a.NUMBER_OF_DAYS,date_format(a.leave_FROM_DT,'%d-%m-%Y')'leave_FROM_DT',\r\n"
 					+ "date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',a.PLACE_OF_DESTINATION, a.place_of_origination,date_format(a.Commencement_FROM_DT,'%d-%m-%Y')'Commencement_FROM_DT',\r\n"
 					+ "date_format(a.Completion_TO_DT,'%d-%m-%Y')'Completion_TO_DT',a.EncashmentLeave_Count,a.AMOUNT_OF_ADVANCE,\r\n"
-					+ "(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='"+userId+"' and Status='S') as COUNT,\r\n"
-					+ "(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='"+userId+"' and LEAVE_TYPE='EL')'El_Balance',\r\n"
+					+ "(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId
+					+ "' and Status='S') as COUNT,\r\n"
+					+ "(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId
+					+ "' and LEAVE_TYPE='EL')'El_Balance',\r\n"
 					+ "a.Advance_Amount_Approved, a.Leave_Encashment_Amount_Approved , e.classification\r\n"
 					+ "from hrms_wbidfc.hrms_encashment a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
 					+ "JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd\r\n"
 					+ "Join hrms_wbidfc.hrms_classification_details e ON a.emply_cd = e.emply_cd\r\n"
-					+ "JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd where a.EMPLY_CD='"+userId+"'and a.Status='S'";
+					+ "JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd where a.EMPLY_CD='" + userId
+					+ "'and a.Status='S'";
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.getResultList();
 			LfcModel lm = null;
@@ -2571,15 +2621,15 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		try {
 			String sql = "select a.emply_cd, CONCAT(IFNULL(b.emply_title, ''),'. ', IFNULL(b.emply_first_name, ''),' ',IFNULL(b.emply_middle_name, ' '),' ',IFNULL(b.emply_last_name, ' ')) AS Name, \r\n"
 					+ "		 c.designation,d.department, date_format(date_joining,'%d-%m-%Y')'date_of_joining',date_format(a.LFC_TO_DT,'%d-%m-%Y')'LFC_TO_DT',a.BLOCK_APPLIED,a.EncashmentLeave_Count, \r\n"
-					+ "		(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='"+userId+"'\r\n"
+					+ "		(select count(*) from hrms_wbidfc.lfc_dependent where EMPLY_CD='" + userId + "'\r\n"
 					+ "		 and Status='S') as COUNT, \r\n"
-					+ "		(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='"+userId+"'\r\n"
+					+ "		(select LV_BALANCE from lms_module_wb.leave_balance_new where emply_cd='" + userId + "'\r\n"
 					+ "		and LEAVE_TYPE='EL')'El_Balance' , e.classification\r\n"
 					+ "		from hrms_wbidfc.hrms_lfc_surrender a join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd \r\n"
 					+ "		JOIN hrms_wbidfc.hrms_designation_detail c ON a.emply_cd = c.emply_cd \r\n"
 					+ "		JOIN hrms_wbidfc.hrms_department_detail d ON a.emply_cd = d.emply_cd \r\n"
 					+ "        Join hrms_wbidfc.hrms_classification_details e ON a.emply_cd = e.emply_cd\r\n"
-					+ "		where a.EMPLY_CD='"+userId+"'and a.Status='S'";
+					+ "		where a.EMPLY_CD='" + userId + "'and a.Status='S'";
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.getResultList();
 			LfcModel ls = null;
@@ -2990,10 +3040,11 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<LfcModel> Data = new ArrayList<LfcModel>();
 		try {
 			String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name', \r\n"
-					+ "	      d.designation , a.BLOCK_APPLIED,a.LFC_FROM_DT,a.LFC_TO_DT,a.EncashmentLEAVE_TYPE,a.EncashmentLeave_Count\r\n"
-					+ " 	 from hrms_wbidfc.hrms_lfc_surrender a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
-					+ "	 join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd\r\n"
-					+ "	    join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
+					+ "	  d.designation , a.BLOCK_APPLIED,date_format(a.LFC_FROM_DT,'%d-%m-%Y') 'LFC_FROM_DT',\r\n"
+					+ "     date_format(a.LFC_TO_DT,'%d-%m-%Y') 'LFC_TO_DT',a.EncashmentLEAVE_TYPE,a.EncashmentLeave_Count \r\n"
+					+ "	 from hrms_wbidfc.hrms_lfc_surrender a  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd\r\n"
+					+ "	 join hrms_wbidfc.hrms_department_detail c  on a.emply_cd=c.emply_cd \r\n"
+					+ "	join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd \r\n"
 					+ "	 where a.emply_cd ='" + empId + "'";
 			NativeQuery Details_query = session.createNativeQuery(sql);
 			dependentdata = Details_query.getResultList();
@@ -3004,17 +3055,8 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 				lD.setName((String) obj[1]);
 				lD.setDesignation((String) obj[2]);
 				lD.setLeaveEncashmentBlock((String) obj[3]);
-
-				SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-				String strFormDate = formatter.format(obj[4]);
-
-				lD.setLfcFromDate(strFormDate);
-
-				SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yyyy");
-				String strtomDate = formatter1.format(obj[5]);
-
-				lD.setLfctoDate(strtomDate);
-
+				lD.setLfcFromDate((String) obj[4]);
+				lD.setLfctoDate((String) obj[5]);
 				lD.setLeaveTypeStr((String) obj[6]);
 				lD.setNumberofDays((int) obj[7]);
 
@@ -3639,15 +3681,18 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		int status = 0;
 		Session session = sessionFactory.getCurrentSession();
 		LocalDate localDate = LocalDate.now();
- 		try {
+		try {
 			for (Lfc_Allowence doc : document) {
- 				int emp_cd = doc.getEmpcd();                                      
+				int emp_cd = doc.getEmpcd();
 				String hql = "update Lfc_Allowence l set l.docFile=:DocumentFile , l.entryDt=:entryDate,l.fileExtension=:fileExt "
 						+ "where l.empcd=:empCode and l.fromdate <= :str  and l.todatepicker >= :str";
-				 
- 				//String hql = "update hrms_wbidfc.hrms_encashment set doc_file='"+doc.getDocFile()+"' ,entry_date='"+str+"', file_extension='"+doc.getFileExtension()+"'\r\n"
- 					//	+ "where  EMPLY_CD='"+emp_cd+"'	and LFC_FROM_DT <=  '"+str+"' and LFC_TO_DT >= '"+str+"'";
-				//NativeQuery query = session.createNativeQuery(hql);
+
+				// String hql = "update hrms_wbidfc.hrms_encashment set
+				// doc_file='"+doc.getDocFile()+"' ,entry_date='"+str+"',
+				// file_extension='"+doc.getFileExtension()+"'\r\n"
+				// + "where EMPLY_CD='"+emp_cd+"' and LFC_FROM_DT <= '"+str+"' and LFC_TO_DT >=
+				// '"+str+"'";
+				// NativeQuery query = session.createNativeQuery(hql);
 				Query q = session.createQuery(hql);
 				q.setParameter("DocumentFile", doc.getDocFile());
 				q.setParameter("entryDate", doc.getEntryDt());
@@ -3726,6 +3771,74 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			e.printStackTrace();
 		}
 		return doc;
+	}
+
+	@Override
+	public List<LfcModel> getSurrenderHrAdminRequestData() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		List<LfcModel> lfcData = new ArrayList<LfcModel>();
+		List<Object[]> result = null;
+		List<Object[]> dependentdata = null;
+		try {
+			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+					+ "		a.EncashmentLEAVE_TYPE,\r\n"
+					+ "		a.EncashmentLeave_Count,a.tran_id from hrms_wbidfc.hrms_Lfc_Surrender a \r\n"
+					+ "		join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join hrms_wbidfc.hrms_department_detail c \r\n"
+					+ "		on b.emply_cd=c.emply_cd\r\n"
+					+ "		join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
+					+ "		where upper(department)  NOT in(TRIM('HR & ADMINISTRATION'),TRIM('INTERNAL AUDIT'),\r\n"
+					+ "		TRIM('COMPANY SECRERTARIAT')) and (a.Approval_Level_1 is null OR a.Approval_Level_1='') AND C.STATUS='A'\r\n"
+					+ "		and upper(d.designation) not in ('OFFICER(HR & MD SECRETARIAT)','CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT','MANAGING DIRECTOR','COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO')\r\n"
+					+ "         ";
+
+			NativeQuery query = session.createNativeQuery(sql);
+			result = query.getResultList();
+
+			LfcModel lm = null;
+
+			for (Object[] obj : result) {
+				String dependents = "";
+				String annualIncome = "";
+				String occupation = "";
+				String str = obj[0].toString().trim();
+				String transctionId = obj[4].toString().trim();
+				String sql1 = "select EMPLY_CD,Dependent_Name,annualIncome,occupation from hrms_wbidfc.lfc_dependent where EMPLY_CD ="
+						+ str + " and tranId =" + transctionId + " ";
+				NativeQuery dependent = session.createNativeQuery(sql1);
+				dependentdata = dependent.getResultList();
+
+				for (Object[] obj2 : dependentdata) {
+					String str2 = obj2[0].toString().trim();
+
+					if (str.equalsIgnoreCase(str2)) {
+						dependents += obj2[1].toString() + ",";
+						annualIncome += obj2[2].toString() + ",";
+						occupation += obj2[3].toString() + ",";
+					}
+				}
+				dependents = replaceLast(dependents, ",", "");
+				annualIncome = replaceLast(annualIncome, ",", "");
+				occupation = replaceLast(occupation, ",", "");
+
+				lm = new LfcModel();
+
+				lm.setId(str != null ? Integer.parseInt(str) : 0);
+				lm.setName(obj[1] != null ? obj[1].toString() : "");
+				lm.setDependent(dependents != null ? dependents : "");
+				lm.setOccupation(occupation != null ? occupation : "");
+				lm.setAnnualIncome(annualIncome != null ? annualIncome : "");
+				lm.setLeaveTypeStr(obj[2] != null ? obj[2].toString() : "");
+				lm.setNumberofDaysStr(obj[3] != null ? obj[3].toString() : "");
+				String tranId = obj[4].toString();
+				lm.setTranId(tranId != null ? Integer.parseInt(tranId) : 0);
+
+				lfcData.add(lm);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lfcData;
 	}
 
 }

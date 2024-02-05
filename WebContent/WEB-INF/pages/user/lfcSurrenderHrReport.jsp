@@ -16,7 +16,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/lfcSurrenderDetails.js"></script>
+<script type="text/javascript" src="static/js/hrms/surrender_HrDetails.js"></script>
  
 </head>
 <body>

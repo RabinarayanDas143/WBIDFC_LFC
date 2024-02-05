@@ -16,7 +16,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/lfcSurrenderDetails.js"></script>
+<script type="text/javascript" src="static/js/hrms/surrender_HrDetails.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -61,7 +61,7 @@
                      <th>Action</th>
 				</tr>
 			</thead>
-			<tbody id="lfc_Surrender_HrAdmin_table">
+			<tbody id="Surrender_HrAdmin_table">
 
 			</tbody>
 		</table>

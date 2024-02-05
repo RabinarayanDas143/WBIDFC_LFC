@@ -883,11 +883,13 @@ public class LfcController {
 	@ResponseBody
 	@PostMapping(value = "hrSurAcceptbutton")
 	public ResponseBean hrSurAcceptbuttonpost(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(required = false) String acceptval, @RequestParam(required = false) String hradminremark) {
+			@RequestParam(required = false) String acceptval, @RequestParam(required = false) String hradminremark,
+			@RequestParam(required = false) String SurFinalAmount) {
 		ResponseBean bean = new ResponseBean();
 		try {
 			int acceptValue = Integer.parseInt(acceptval);
-			int result = lfcDetail.hrSurAcceptReq(acceptValue, hradminremark);
+			int finalAmount = Integer.parseInt(SurFinalAmount);
+			int result = lfcDetail.hrSurAcceptReq(acceptValue, hradminremark , finalAmount);
 			if (result != 0) {
 				bean.setStatus("SUCCESS");
 				bean.setMessage("Request Accepted");
@@ -1549,6 +1551,7 @@ public class LfcController {
 				bean.setStatus("FAILED");
 			}
 		} catch (Exception e) {
+			bean.setStatus("FAILED");
 			e.printStackTrace();
 		}
 		return bean;
@@ -1755,5 +1758,31 @@ public class LfcController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
  	}
+	
+	
+	@ResponseBody
+	@PostMapping(value = "lfcSurrenderHrAdminRequest")
+	public ResponseBean lfcSurrenderHrAdminRequestPost(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, ModelAndView model) {
+
+		List<LfcModel> hradmindata = lfcDetail.getSurrenderHrAdminRequestData();
+
+		ResponseBean bean = new ResponseBean();
+
+		try {
+			if (hradmindata != null) {
+				bean.setBody(hradmindata);
+				bean.setStatus("SUCCESS");
+				bean.setMessage("Data Found");
+			} else {
+				bean.setStatus("FAIELD");
+				bean.setMessage("Data not Found");
+			}
+		} catch (Exception e) {
+
+		}
+
+		return bean;
+	}
 
 }

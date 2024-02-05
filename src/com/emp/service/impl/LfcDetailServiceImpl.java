@@ -29,12 +29,14 @@ import com.emp.model.Lfc_Allowence;
 import com.emp.model.Lfc_Dependent;
 import com.emp.model.Lfc_Surrender;
 import com.emp.service.LfcDetailService;
+
 @Service
 public class LfcDetailServiceImpl implements LfcDetailService {
 
 	@Autowired
 	LfcDetailDao lfcdetail;
 	public static String message = null;
+
 	@Override
 	public List<Object[]> getDetails(Integer userId) {
 
@@ -85,9 +87,9 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 					e.printStackTrace();
 				}
 				allowence.setDestinationplace(StringIsNullJsonObject(obj, "destinationplace"));
-				
+
 				allowence.setOriginationplace(StringIsNullJsonObject(obj, "originationplace"));
-				
+
 				allowence.setAmountAdvance(Integer.parseInt(StringIsNullJsonObject(obj, "amountAdvance")));
 				allowence.setLeaveEncashBlock(StringIsNullJsonObject(obj, "leaveEncashBlock"));
 				try {
@@ -264,11 +266,12 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 	}
 
 	@Override
-	public void acceptReq(int acceptValue, String hradminremark , int auditamount, int auditamountLeaveEncash,int lfc_FinalAmount) {
+	public void acceptReq(int acceptValue, String hradminremark, int auditamount, int auditamountLeaveEncash,
+			int lfc_FinalAmount) {
 
-		lfcdetail.acceptReq(acceptValue, hradminremark, auditamount,  auditamountLeaveEncash,lfc_FinalAmount);
-		
-		//lfcdetail.acceptReq(acceptValue, hradminremark);
+		lfcdetail.acceptReq(acceptValue, hradminremark, auditamount, auditamountLeaveEncash, lfc_FinalAmount);
+
+		// lfcdetail.acceptReq(acceptValue, hradminremark);
 	}
 
 	@Override
@@ -289,7 +292,7 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 		return lfcdetail.getInternalAuditorData();
 	}
 
-	//for Internal Audit accept function
+	// for Internal Audit accept function
 	@Override
 	public void InternalacceptReq(int acceptValue, String auditremark) {
 		lfcdetail.InternalacceptReq(acceptValue, auditremark);
@@ -370,8 +373,10 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 
 	// for Internal Audit Admin admin req
 	@Override
-	public void auditAdminremarkReq(int acceptValue, String auditAdminremark,String advanceAmountApproved, String leaveEncashmentAmountApproved, int lfcFinalamount) {
-		lfcdetail.auditAdminremarkReq(acceptValue, auditAdminremark,advanceAmountApproved,leaveEncashmentAmountApproved,lfcFinalamount);
+	public void auditAdminremarkReq(int acceptValue, String auditAdminremark, String advanceAmountApproved,
+			String leaveEncashmentAmountApproved, int lfcFinalamount) {
+		lfcdetail.auditAdminremarkReq(acceptValue, auditAdminremark, advanceAmountApproved,
+				leaveEncashmentAmountApproved, lfcFinalamount);
 
 	}
 
@@ -429,9 +434,9 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 	}
 
 	@Override
-	public int hrSurAcceptReq(int acceptValue, String hradminremark) {
+	public int hrSurAcceptReq(int acceptValue, String hradminremark, int finalAmount) {
 
-		return lfcdetail.hrSurAcceptReq(acceptValue, hradminremark);
+		return lfcdetail.hrSurAcceptReq(acceptValue, hradminremark, finalAmount);
 	}
 
 	@Override
@@ -628,53 +633,54 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 
 	@Override
 	public int hrAdminAcceptReq(int emp_tranId, String hradminremark, String hrAmountApproved,
-			String hrLeaveEncashApproved,int lfcFinalamount) {
-		return lfcdetail.hrAdminAcceptReq(emp_tranId,hradminremark,hrAmountApproved,hrLeaveEncashApproved,lfcFinalamount);
-		
+			String hrLeaveEncashApproved, int lfcFinalamount) {
+		return lfcdetail.hrAdminAcceptReq(emp_tranId, hradminremark, hrAmountApproved, hrLeaveEncashApproved,
+				lfcFinalamount);
+
 	}
 
 	@Override
 	public int hrAdminrejectReq(int emp_tranId, String hradminremark) {
-		
-		return lfcdetail.hrAdminrejectReq(emp_tranId,hradminremark);
+
+		return lfcdetail.hrAdminrejectReq(emp_tranId, hradminremark);
 	}
 
 	@Override
-	public String uploadLfcRawFile(MultipartFile[] documentFile,Hrms_Login loginBean) {
+	public String uploadLfcRawFile(MultipartFile[] documentFile, Hrms_Login loginBean) {
 		Lfc_Allowence docModel = new Lfc_Allowence();
-		List<Lfc_Allowence> document = new ArrayList<Lfc_Allowence>();//Lfc_Allowence
-		
+		List<Lfc_Allowence> document = new ArrayList<Lfc_Allowence>();// Lfc_Allowence
+
 		try {
-			for(MultipartFile docFile : documentFile) {
+			for (MultipartFile docFile : documentFile) {
 				try {
 					docModel.setDocFile(docFile.getBytes());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				docModel.setFileExtension(getExtenionFromMultiart(docFile.getOriginalFilename()));
- 				docModel.setEmpcd(loginBean.getEmply_cd());
+				docModel.setEmpcd(loginBean.getEmply_cd());
 				docModel.setEntryDt(new Date());
-				
+
 				document.add(docModel);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		int stat = 0;
-		if(!isNullOrEmpty(document)) {
+		if (!isNullOrEmpty(document)) {
 			stat = lfcdetail.uploadLfcRawFile(document);
 		}
-		if(stat > 0) {
+		if (stat > 0) {
 			message = "SUCCESS";
-		}else {
+		} else {
 			message = "Failed";
 		}
 		return message;
- 	}
+	}
 
 	@Override
 	public byte[] getSampleFileOFLfc(String UserId) {
-		
+
 		return lfcdetail.getSampleFileOFLfc(UserId);
 	}
 
@@ -687,11 +693,13 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 	@Override
 	public byte[] getPrevFile(String tranId, String prevDate) {
 		// TODO Auto-generated method stub
-		return lfcdetail.getPrevFile(tranId,prevDate);
+		return lfcdetail.getPrevFile(tranId, prevDate);
 	}
 
-	
-
-	
+	@Override
+	public List<LfcModel> getSurrenderHrAdminRequestData() {
+		// TODO Auto-generated method stub
+		return lfcdetail.getSurrenderHrAdminRequestData();
+	}
 
 }
