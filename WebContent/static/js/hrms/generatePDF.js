@@ -120,15 +120,16 @@ $("document").ready(function() {
 			success: function(data) {
 				if (data.status == "SUCCESS") {
 					alert("Sucessfully File Uploaded....!!");
-
+					location.reload();
 				} else {
 					alert(data.status);
 					hideLoader();
-
+					location.reload();
 				}
 			},
 			error: function(error) {
 				alert(error);
+				location.reload();
 			}
 		});
 	});

@@ -38,8 +38,9 @@ import com.emp.token.CSRFToken;
  */
 @Controller
 public class LoginController {
-	// public static final String lOGOUT_URL = "http://localhost:7077/iHRMS";
-	public static final String lOGOUT_URL = "http://192.168.1.234:8080/iHRMS/user-main-dashboard";
+	//public static final String lOGOUT_URL = "http://localhost:7077/iHRMS";
+	//public static final String lOGOUT_URL = "http://192.168.1.234:8080/iHRMS/user-main-dashboard"; 
+	public static final String lOGOUT_URL = "http://192.168.1.236:8080/iHRMS/user-main-dashboard";
 	@Autowired
 	private LoginService service;
 

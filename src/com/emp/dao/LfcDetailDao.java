@@ -21,7 +21,7 @@ public interface LfcDetailDao {
 
 	Map<String, String> getLeaveType();
 
-	List<Integer> getLeaveCount(Integer userId, String lvtype);
+	List<Object> getLeaveCount(Integer userId, String lvtype);
 
 //(List<Lfc_Allowence> list)
 	int saveInfo(List<Lfc_Allowence> lfc_AllowenceList);

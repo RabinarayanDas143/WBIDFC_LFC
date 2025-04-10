@@ -50,7 +50,7 @@ public class LfcDetailServiceImpl implements LfcDetailService {
 	}
 
 	@Override
-	public List<Integer> getLeaveCount(Integer userId, String lvtype) {
+	public List<Object> getLeaveCount(Integer userId, String lvtype) {
 
 		return lfcdetail.getLeaveCount(userId, lvtype);
 	}

@@ -28,6 +28,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.emp.bean.LfcBean;
@@ -41,7 +43,6 @@ import com.emp.model.Lfc_Surrender;
 import com.emp.model1.Payslip_EslSaltran;
 
 @Repository
-@Transactional
 public class LfcDetailDaoImpl implements LfcDetailDao {
 	@Autowired
 	@Qualifier(value = "sessionFactory")
@@ -81,7 +82,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			String sql = "select leave_type,abbrivation from lms_module_wb.hrms_leave_master where abbrivation in('EL','SPL','CL')";
+			String sql = "select leave_type,abbrivation from lms_module_wb.hrms_leave_master where abbrivation in('EL','CL')";
 			NativeQuery query = session.createNativeQuery(sql);
 			list = query.getResultList();
 			for (int i = 0; i < list.size(); i++) {
@@ -121,8 +122,8 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 	}
 
 	@Override
-	public List<Integer> getLeaveCount(Integer userId, String lvtype) {
-		List<Integer> result = null;
+	public List<Object> getLeaveCount(Integer userId, String lvtype) {
+		List<Object> result = null;
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		List<Object> data = null;
@@ -1529,9 +1530,18 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		return null;
 	}
 
+//	@Override
+//	public List<Hrms_Dependent> getdependentList(Integer userId) {
+//		Criteria cr = sessionFactory.getCurrentSession().createCriteria(Hrms_Dependent.class);
+//		cr.add(Restrictions.in("emplyCd", userId));
+//		List<Hrms_Dependent> data = cr.list();
+//		return data;
+//	}
+
 	@Override
 	public List<Hrms_Dependent> getdependentList(Integer userId) {
-		Criteria cr = sessionFactory.getCurrentSession().createCriteria(Hrms_Dependent.class);
+		Session session = sessionFactory.openSession();
+		Criteria cr = session.createCriteria(Hrms_Dependent.class);
 		cr.add(Restrictions.in("emplyCd", userId));
 		List<Hrms_Dependent> data = cr.list();
 		return data;
@@ -1708,13 +1718,13 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 	}
 
 	@Override
-	public int hrSurAcceptReq(int acceptValue, String hradminremark,int finalAmount) {
+	public int hrSurAcceptReq(int acceptValue, String hradminremark, int finalAmount) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		int result = 0;
 		try {
 			String sql = "update hrms_wbidfc.hrms_Lfc_Surrender a set a.Approval_Level_1 ='A', a.Hr_Remark='"
-					+ hradminremark + "',a.surr_FinalAmt='"+finalAmount+"' where a.tran_id='" + acceptValue + "'";
+					+ hradminremark + "',a.surr_FinalAmt='" + finalAmount + "' where a.tran_id='" + acceptValue + "'";
 			NativeQuery query = session.createNativeQuery(sql);
 			result = query.executeUpdate();
 			tx.commit();
@@ -1768,8 +1778,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> dependentdata = null;
 		try {
 			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
-					+ "		 a.EncashmentLEAVE_TYPE,\r\n"
-					+ "		a.EncashmentLeave_Count,\r\n"
+					+ "		 a.EncashmentLEAVE_TYPE,\r\n" + "		a.EncashmentLeave_Count,\r\n"
 					+ "        case when upper(c.department) = 'FINANCE & ACCOUNTS' and upper(d.designation) not in ('CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT') then\r\n"
 					+ "            ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_1='R' Then 'Rejected' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
@@ -1777,8 +1786,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 					+ "            when upper(c.department) = 'DIRECTOR' and upper(d.designation) not in ('MANAGING DIRECTOR') then\r\n"
 					+ "            ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_1='R' Then 'Rejected' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
-					+ "		Then 'Pending' else '-' end)\r\n"
-					+ "		else \r\n"
+					+ "		Then 'Pending' else '-' end)\r\n" + "		else \r\n"
 					+ "		( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_1='R' Then 'Rejected' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
 					+ "		Then 'Pending' else '-' end) end as'Approval_Level_1',\r\n"
@@ -1793,11 +1801,9 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 					+ "        join hrms_wbidfc.hrms_designation_detail d on a.emply_cd=d.emply_cd\r\n"
 					+ "		where upper(c.department) not in('HR & ADMINISTRATION','INTERNAL AUDIT','COMPANY SECRERTARIAT') \r\n"
 					+ "        and upper(d.designation) not in ('OFFICER(HR & MD SECRETARIAT)','CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT','MANAGING DIRECTOR','COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO')\r\n"
-					+ "        AND C.STATUS='A'\r\n"
-					+ "		union all\r\n"
+					+ "        AND C.STATUS='A'\r\n" + "		union all\r\n"
 					+ "		select a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name',\r\n"
-					+ "		 a.EncashmentLEAVE_TYPE,\r\n"
-					+ "		a.EncashmentLeave_Count,\r\n"
+					+ "		 a.EncashmentLEAVE_TYPE,\r\n" + "		a.EncashmentLeave_Count,\r\n"
 					+ "        case when upper(c.department) = 'COMPANY SECRERTARIAT' and upper(d.designation)='COMPANY SECRETARY,HEAD-HR & ADMIN. & CISO' then \r\n"
 					+ "        ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
 					+ "		when a.Approval_Level_1='R' Then '-' when a.Approval_Level_1 is null OR a.Approval_Level_1=''\r\n"
@@ -3677,6 +3683,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 	}
 
 	@Override
+	@Transactional
 	public int uploadLfcRawFile(List<Lfc_Allowence> document) {
 		int status = 0;
 		Session session = sessionFactory.getCurrentSession();
@@ -3687,12 +3694,6 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 				String hql = "update Lfc_Allowence l set l.docFile=:DocumentFile , l.entryDt=:entryDate,l.fileExtension=:fileExt "
 						+ "where l.empcd=:empCode and l.fromdate <= :str  and l.todatepicker >= :str";
 
-				// String hql = "update hrms_wbidfc.hrms_encashment set
-				// doc_file='"+doc.getDocFile()+"' ,entry_date='"+str+"',
-				// file_extension='"+doc.getFileExtension()+"'\r\n"
-				// + "where EMPLY_CD='"+emp_cd+"' and LFC_FROM_DT <= '"+str+"' and LFC_TO_DT >=
-				// '"+str+"'";
-				// NativeQuery query = session.createNativeQuery(hql);
 				Query q = session.createQuery(hql);
 				q.setParameter("DocumentFile", doc.getDocFile());
 				q.setParameter("entryDate", doc.getEntryDt());
@@ -3731,6 +3732,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 	}
 
 	@Override
+	@Transactional
 	public List<LfcModel> getPreviousUploadDate(int emp_cd) {
 		Session session = sessionFactory.getCurrentSession();
 

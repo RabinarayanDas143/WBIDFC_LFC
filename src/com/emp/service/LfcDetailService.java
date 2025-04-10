@@ -24,7 +24,7 @@ public interface LfcDetailService {
 
 	Map<String, String> getLeaveType();
 
-	List<Integer> getLeaveCount(Integer userId, String lvtype);
+	List<Object> getLeaveCount(Integer userId, String lvtype);
 
 //(List<Lfc_Allowence> list)
 	void saveInfo(JSONArray arrayEmp , JSONArray arrayDependent , Hrms_Login masterUser);

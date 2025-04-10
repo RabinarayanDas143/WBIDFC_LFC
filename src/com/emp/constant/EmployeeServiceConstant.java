@@ -13,11 +13,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class EmployeeServiceConstant {
-	public static final String APPLICATION_NAME = "EmployeeSelfService";
-	//public static final String APPLICATION_NAME = "LFC";
+	//public static final String APPLICATION_NAME = "EmployeeSelfService";
+	public static final String APPLICATION_NAME = "LFC";
 	public static final String ERROR_MSG = "error_msg";
 	public static final String SUCCESS_MSG = "success_msg";
 	public static final String BANKTYPE = "IDBI";

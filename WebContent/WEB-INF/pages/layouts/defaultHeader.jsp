@@ -11,8 +11,11 @@
 					data-target="headerNav"><em class="icon ni ni-menu"></em></a>
 			</div>
 			<div class="nk-header-brand">
-				<a href="http://192.168.1.234:8080/iHRMS/user-main-dashboard"
-					class="logo-link"> <img class="logo-img"
+				<!-- <a href="http://192.168.1.234:8080/iHRMS/user-main-dashboard"
+					class="logo-link"> -->
+					<a href="http://192.168.1.236:8080/iHRMS/user-main-dashboard"
+					class="logo-link"> 
+					 <img class="logo-img"
 					src="static/resources/assets/images/logo_1.jpg"
 					srcset="./images/logo2x.png 2x" alt="logo"> <!--  <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">  -->
 				</a>

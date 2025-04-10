@@ -147,7 +147,7 @@ public class LfcController {
 		Integer userId = Integer.parseInt(userIdStr);
 
 		ResponseBean lvBean = new ResponseBean();
-		List<Integer> leaveCount = lfcDetail.getLeaveCount(userId, lvtype);
+		List<Object> leaveCount = lfcDetail.getLeaveCount(userId, lvtype);
 
 		if (leaveCount.size() <= 0) {
 			int count = 0;
@@ -155,7 +155,7 @@ public class LfcController {
 			lvBean.setMessage("DATA FOUND");
 			lvBean.setStatus("FOUND");
 		} else {
-			int count = leaveCount.get(0);
+			int count = (int) leaveCount.get(0);
 			lvBean.setBody(count);
 			lvBean.setMessage("DATA FOUND");
 			lvBean.setStatus("FOUND");
