@@ -17,7 +17,7 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
 <script type="text/javascript" src="static/js/hrms/internalAudit_Details.js"></script>
-
+<script src="${pageContext.request.contextPath}/static/js/xlsx.full.min.js"></script>
 
 </head>
 <body>
@@ -53,6 +53,10 @@
 
 			</tbody>
 		</table>
+		<div class="d-flex justify-content-end">
+			<button type="button" class="btn btn-primary btn-lg" onclick="IAReport()">Export
+				To Excel</button>
+		</div>
 		</div>
 	</div>
 </body>

@@ -1016,6 +1016,38 @@ function CsAdminModalData(empId,i){
 	})
 }
 
+function userlfcSurReport() {
+	debugger;
+	// Get table element
+	var table = document.querySelector(".table");
 
+	// Convert table to worksheet
+	var wb = XLSX.utils.table_to_book(table, { sheet: "LFC Surrencer Report" });
 
+	// Export to Excel
+	XLSX.writeFile(wb, "LFC Surrencer Report.xlsx");
+}
 
+function IASurReport() {
+	debugger;
+	// Get table element
+	var table = document.querySelector(".table");
+
+	// Convert table to worksheet
+	var wb = XLSX.utils.table_to_book(table, { sheet: "LFC SURRENDER Report" });
+
+	// Export to Excel
+	XLSX.writeFile(wb, "LFC SURRENDER Report.xlsx");
+}
+
+function CSSurReport() {
+	debugger;
+	// Get table element
+	var table = document.querySelector(".table");
+
+	// Convert table to worksheet
+	var wb = XLSX.utils.table_to_book(table, { sheet: "LFC SURRENDER Report" });
+
+	// Export to Excel
+	XLSX.writeFile(wb, "LFC SURRENDER Report.xlsx");
+}

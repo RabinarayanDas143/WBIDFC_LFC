@@ -16,8 +16,10 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
-<script type="text/javascript" src="static/js/hrms/surrender_HrDetails.js"></script>
- 
+<script type="text/javascript"
+	src="static/js/hrms/surrender_HrDetails.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/xlsx.full.min.js"></script>
+
 </head>
 <body>
 	<div class="container">
@@ -25,7 +27,7 @@
 			<h3>Surrender Cum Encashment Report</h3>
 		</div>
 
-		
+
 		<br>
 		<table class="table table-striped table-borderd">
 			<thead class="table-dark">
@@ -35,17 +37,21 @@
 					<th>Dependent</th>
 					<th>Occupation</th>
 					<th>Annual Income</th>
- 					<th>Leave Type</th>
- 					<th>Total Days</th>
-                     <th>HR Status</th>
-                    <th>Internal Auditor Status</th>
-                    <th>CS Status</th>
+					<th>Leave Type</th>
+					<th>Total Days</th>
+					<th>HR Status</th>
+					<th>Internal Auditor Status</th>
+					<th>CS Status</th>
 				</tr>
 			</thead>
 			<tbody id="HrSurrender_Report_table">
 
 			</tbody>
 		</table>
+		<div class="d-flex justify-content-end">
+			<button type="button" class="btn btn-primary btn-lg"
+				onclick="HrSurReport()">Export To Excel</button>
+		</div>
 	</div>
 </body>
 </html>

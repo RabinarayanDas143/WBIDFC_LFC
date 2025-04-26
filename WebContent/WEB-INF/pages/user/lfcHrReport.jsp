@@ -17,6 +17,7 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
 <script type="text/javascript" src="static/js/hrms/hr_Details.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/xlsx.full.min.js"></script>
 
 
 </head>
@@ -25,34 +26,39 @@
 		<div class="row">
 			<h3>LFC Cum Encashment Report</h3>
 		</div>
- 
+
 		<br>
 		<div style="overflow: scroll">
-		<table class="table table-striped table-borderd">
-			<thead class="table-dark">
-				<tr>
-					<th>Emp ID</th>
-					<th>Name</th>
-					<th>Dependent</th>
-					<th>Occupation</th>
-					<th>Annual Income</th>
- 					<th>Leave Type</th>
-					<th>Leave From Date</th>
-					<th>Leave To Date</th>
-					<th>Total Days</th>
-					<th>Place of Destination</th>
-					<th>Amount of Advance</th>
-					<th>Lfc Final Amount</th>
-                    <th>HR Status</th>
-                    <th>Internal Auditor Status</th>
-                    <th>CS Status</th>
-				</tr>
-			</thead>
-			<tbody id="HrReport_table">
+			<table class="table table-striped table-borderd">
+				<thead class="table-dark">
+					<tr>
+						<th>Emp ID</th>
+						<th>Name</th>
+						<th>Dependent</th>
+						<th>Occupation</th>
+						<th>Annual Income</th>
+						<th>Leave Type</th>
+						<th>Leave From Date</th>
+						<th>Leave To Date</th>
+						<th>Total Days</th>
+						<th>Place of Destination</th>
+						<th>Amount of Advance</th>
+						<th>Lfc Final Amount</th>
+						<th>HR Status</th>
+						<th>Internal Auditor Status</th>
+						<th>CS Status</th>
+					</tr>
+				</thead>
+				<tbody id="HrReport_table">
 
-			</tbody>
-		</table>
+				</tbody>
+			</table>
 		</div>
+		<div class="d-flex justify-content-end">
+			<button type="button" class="btn btn-primary btn-lg" onclick="HrReport()">Export
+				To Excel</button>
+		</div>
+
 	</div>
 </body>
 </html>

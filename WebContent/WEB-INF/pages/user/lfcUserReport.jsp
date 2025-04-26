@@ -17,7 +17,7 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxpg6fy4IWvTNh0E263XmFcJlSAwiGgAW/dAiS6JXm"
 	crossorigin="anonymous">
 <script type="text/javascript" src="static/js/hrms/lfcDetail.js"></script>
-
+<script src="${pageContext.request.contextPath}/static/js/xlsx.full.min.js"></script>
 
 </head>
 <body>
@@ -72,13 +72,17 @@
 														</tr>
 													</thead>
 													<tbody id="userReport_table">
- 													</tbody>
- 												</table>
+													</tbody>
+												</table>
 											</div>
- 										</div>
- 									</div>
+										</div>
+									</div>
 								</div>
 								<!-- .nk-block -->
+								<div class="d-flex justify-content-end">
+									<button type="button" class="btn btn-primary btn-lg"
+										onclick="userlfcReport()">Export To Excel</button>
+								</div>
 							</div>
 							<!-- .components-preview wide-lg mx-auto -->
 						</div>

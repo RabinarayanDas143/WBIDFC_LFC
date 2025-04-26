@@ -305,7 +305,17 @@ function lfcSurrenderHrAdminRequest(){
 	})
 }
 
+function HrSurReport() {
+	debugger;
+	// Get table element
+	var table = document.querySelector(".table");
 
+	// Convert table to worksheet
+	var wb = XLSX.utils.table_to_book(table, { sheet: "LFC SURRENDER Report" });
+
+	// Export to Excel
+	XLSX.writeFile(wb, "LFCSURRENDER_HRReport.xlsx");
+}
 
 
 

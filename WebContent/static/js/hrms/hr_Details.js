@@ -1,8 +1,8 @@
 $("document").ready(function() {
 	debugger;
-    hrAdminReport();
-    hrAdminRequestData();
-    HrRequestData();
+	hrAdminReport();
+	hrAdminRequestData();
+	HrRequestData();
 });
 
 function showLoader(location) {
@@ -19,7 +19,7 @@ function HrRequestData() {
 
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
- 
+
 	$.ajax({
 		url: 'lfcHrAdmin.do',
 		data: formData,
@@ -28,10 +28,10 @@ function HrRequestData() {
 		contentType: false,
 		processData: false,
 		beforeSend: function() {
-					showLoader();
-				},
+			showLoader();
+		},
 		success: function(data) {
-			 hideLoader();
+			hideLoader();
 			if (data.status == "SUCCESS") {
 
 				$('#table').empty();
@@ -59,7 +59,7 @@ function HrRequestData() {
 						+ "<td nowrap='nowrap'>" + data.body[i].numberofDays + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvance + "</td>"
-						
+
 						+ "<td><input type='number' id='Auditamount" + i + "' maxlength='10'><span id = 'auditamountError'></span></td>"
 						+ "<td><input type='number' id='AuditamountLeaveEncash" + i + "' maxlength='10'><span id = 'AuditamountLeaveEncash'></span></td>"
 						+ "<td><input type='number' id='hr_lfcFinalAmount" + i + "' maxlength='10'><span id = 'hrlfcFinalAmountError'></span></td>"
@@ -69,7 +69,7 @@ function HrRequestData() {
 						+ "<button class='btn btn-danger' value=" + data.body[i].tranId + " id='rejectButton' onclick='rejectfun(" + data.body[i].tranId + "," + i + ")'>Reject</button>&nbsp&nbsp</td>"
 						+ "</tr>"
 					)
- 
+
 				}
 			}
 		},
@@ -84,12 +84,12 @@ function acceptfun(tranid, i) {
 	debugger;
 	var acceptval = $('#acceptButton').val();
 	var hradminremark = $('#hradminremark' + i).val();
-	
+
 	var Auditamount = $('#Auditamount' + i).val();
 	var AuditamountLeaveEncash = $('#AuditamountLeaveEncash' + i).val();
 	var lfcFinalAmount = $('#hr_lfcFinalAmount' + i).val();
-	
-	
+
+
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
 	formData.append("acceptval", tranid);
@@ -97,7 +97,7 @@ function acceptfun(tranid, i) {
 	formData.append("Auditamount", Auditamount);
 	formData.append("AuditamountLeaveEncash", AuditamountLeaveEncash);
 	formData.append("lfcFinalAmount", lfcFinalAmount);
- 
+
 	$.ajax({
 		url: 'acceptbutton.do',
 		data: formData,
@@ -106,8 +106,8 @@ function acceptfun(tranid, i) {
 		contentType: false,
 		processData: false,
 		beforeSend: function() {
-					showLoader();
-				},
+			showLoader();
+		},
 		success: function(data) {
 			if (data.status == "SUCCESS") {
 				alert(data.message);
@@ -143,8 +143,8 @@ function rejectfun(tranid, i) {
 			contentType: false,
 			processData: false,
 			beforeSend: function() {
-					showLoader();
-				},
+				showLoader();
+			},
 			success: function(data) {
 				if (data.status == "SUCCESS") {
 					alert(data.message);
@@ -167,7 +167,7 @@ function rejectfun(tranid, i) {
 
 function hrAdminReport() {
 	debugger;
-	 
+
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
 	$.ajax({
@@ -178,11 +178,11 @@ function hrAdminReport() {
 		contentType: false,
 		processData: false,
 		beforeSend: function() {
-					showLoader();
-				},
+			showLoader();
+		},
 		success: function(data) {
- 			 hideLoader();
- 			if (data.status == "SUCCESS") {
+			hideLoader();
+			if (data.status == "SUCCESS") {
 				$('#HrReport_table').empty();
 				for (var i = 0; i < data.body.length; i++) {
 					if (data.body[i].dependent != null || data.body[i].occupation != null || data.body[i].annualIncome != null) {
@@ -211,11 +211,11 @@ function hrAdminReport() {
 						+ "<td nowrap='nowrap'>" + data.body[i].hrStatus + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].internalAuditStatus + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].csStatus + "</td>"
- 						+ "</tr>"
+						+ "</tr>"
 					)
 				}
 
-			}else{
+			} else {
 				alert("Data Not Found !!")
 			}
 		},
@@ -225,11 +225,11 @@ function hrAdminReport() {
 	})
 }
 
-function hrAdminRequestData(){
+function hrAdminRequestData() {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
- 
+
 	$.ajax({
 		url: 'lfcHrAdminRequest_data.do',
 		data: formData,
@@ -238,13 +238,13 @@ function hrAdminRequestData(){
 		contentType: false,
 		processData: false,
 		beforeSend: function() {
-					showLoader();
-				},
+			showLoader();
+		},
 		success: function(data) {
 			hideLoader();
-  			if (data.status == "SUCCESS") {
- 				$('#lfc_Hradmin_table').empty();
- 				for (var i = 0; i < data.body.length; i++) {
+			if (data.status == "SUCCESS") {
+				$('#lfc_Hradmin_table').empty();
+				for (var i = 0; i < data.body.length; i++) {
 					if (data.body[i].dependent != null || data.body[i].occupation != null || data.body[i].annualIncome != null) {
 						var str = data.body[i].dependent;
 						var depend = str.replaceAll(",", "<br>")
@@ -253,7 +253,7 @@ function hrAdminRequestData(){
 						var str2 = data.body[i].annualIncome;
 						var annualIncome = str2.replaceAll(",", "<br><br>")
 					}
- 					$('#lfc_Hradmin_table').append("<tr>"
+					$('#lfc_Hradmin_table').append("<tr>"
 
 						+ "<td nowrap='nowrap'>" + data.body[i].id + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].name + "</td>"
@@ -266,7 +266,7 @@ function hrAdminRequestData(){
 						+ "<td nowrap='nowrap'>" + data.body[i].numberofDaysStr + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].placeofDestination + "</td>"
 						+ "<td nowrap='nowrap'>" + data.body[i].amountofAdvanceStr + "</td>"
-						
+
 						+ "<td><input type='number' id='Hramount" + i + "' maxlength='10'><span id = 'auditamountError'></span></td>"
 						+ "<td><input type='number' id='HrLeaveEncash" + i + "' maxlength='10'><span id = 'AuditamountLeaveEncash'></span></td>"
 						+ "<td><input type='number' id='hr_lfcFinalAmount" + i + "' maxlength='10'><span id = 'hr_lfcFinalAmountError'></span></td>"
@@ -276,9 +276,9 @@ function hrAdminRequestData(){
 						+ "<button class='btn btn-danger' value=" + data.body[i].tranId + " id='rejectButton' onclick='hrAdmin_rejectfun(" + data.body[i].tranId + "," + i + ")'>Reject</button>&nbsp&nbsp</td>"
 						+ "</tr>"
 					)
- 
+
 				}
-			} 
+			}
 		},
 		error: function(error) {
 			console.log("error");
@@ -286,7 +286,7 @@ function hrAdminRequestData(){
 	})
 }
 
-function hrModalData(empId){
+function hrModalData(empId) {
 	debugger;
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
@@ -299,10 +299,10 @@ function hrModalData(empId){
 		contentType: false,
 		processData: false,
 		beforeSend: function() {
-					showLoader();
-				},
+			showLoader();
+		},
 		success: function(data) {
-			 hideLoader();
+			hideLoader();
 			if (data.status == "FOUND") {
 
 				$("#empId").val(data.body.id);
@@ -346,12 +346,12 @@ function hrModalData(empId){
 	})
 }
 
-function hrAdmin_acceptfun(tranId,i){
+function hrAdmin_acceptfun(tranId, i) {
 	var remark = $('#hradminremark' + i).val();
 	var amountApproved = $('#Hramount' + i).val();
 	var LeaveEncashApproved = $('#HrLeaveEncash' + i).val();
 	var lfcFinalAmount = $('#hr_lfcFinalAmount' + i).val();
-	
+
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
 	formData.append("tranId", tranId);
@@ -359,7 +359,7 @@ function hrAdmin_acceptfun(tranId,i){
 	formData.append("hrAmountApproved", amountApproved);
 	formData.append("hrLeaveEncashApproved", LeaveEncashApproved);
 	formData.append("lfcFinalAmount", lfcFinalAmount);
-	
+
 	$.ajax({
 		url: 'HrAdminAcceptButton.do',
 		data: formData,
@@ -368,14 +368,14 @@ function hrAdmin_acceptfun(tranId,i){
 		contentType: false,
 		processData: false,
 		beforeSend: function() {
-					showLoader();
-				},
+			showLoader();
+		},
 		success: function(data) {
 			hideLoader();
 			if (data.status == "SUCCESS") {
 				alert(data.message);
 				window.location.reload();
-			}else{
+			} else {
 				alert(data.message);
 				window.location.reload();
 			}
@@ -386,42 +386,53 @@ function hrAdmin_acceptfun(tranId,i){
 	})
 }
 
-function hrAdmin_rejectfun(tranId,i){
+function hrAdmin_rejectfun(tranId, i) {
 	debugger;
 	var remark = $('#hradminremark' + i).val();
 	var formData = new FormData();
 	formData.append("CSRFToken", $("meta[name='_csrf']").attr("content"));
 	formData.append("tranId", tranId);
 	formData.append("hradminremark", remark);
-	if(remark==""){
+	if (remark == "") {
 		alert("Please provide the remark for rejection");
 		return false;
-	}else{
+	} else {
 		$.ajax({
-		url: 'HrAdminRejectButton.do',
-		data: formData,
-		type: 'POST',
-		cache: false,
-		contentType: false,
-		processData: false,
-		beforeSend: function() {
-					showLoader();
-				},
-		success: function(data) {
-			hideLoader();
-			if (data.status == "SUCCESS") {
-				alert(data.message);
-				window.location.reload();
+			url: 'HrAdminRejectButton.do',
+			data: formData,
+			type: 'POST',
+			cache: false,
+			contentType: false,
+			processData: false,
+			beforeSend: function() {
+				showLoader();
+			},
+			success: function(data) {
+				hideLoader();
+				if (data.status == "SUCCESS") {
+					alert(data.message);
+					window.location.reload();
+				}
+				else {
+					alert(data.message);
+					window.location.reload();
+				}
+			},
+			error: function(error) {
+				alert(error);
 			}
-			else{
-				alert(data.message);
-				window.location.reload();
-			}
-		},
-		error: function(error) {
-			alert(error);
-		}
-	})
+		})
 	}
-	
+}
+
+function HrReport() {
+	debugger;
+	// Get table element
+	var table = document.querySelector(".table");
+
+	// Convert table to worksheet
+	var wb = XLSX.utils.table_to_book(table, { sheet: "LFC Report" });
+
+	// Export to Excel
+	XLSX.writeFile(wb, "LFC_HRReport.xlsx");
 }

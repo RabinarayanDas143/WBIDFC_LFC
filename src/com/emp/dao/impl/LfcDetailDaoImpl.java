@@ -251,7 +251,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 
 		try {
 
-			sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "			a.LEAVE_TYPE, case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as'leave_FROM_DT',\r\n"
 					+ "			case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as 'leave_TO_DT',\r\n"
 					+ "			a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,a.tran_id from hrms_wbidfc.hrms_encashment a \r\n"
@@ -434,7 +434,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> dependentdata = null;
 		String value = "A";
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "	 a.LEAVE_TYPE,case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else  date_format(a.leave_FROM_DT,'%d-%m-%Y') end as 'leave_FROM_DT',\r\n"
 					+ "	    case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as 'leave_TO_DT',\r\n"
 					+ "	 a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,a.Remark,a.tran_id,a.Advance_Amount_Approved,\r\n"
@@ -564,7 +564,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> dependentdata = null;
 		String value = "A";
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',\r\n"
 					+ "	ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "	a.LEAVE_TYPE,case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as 'leave_FROM_DT',\r\n"
 					+ "	case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as'leave_TO_DT',\r\n"
@@ -735,20 +735,35 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 			String user = null;
 			String a = "A";
 
-			String sql = "select a.department from\r\n"
-					+ "					(select a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
-					+ "					where a.emply_cd=b.emply_cd\r\n"
-					+ "					and a.department in ('Company Secrertariat','Director')  and (a.status='A' and b.status='A')\r\n"
-					+ "					and b.designation not in ('Sub-Staff','Officer(Board Secretariat & Risk Management)') and a.emply_cd='"
-					+ userId + "'\r\n" + "                    union all\r\n"
-					+ "					select  a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
-					+ "					where a.emply_cd=b.emply_cd\r\n"
-					+ "					and a.department='Internal Audit' and (a.status='A' and b.status='A')\r\n"
-					+ "					and b.designation<>'Sub-Staff' and a.emply_cd='" + userId + "' union all\r\n"
-					+ "					select  a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
-					+ "					where a.emply_cd=b.emply_cd\r\n"
-					+ "					and a.department='HR & Administration'  and (a.status='A' and b.status='A')\r\n"
-					+ "					and b.designation<>'Sub-Staff' and a.emply_cd='" + userId + "')a";
+//			String sql = "select a.department from\r\n"
+//					+ "					(select a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
+//					+ "					where a.emply_cd=b.emply_cd\r\n"
+//					+ "					and a.department in ('Company Secrertariat','Director')  and (a.status='A' and b.status='A')\r\n"
+//					+ "					and b.designation not in ('Sub-Staff','Officer(Board Secretariat & Risk Management)') and a.emply_cd='"
+//					+ userId + "'\r\n" + "                    union all\r\n"
+//					+ "					select  a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
+//					+ "					where a.emply_cd=b.emply_cd\r\n"
+//					+ "					and a.department='Internal Audit' and (a.status='A' and b.status='A')\r\n"
+//					+ "					and b.designation<>'Sub-Staff' and a.emply_cd='" + userId + "' union all\r\n"
+//					+ "					select  a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
+//					+ "					where a.emply_cd=b.emply_cd\r\n"
+//					+ "					and a.department='HR & Administration'  and (a.status='A' and b.status='A')\r\n"
+//					+ "					and b.designation<>'Sub-Staff' and a.emply_cd='" + userId + "')a";
+			
+			String sql = "select a.department from (select a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
+					+ "										where a.emply_cd=b.emply_cd \r\n"
+					+ "										and a.department in ('Company Secrertariat','Director')\r\n"
+					+ "                                        and (a.status='A' and b.status='A')\r\n"
+					+ "									 	and b.designation not in ('Sub-Staff') \r\n"
+					+ "                                        and a.emply_cd='" + userId + "'  union all \r\n"
+					+ "										select  a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
+					+ "										where a.emply_cd=b.emply_cd\r\n"
+					+ "										and a.department='Internal Audit' and (a.status='A' and b.status='A')\r\n"
+					+ "										and b.designation<>'Sub-Staff' and a.emply_cd='" + userId + "' union all\r\n"
+					+ "										select  a.department from hrms_wbidfc.hrms_department_detail a, hrms_wbidfc.hrms_designation_detail b\r\n"
+					+ "										where a.emply_cd=b.emply_cd\r\n"
+					+ "										and a.department='HR & Administration'  and (a.status='A' and b.status='A')\r\n"
+					+ "										and b.designation<>'Sub-Staff' and a.emply_cd='" + userId + "')a";
 
 			NativeQuery query = session.createNativeQuery(sql);
 			user = (String) query.uniqueResult();
@@ -775,7 +790,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "				 a.LEAVE_TYPE,case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as 'leave_FROM_DT',\r\n"
 					+ "			       case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as 'leave_TO_DT',\r\n"
 					+ "				a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,\r\n"
@@ -914,7 +929,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "		 a.LEAVE_TYPE,case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as'leave_FROM_DT',\r\n"
 					+ "	        case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as'leave_TO_DT',\r\n"
 					+ "		a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,\r\n"
@@ -1056,7 +1071,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "				a.LEAVE_TYPE,case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as'leave_FROM_DT',\r\n"
 					+ "				case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as'leave_TO_DT',\r\n"
 					+ "				a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,\r\n"
@@ -1251,7 +1266,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name', \r\n"
+			String sql = "select distinct a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name', \r\n"
 					+ "		 a.LEAVE_TYPE,case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as'leave_FROM_DT',\r\n"
 					+ "		case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else  date_format(a.leave_TO_DT,'%d-%m-%Y') end as'leave_TO_DT',  a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,  \r\n"
 					+ "		 ( case when a.Approval_Level_1='A' Then 'Approved' when a.Approval_Level_1='R' Then \r\n"
@@ -1361,7 +1376,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name', \r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name', \r\n"
 					+ "              a.LEAVE_TYPE,date_format(a.leave_FROM_DT,'%d-%m-%Y')'leave_FROM_DT',date_format(a.leave_TO_DT,'%d-%m-%Y')'leave_TO_DT',\r\n"
 					+ "              a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,a.tran_id from hrms_wbidfc.hrms_encashment a\r\n"
 					+ "              join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join hrms_wbidfc.hrms_department_detail c  on b.emply_cd=c.emply_cd where \r\n"
@@ -1453,7 +1468,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name',  \r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name',  \r\n"
 					+ "	    a.LEAVE_TYPE, case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as'leave_FROM_DT',\r\n"
 					+ "        case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as'leave_TO_DT',  \r\n"
 					+ "		a.NUMBER_OF_DAYS,a.PLACE_OF_DESTINATION,a.AMOUNT_OF_ADVANCE,a.Audit_Remark,a.tran_id ,a.Advance_Amount_Approved,a.Leave_Encashment_Amount_Approved,a.lfc_FinalAmount\r\n"
@@ -1572,7 +1587,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name',  \r\n"
+			String sql = "select distinct a.EMPLY_CD,concat(ifnull(emply_title,''),' ',ifnull(emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,''))'Name',  \r\n"
 					+ "		 a.EncashmentLEAVE_TYPE,a.EncashmentLeave_Count,   \r\n"
 					+ "		 ( case when a.Approval_Level_1='A' Then 'Approved' when a.Approval_Level_1='R' Then  \r\n"
 					+ "		 'Reject' when a.Approval_Level_1 OR a.Approval_Level_1='' is null Then 'Pending' else '-' end)as'Level_1 Status',\r\n"
@@ -1657,7 +1672,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "		a.EncashmentLEAVE_TYPE,\r\n"
 					+ "		a.EncashmentLeave_Count,a.tran_id from hrms_wbidfc.hrms_Lfc_Surrender a \r\n"
 					+ "		join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join hrms_wbidfc.hrms_department_detail c \r\n"
@@ -1777,7 +1792,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "		 a.EncashmentLEAVE_TYPE,\r\n" + "		a.EncashmentLeave_Count,\r\n"
 					+ "        case when upper(c.department) = 'FINANCE & ACCOUNTS' and upper(d.designation) not in ('CHIEF FINANCIAL OFFICER & HEAD-INVESTMENT') then\r\n"
 					+ "            ( case when a.Approval_Level_1='A' Then 'Approved'\r\n"
@@ -1896,7 +1911,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ " a.EncashmentLEAVE_TYPE,\r\n"
 					+ " a.EncashmentLeave_Count,a.Hr_Remark,a.tran_id from hrms_wbidfc.hrms_Lfc_Surrender a join\r\n"
 					+ " hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd where  a.Approval_Level_1='A'and Approval_Level_2 is null OR\r\n"
@@ -2008,7 +2023,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name', \r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name', \r\n"
 					+ "		a.EncashmentLEAVE_TYPE,\r\n" + "		  a.EncashmentLeave_Count,  \r\n"
 					+ "		( case when a.Approval_Level_1='A' Then 'Approved' when a.Approval_Level_1='R' Then\r\n"
 					+ "		 'Reject' when a.Approval_Level_1 OR a.Approval_Level_1='' is null Then 'Pending' else '-' end)as'Level_1 Status', \r\n"
@@ -2109,7 +2124,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',\r\n"
 					+ "	ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "	    a.EncashmentLEAVE_TYPE,\r\n"
 					+ "	    a.EncashmentLeave_Count,a.Audit_Remark,a.tran_id\r\n"
@@ -2298,7 +2313,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "		a.EncashmentLEAVE_TYPE, a.EncashmentLeave_Count, \r\n"
 					+ "		( case when a.Approval_Level_1='A' Then 'Approved' when a.Approval_Level_1='R' Then \r\n"
 					+ "		 'Reject' when a.Approval_Level_1 OR a.Approval_Level_1='' is null Then 'Pending' else '-' end)as'Level_1 Status',\r\n"
@@ -2397,7 +2412,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name', \r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name', \r\n"
 					+ "	  a.EncashmentLEAVE_TYPE,\r\n"
 					+ "	  a.EncashmentLeave_Count,a.tran_id from hrms_wbidfc.hrms_Lfc_Surrender a\r\n"
 					+ "	  join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join hrms_wbidfc.hrms_department_detail c  on b.emply_cd=c.emply_cd where \r\n"
@@ -2460,7 +2475,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 		List<Object[]> result = null;
 		List<Object[]> dependentdata = null;
 		try {
-			String sql = "select a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name',  \r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(IFNULL(b.emply_title,''),' ',IFNULL(b.emply_first_name,''),' ',IFNULL(emply_middle_name,''),' ',IFNULL(emply_last_name,'')))'Name',  \r\n"
 					+ "	   a.EncashmentLEAVE_TYPE, \r\n"
 					+ "	a.EncashmentLeave_Count,a.Audit_Remark,a.tran_id  from hrms_wbidfc.hrms_Lfc_Surrender a \r\n"
 					+ "	join hrms_wbidfc.hrms_employee_detail b on a.emply_cd=b.emply_cd join hrms_wbidfc.hrms_department_detail c\r\n"
@@ -3563,7 +3578,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 
 		try {
 
-			String sql = "select a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',\r\n"
+			String sql = "select distinct a.EMPLY_CD,(concat(ifnull(b.emply_title,''),' ',ifnull(b.emply_first_name,''),' ',\r\n"
 					+ "	ifnull(emply_middle_name,''),' ',ifnull(emply_last_name,'')))'Name',\r\n"
 					+ "	a.LEAVE_TYPE, case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_FROM_DT,'%d-%m-%Y') end as 'leave_FROM_DT',\r\n"
 					+ "	case when (a.LEAVE_TYPE ='' or a.LEAVE_TYPE =null) then '' else date_format(a.leave_TO_DT,'%d-%m-%Y') end as'leave_TO_DT',\r\n"

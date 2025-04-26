@@ -39,8 +39,8 @@ import com.emp.token.CSRFToken;
 @Controller
 public class LoginController {
 	//public static final String lOGOUT_URL = "http://localhost:7077/iHRMS";
-	//public static final String lOGOUT_URL = "http://192.168.1.234:8080/iHRMS/user-main-dashboard"; 
-	public static final String lOGOUT_URL = "http://192.168.1.236:8080/iHRMS/user-main-dashboard";
+	public static final String lOGOUT_URL = "http://192.168.1.234:8080/iHRMS/user-main-dashboard"; 
+	//public static final String lOGOUT_URL = "http://192.168.1.236:8080/iHRMS/user-main-dashboard";
 	@Autowired
 	private LoginService service;
 
@@ -51,7 +51,6 @@ public class LoginController {
 	public ModelAndView postLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@ModelAttribute("login") @Valid LoginBean loginBean, Model model) {
 
-		System.out.println("test");
 		List<Hrms_Login> login = service.userAccessWithDetail(Integer.parseInt(loginBean.getUserid()));
 		
 		session.setAttribute("userID", loginBean.getUserid());
@@ -67,9 +66,7 @@ public class LoginController {
 		session.setAttribute("userName", userName);
 		session.setAttribute("Designation", Designation);
 		//session.setAttribute("employeCode", userId);
-		System.out.println("user is --------------------:" + user);
 		model.addAttribute("user1", user);
-		System.out.println("userid is ----:" + userid);
 
 		ModelAndView mv = new ModelAndView();
 		AesUtil aesUtil = new AesUtil(Integer.parseInt(request.getParameter("keySize")),
@@ -122,9 +119,7 @@ public class LoginController {
 		session.setAttribute("userName", userName);
 		session.setAttribute("Designation", Designation);
 		session.setAttribute("role", user);
-		System.out.println("user is --------------------:" + user);
 		model.addAttribute("user1", user);
-		System.out.println("userid is ----:" + userid);
 		session.setAttribute("userId", userId);
 
 		try {
