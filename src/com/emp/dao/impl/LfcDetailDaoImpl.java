@@ -3773,6 +3773,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 	}
 
 	@Override
+	@Transactional
 	public byte[] getPrevFile(String tranId, String prevDate) {
 		byte[] doc = null;
 		String status = "S";
