@@ -3727,6 +3727,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 
 	@Override
 	@Transactional
+	//Rabi
 	public byte[] getSampleFileOFLfc(String UserId) {
 		byte[] doc = null;
 		String status = "S";
