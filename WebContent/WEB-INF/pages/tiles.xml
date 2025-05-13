@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<!-- Login Definition -->
+	<definition name="base-NoLayout"
+		template="/WEB-INF/pages/layouts/defaultNoLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="" />
+	</definition>
+	<!-- Login Page -->
+	<definition name="Login" extends="base-NoLayout">
+		<put-attribute name="title" value="Welcome to Login" />
+		<put-attribute name="body" value="/WEB-INF/pages/common/Login.jsp" />
+	</definition>
+
+	<definition name="Error" extends="base-NoLayout">
+		<put-attribute name="title" value="Error Loaded" />
+		<put-attribute name="body" value="/WEB-INF/pages/common/error.jsp" />
+	</definition>
+
+	<!-- Base Definition -->
+	<definition name="base-definition" template="/WEB-INF/pages/layouts/defaultLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/pages/layouts/defaultHeader.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/pages/layouts/defaultMenu.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/pages/layouts/defaultFooter.jsp" />
+	</definition>
+
+	<!--Dashboard Page -->
+	<definition name="DashBoard" extends="base-definition">
+		<put-attribute name="title" value="Welcome Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/common/Dashboard.jsp" />
+	</definition>
+
+	<!--employee Page -->
+	<definition name="empDetail" extends="base-definition">
+		<put-attribute name="title" value="Employee Detail" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/empDetail.jsp" />
+	</definition>
+	
+	<definition name="allowances" extends="base-definition">
+		<put-attribute name="title" value="Allowances" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/allowances.jsp" />
+	</definition>
+	
+	<definition name="festivalAdvance" extends="base-definition">
+		<put-attribute name="title" value="Festival Advance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/festivalAdvance.jsp" />
+	</definition>
+	
+	<definition name="festivalAdvance1" extends="base-definition">
+		<put-attribute name="title" value="Festival Advance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/festivalAdvance1.jsp" />
+	</definition>
+	
+	<definition name="newspaperAllowance" extends="base-definition">
+		<put-attribute name="title" value="Newspaper Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/newspaperAllowance.jsp" />
+	</definition>
+	
+	<definition name="foodAndBeveragesAllowance" extends="base-definition">
+		<put-attribute name="title" value="Food And Beverages Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/foodAndBeveragesAllowance.jsp" />
+	</definition>
+	
+	<definition name="refreshmentsAllowance" extends="base-definition">
+		<put-attribute name="title" value="Refreshments Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/refreshmentsAllowance.jsp" />
+	</definition>
+	
+	<definition name="conveyanceAllowance" extends="base-definition">
+		<put-attribute name="title" value="Conveyance Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/conveyanceAllowance.jsp" />
+	</definition>
+	
+	<definition name="telephoneAllowance" extends="base-definition">
+		<put-attribute name="title" value="Telephone Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/telephoneAllowance.jsp" />
+	</definition>
+	
+	<definition name="tuitionFeeReimbursement" extends="base-definition">
+		<put-attribute name="title" value="Tuition Fee Reimbursement" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/TuitionFeeReimbursement.jsp" />
+	</definition>
+
+	<definition name="monthlyAllowance" extends="base-definition">
+		<put-attribute name="title" value="Monthly Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/monthlyAllowance.jsp" />
+	</definition>
+	
+	<definition name="yearlyAllowance" extends="base-definition">
+		<put-attribute name="title" value="Yearly Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/yearlyAllowance.jsp" />
+	</definition>
+	
+	<definition name="otherAllowance" extends="base-definition">
+		<put-attribute name="title" value="Other Allowance" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/otherAllowance.jsp" />
+	</definition>
+	
+	<definition name="lfcDetail" extends="base-definition">
+		<put-attribute name="title" value="lfc Detail" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcDetail.jsp" />
+	</definition>
+	
+	<definition name="lfcHrAdmin" extends="base-definition">
+		<put-attribute name="title" value="lfc HrAdmin" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcHrAdmin.jsp" />
+	</definition>
+	
+	<definition name="lfcInternalAuditor" extends="base-definition">
+		<put-attribute name="title" value="lfc InternalAuditor" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcInternalAuditor.jsp" />
+	</definition>
+	
+	<definition name="lfcCsAdmin" extends="base-definition">
+		<put-attribute name="title" value="lfc CsAdmin" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcCsAdmin.jsp" />
+	</definition>
+	
+	<definition name="lfcHrReport" extends="base-definition">
+		<put-attribute name="title" value="lfc HrReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcHrReport.jsp" />
+	</definition>
+	
+	<definition name="lfcInternalAuditReport" extends="base-definition">
+		<put-attribute name="title" value="lfc InternalAuditReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcInternalAuditReport.jsp" />
+	</definition>
+	
+	<definition name="lfcCsReport" extends="base-definition">
+		<put-attribute name="title" value="lfc CsReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcCsReport.jsp" />
+	</definition>
+	
+	<definition name="lfcUserReport" extends="base-definition">
+		<put-attribute name="title" value="lfc UserReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcUserReport.jsp" />
+	</definition>
+	
+	<definition name="lfcInternalAuditAdmin" extends="base-definition">
+		<put-attribute name="title" value="lfc InternalAuditAdmin" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcInternalAuditAdmin.jsp" />
+	</definition>
+	
+	<definition name="lfcCsAdminRequest" extends="base-definition">
+		<put-attribute name="title" value="lfc CsAdminRequest" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcCsAdminRequest.jsp" />
+	</definition>
+	
+	<definition name="LFC" extends="base-definition">
+		<put-attribute name="title" value="lfc" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/LFC.jsp" />
+	</definition>
+	
+	<definition name="lfcUserSurrenderReport" extends="base-definition">
+		<put-attribute name="title" value="lfc UserSurrenderReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcUserSurrenderReport.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderHrAdmin" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderHrAdmin" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderHrAdmin.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderHrAdminRequest" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderHrAdminRequest" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderHrAdminRequest.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderHrReport" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderHrReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderHrReport.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderInternalAdmin" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderInternalAdmin" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderInternalAdmin.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderInternalAdminReport" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderInternalAdminReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderInternalAdminReport.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderCsAdmin" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderCsAdmin" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderCsAdmin.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderCsAdminReport" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderCsAdminReport" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderCsAdminReport.jsp" />
+	</definition>
+	
+	<definition name="lfcSurrenderInternalAdminadmin" extends="base-definition">
+		<put-attribute name="title" value="lfc SurrenderInternalAdminadmin" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurrenderInternalAdminadmin.jsp" />
+	</definition>
+	
+	<definition name="lfcSurCsAdminRequest" extends="base-definition">
+		<put-attribute name="title" value="lfc SurCsAdminRequest" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcSurCsAdminRequest.jsp" />
+	</definition>
+	
+	<definition name="applyLfcPdf" extends="base-definition">
+		<put-attribute name="title" value="lfc applyLfcPdf" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/applyLfcPdf.jsp" />
+	</definition>
+	
+	<definition name="surrenderLfcPdf" extends="base-definition">
+		<put-attribute name="title" value="lfc surrenderLfcPdf" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/surrenderLfcPdf.jsp" />
+	</definition>
+	
+	<definition name="lfcHrAdmin_Request" extends="base-definition">
+		<put-attribute name="title" value="lfc HrAdmin_Request" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/lfcHrAdmin_Request.jsp" />
+	</definition>
+	
+	<definition name="journyAuthentication" extends="base-definition">
+		<put-attribute name="title" value="lfc journyAuthentication" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/journyAuthentication.jsp" /> 
+	</definition>
+	
+	<definition name="CompletionFormUploadDownload" extends="base-definition">
+		<put-attribute name="title" value="lfc CompletionFormUploadDownload" />
+		<put-attribute name="body" value="/WEB-INF/pages/user/CompletionFormUploadDownload.jsp" />
+	</definition>
+</tiles-definitions>
