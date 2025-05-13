@@ -3699,6 +3699,7 @@ public class LfcDetailDaoImpl implements LfcDetailDao {
 
 	@Override
 	@Transactional
+	//Rabi
 	public int uploadLfcRawFile(List<Lfc_Allowence> document) {
 		int status = 0;
 		Session session = sessionFactory.getCurrentSession();
